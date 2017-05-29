@@ -8,6 +8,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:name=".App_"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity_">
             <intent-filter>
@@ -15,6 +16,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="b79586cd711cad927d473fd1f58749bf7df87ae1"
+            />
     </application>
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

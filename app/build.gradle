@@ -1,4 +1,9 @@
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+}
 
 android {
     compileSdkVersion 25
@@ -38,4 +43,9 @@ dependencies {
     // Lombok
     provided 'org.projectlombok:lombok:1.16.16'
     annotationProcessor "org.projectlombok:lombok:1.16.16"
+
+    //crashlytics
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
+        transitive = true;
+    }
 }
