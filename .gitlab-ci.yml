@@ -3,22 +3,30 @@ image: registry.gitlab.com/showcheap/android-ci:T25-B25.0.3
 variables:
   ANDROID_SUPPORT_VERSION: "25.4.0"
   GRADLE_USER_HOME: $CI_PROJECT_DIR/.gradle
-#  DEFAULT_JVM_OPTS: "-Dhttp.proxyHost=proxy -Dhttp.proxyPort=8080 -Dhttps.proxyHost=proxy -Dhttps.proxyPort=8080"
+  JAVA_OPTS: "-Dhttp.proxyHost=proxy.rd.francetelecom.fr -Dhttp.proxyPort=8080 -Dhttps.proxyHost=proxy.rd.francetelecom.fr -Dhttps.proxyPort=8080"
 
 before_script:
-  - source scripts/setup_gradle.sh
   - source scripts/update_android.sh
 
 cache:
+  key: $CI_PROJECT_NAME
   paths:
     - .gradle/wrapper/
     - .gradle/caches/
+    - build/
+
+.tag-template:  &tags
+  tags:
+      - docker
+      - shared
+      - innovation
 
 stages:
   - build
   - test
 
 build:
+  <<: *tags
   stage: build
   script:
     - echo ${ANDROID_HOME}
@@ -26,18 +34,11 @@ build:
   artifacts:
     paths:
       - app/build/outputs/
-  tags:
-      - docker
-      - shared
-      - innovation
 
 
 test:
+  <<: *tags
   stage: test
   script:
     - ./gradlew check
-  tags:
-      - docker
-      - shared
-      - innovation
 
