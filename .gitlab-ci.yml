@@ -6,7 +6,7 @@ variables:
   JAVA_OPTS: "-Dhttp.proxyHost=proxy.rd.francetelecom.fr -Dhttp.proxyPort=8080 -Dhttps.proxyHost=proxy.rd.francetelecom.fr -Dhttps.proxyPort=8080"
 
 before_script:
-  - source scripts/update_android.sh
+  - source scripts/accept_android_license.sh
 
 cache:
   key: $CI_PROJECT_NAME
