@@ -15,7 +15,7 @@
     <string name="pick_time">changer l\'heure</string>
 
     <string name="tab_dashboard">Accueil</string>
-    <string name="tab_diet">Régime</string>
+    <string name="tab_diet">Régimes</string>
     <string name="tab_data">Données</string>
 
     <string name="pref_category_alerts">Alertes</string>
@@ -25,7 +25,7 @@
     <string name="pref_notif" >Notifications</string>
     <string name="pref_notif_summary">selection du son de notification</string>
 
-    <string name="action_add_diet">Importer un menu</string>
+    <string name="action_add_diet">Importer un régime</string>
     <string name="action_settings">paramètres</string>
     <string name="set_current_status">définir comme actif</string>
     <string name="current_diet">actif</string>
