@@ -10,35 +10,36 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/glycaemia_date_top_margin"
-        android:textSize="14sp"
+        android:gravity="center"
         android:textColor="@android:color/black"
-        android:gravity="center"/>
+        android:textSize="14sp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:onClick="showTimePickerDialog"
         android:gravity="center">
 
         <TextView
             android:id="@+id/glycaemia_hour"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="24sp"
-            android:textColor="@color/colorAccent"/>
+            android:textColor="@color/colorAccent"
+            android:textSize="24sp"/>
 
         <Button
             android:layout_width="@dimen/glycaemia_hour_edit_icon_size"
             android:layout_height="@dimen/glycaemia_hour_edit_icon_size"
-            android:background="@android:drawable/ic_menu_edit"
-            android:onClick="showTimePickerDialog"/>
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/ic_edit"/>
     </LinearLayout>
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/glycaemia_big_value_margin"
         android:layout_marginBottom="@dimen/glycaemia_big_value_margin"
+        android:layout_marginTop="@dimen/glycaemia_big_value_margin"
         android:orientation="vertical">
 
         <LinearLayout
@@ -63,22 +64,39 @@
                 android:textSize="@dimen/glycaemia_big_value_unit_text_size"/>
         </LinearLayout>
 
-        <com.tistory.dwfox.dwrulerviewlibrary.view.ScrollingValuePicker
-            android:id="@+id/glycaemia_seekBar"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="@dimen/glycaemia_big_value_margin"
-            android:layout_centerInParent="true"
-            android:background="#6464ec"/>
+            android:layout_height="wrap_content"
+            android:background="#80FFFFFF">
+
+            <!-- FIXME this component is crap, we should use something else -->
+            <com.tistory.dwfox.dwrulerviewlibrary.view.ScrollingValuePicker
+                android:id="@+id/glycaemia_seekBar"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"/>
+
+            <View
+                android:layout_width="2dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:background="@color/colorAccent"/>
+        </FrameLayout>
 
     </LinearLayout>
 
     <Button
         android:id="@+id/glycaemia_validate"
-        android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_marginTop="@dimen/glycaemia_big_value_margin"
-        android:text="@string/validate_glycaemia"/>
+        android:background="@color/colorAccent"
+        android:paddingLeft="@dimen/glycaemia_big_value_margin"
+        android:paddingRight="@dimen/glycaemia_big_value_margin"
+        android:text="@string/validate_glycaemia"
+        android:textColor="@android:color/white"/>
 
 </LinearLayout>
