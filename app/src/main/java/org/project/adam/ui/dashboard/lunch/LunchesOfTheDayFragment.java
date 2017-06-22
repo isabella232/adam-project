@@ -1,4 +1,4 @@
-package org.project.adam.lunch;
+package org.project.adam.ui.dashboard.lunch;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;

@@ -68,7 +68,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_next_lunch" />
 
-        <org.project.adam.lunch.WrapContentHeightViewPager
+        <org.project.adam.ui.dashboard.lunch.WrapContentHeightViewPager
             android:id="@+id/lunch_detail"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
