@@ -94,6 +94,7 @@ public class DietFragment extends BaseFragment implements DietListAdapter.DietSe
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                 dietListViewModel.removeDiet(diet);
+                dietUtils.clearCurrent ();
                 }
             })
             .setNegativeButton(android.R.string.cancel, null)
