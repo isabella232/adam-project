@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Adam-Project</string>
+    <string name="glycaemia_date">Date</string>
+    <string name="glycaemia_date_placeholder">input date</string>
+    <string name="glycaemia_hour">Hour</string>
+    <string name="glycaemia_hour_placeholder">Input hour</string>
+    <string name="glycaemia_value">Value</string>
+    <string name="glycaemia_value_placeholder">Input Value</string>
 </resources>
