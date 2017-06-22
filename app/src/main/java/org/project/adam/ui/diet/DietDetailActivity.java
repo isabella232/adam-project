@@ -5,6 +5,8 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import org.androidannotations.annotations.AfterViews;
@@ -28,6 +30,8 @@ public class DietDetailActivity extends BaseActivity {
 
     @ViewById(R.id.name)
     TextView name;
+    @ViewById(R.id.remove)
+    Button remove;
 
     DietDetailViewModel dietDetailViewModel;
 
@@ -44,6 +48,15 @@ public class DietDetailActivity extends BaseActivity {
                     }
                 }
             });
+
+        dietDetailViewModel.getItemCount().observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(@Nullable Integer count) {
+                if (count != null) {
+                    remove.setVisibility(count > 1 ? View.VISIBLE : View.INVISIBLE);
+                }
+            }
+        });
     }
 
     private void update(Diet diet) {
@@ -79,6 +92,7 @@ public class DietDetailActivity extends BaseActivity {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     dietUtils.setCurrent(dietDetailViewModel.getDiet().getValue());
+                    finish();
                 }
             })
             .setNegativeButton(android.R.string.cancel, null)

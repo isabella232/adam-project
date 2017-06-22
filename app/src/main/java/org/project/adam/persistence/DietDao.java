@@ -21,6 +21,9 @@ public interface DietDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     List<Long> insert(Diet... diets);
 
+    @Query("SELECT COUNT (*) from diets")
+    LiveData<Integer> count();
+
     @Delete
     void delete(Diet... diets);
 }

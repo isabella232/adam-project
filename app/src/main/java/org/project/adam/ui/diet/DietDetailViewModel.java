@@ -15,12 +15,16 @@ public class DietDetailViewModel extends AndroidViewModel {
     final AppDatabase appDatabase;
 
     @Getter
+    private LiveData<Integer> itemCount;
+
+    @Getter
     private LiveData<Diet> diet;
 
     public DietDetailViewModel(Application application) {
         super(application);
 
         appDatabase = AppDatabase.getDatabase(application);
+        itemCount = appDatabase.dietDao().count();
     }
 
     public void loadDiet(int dietId){
