@@ -31,10 +31,11 @@ import java.util.Calendar;
 import java.util.Date;
 
 import lombok.RequiredArgsConstructor;
+import timber.log.Timber;
 
 @SuppressLint("Registered")
 @EActivity(R.layout.input_glycaemia)
-public class GlycaemiaActivity extends AppCompatActivity {
+public class InputGlycaemiaActivity extends AppCompatActivity {
 
     @Pref
     protected Preferences_ prefs;
@@ -69,8 +70,6 @@ public class GlycaemiaActivity extends AppCompatActivity {
     ScrollingValuePicker seekBarGlycaemia;
 
     Hour hour;
-
-    int lunchId = -1;
 
     @AfterViews
     void fillDateAndHour() {
@@ -140,22 +139,19 @@ public class GlycaemiaActivity extends AppCompatActivity {
 
     @Click(R.id.glycaemia_validate)
     void validate() {
-        if (lunchId < 0) {
-            Toast.makeText(this, "Invalid lunch id", Toast.LENGTH_LONG).show();
-            return;
-        }
 
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
-                GlycaemiaDao glycaemiaDao = AppDatabase.getDatabase(getApplicationContext()).glycemiaDao();
-                glycaemiaDao.insert(buildGlycemia());
+                GlycaemiaDao glycaemiaDao = AppDatabase.getDatabase(InputGlycaemiaActivity.this).glycemiaDao();
+                glycaemiaDao.insert(buildGlycaemia());
+                InputGlycaemiaActivity.this.finish();
                 return null;
             }
         }.execute();
     }
 
-    private Glycaemia buildGlycemia() {
+    private Glycaemia buildGlycaemia() {
         float value = Float.parseFloat(glycaemiaValueMgDl.getText().toString());
         Date date = new Date();
         if (hour != null) {
@@ -167,15 +163,11 @@ public class GlycaemiaActivity extends AppCompatActivity {
         }
 
         Glycaemia glycaemia = Glycaemia.builder()
-            .lunchId(lunchId)
             .date(date)
             .value(value)
-            .comment("Not implemented yet")
-            .context("Not implemented yet")
             .build();
 
-        Log.d(getClass().getSimpleName(), glycaemia.toString());
-
+        Timber.d("Glycaemia built - %s", glycaemia.toString());
         return glycaemia;
     }
 }

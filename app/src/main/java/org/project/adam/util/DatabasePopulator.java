@@ -100,7 +100,6 @@ public class DatabasePopulator {
     ) {
         createGlycaemia(db, Glycaemia.builder()
             .id(glyceariaId)
-            .lunchId(lunchId)
             .value(value)
             .date(date)
             .context(context)

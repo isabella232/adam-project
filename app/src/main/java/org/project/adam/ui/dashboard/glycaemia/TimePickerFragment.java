@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TimePickerFragment extends DialogFragment
     implements TimePickerDialog.OnTimeSetListener {
-    private final GlycaemiaActivity.Hour hour;
+    private final InputGlycaemiaActivity.Hour hour;
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the current time as the default values for the picker
@@ -30,6 +30,6 @@ public class TimePickerFragment extends DialogFragment
     }
 
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        ((GlycaemiaActivity_)getActivity()).updateTime(hourOfDay, minute);
+        ((InputGlycaemiaActivity_)getActivity()).updateTime(hourOfDay, minute);
     }
 }

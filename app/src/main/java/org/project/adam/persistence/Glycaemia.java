@@ -1,8 +1,6 @@
 package org.project.adam.persistence;
 
-import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
@@ -18,8 +16,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Entity(tableName = "glycaemias",
-    foreignKeys = @ForeignKey(entity = Lunch.class, parentColumns = "id", childColumns = "lunch_id", onDelete = ForeignKey.CASCADE),
-    indices = {@Index("lunch_id"), @Index("context")})
+    indices = {@Index("context")})
 public class Glycaemia {
 
     @PrimaryKey(autoGenerate = true)
@@ -32,8 +29,5 @@ public class Glycaemia {
     String comment;
 
     float value;
-
-    @ColumnInfo(name = "lunch_id")
-    int lunchId;
 
 }
