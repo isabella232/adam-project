@@ -22,14 +22,7 @@
 
         </activity>
 
-        <activity android:name=".glycaemia.GlycaemiaActivity_">
-            <!--
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            -->
-        </activity>
+        <activity android:name=".glycaemia.GlycaemiaActivity_"/>
 
 
         <activity android:name=".model.sample.DietSampleActivity_"/>
