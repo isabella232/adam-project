@@ -13,4 +13,6 @@
     <dimen name="glycaemia_big_value_text_size">90dp</dimen>
     <dimen name="glycaemia_big_value_unit_text_size">40dp</dimen>
     <dimen name="glycaemia_validate_button_top_margin">30dp</dimen>
+
+    <dimen name="font_lunch_selected_time_size">48sp</dimen>
 </resources>

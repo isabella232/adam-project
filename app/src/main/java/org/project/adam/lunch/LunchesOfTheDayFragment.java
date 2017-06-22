@@ -30,8 +30,8 @@ public class LunchesOfTheDayFragment extends BaseFragment {
     @ViewById(R.id.date)
     TextView date;
 
-    @ViewById(R.id.selected_time_of_day)
-    TextView selectedTimeOfDay;
+    @ViewById(R.id.selected_lunch_time_of_day)
+    TextView selectedLunchTimeOfDay;
 
     @ViewById(R.id.hours_of_day)
     CircleIndicator hoursOfDay;
@@ -72,7 +72,7 @@ public class LunchesOfTheDayFragment extends BaseFragment {
 
     @PageSelected(R.id.lunch_detail)
     void displayCurrentLunchTime() {
-        selectedTimeOfDay.setText(DateFormatters.formatMinutesOfDay(lunchDetailAdapter.getCurrentLunch().getTimeOfDay()));
+        selectedLunchTimeOfDay.setText(DateFormatters.formatMinutesOfDay(lunchDetailAdapter.getCurrentLunch().getTimeOfDay()));
     }
 
     @Click(R.id.next_lunch)

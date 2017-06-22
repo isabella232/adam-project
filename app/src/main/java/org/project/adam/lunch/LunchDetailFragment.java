@@ -24,6 +24,6 @@ public class LunchDetailFragment extends BaseFragment {
 
     @AfterViews
     void init() {
-        content.setText(lunch.getContent());
+        content.setText(lunch.getContent()+"\n"+lunch.getContent()+"\n"+lunch.getContent()+"\n"+lunch.getContent()+"\n"+lunch.getContent());
     }
 }
