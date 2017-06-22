@@ -21,12 +21,14 @@ import timber.log.Timber;
 
 @SuppressLint("Registered")
 @EFragment(R.layout.fragment_diet)
-public class DietFragment extends BaseFragment {
+public class DietFragment extends BaseFragment implements DietListAdapter.DietSelectorListener {
 
     DietListViewModel dietListViewModel;
 
     @Bean
     DietListAdapter listAdapter;
+    @Bean
+    DietUtils dietUtils;
 
     @ViewById(R.id.item_list)
     RecyclerView items;
@@ -35,6 +37,11 @@ public class DietFragment extends BaseFragment {
     void setUpRepoAdapter() {
         items.setAdapter(listAdapter);
         items.setHasFixedSize(true);
+    }
+
+    @AfterViews
+    void setUpDietSelector() {
+        listAdapter.setDietSelectorListener(this);
     }
 
     @AfterViews
@@ -54,4 +61,9 @@ public class DietFragment extends BaseFragment {
         Timber.d("add diet clicked");
     }
 
+    @Override
+    public void dietSelected(Diet diet) {
+        dietUtils.setCurrent(diet);
+        listAdapter.reload();
+    }
 }

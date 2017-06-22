@@ -1,6 +1,7 @@
 package org.project.adam.ui.diet;
 
 import android.content.Context;
+import android.view.View;
 import android.view.ViewGroup;
 
 import org.androidannotations.annotations.Bean;
@@ -13,8 +14,14 @@ import org.project.adam.util.ui.ViewWrapper;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import lombok.Setter;
+
 @EBean
 class DietListAdapter extends RecyclerViewAdapterBase<Diet, DietItemView> {
+
+    interface DietSelectorListener {
+        void dietSelected (Diet diet);
+    }
 
     @RootContext
     Context context;
@@ -22,15 +29,34 @@ class DietListAdapter extends RecyclerViewAdapterBase<Diet, DietItemView> {
     @Bean
     DietUtils dietUtils;
 
+    @Setter
+    DietSelectorListener dietSelectorListener;
+
     @Override
     protected DietItemView onCreateItemView(ViewGroup parent, int viewType) {
-        return DietItemView_.build(context);
+        final DietItemView item = DietItemView_.build(context);
+        return item;
     }
 
     @Override
     public void onBindViewHolder(ViewWrapper<DietItemView> holder, int position) {
         final Diet diet = items.get(position);
-        holder.getView().bind(diet);
+        final DietItemView view = holder.getView();
+        view.bind(diet);
+        view.getSetAsCurrent().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (dietSelectorListener == null){
+                    return;
+                }
+
+                dietSelectorListener.dietSelected(diet);
+            }
+        });
+    }
+
+    public void reload() {
+        update(items);
     }
 
     @Override

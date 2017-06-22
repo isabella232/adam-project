@@ -27,6 +27,8 @@
 
 
     <string name="action_add_diet">Import a diet</string>
+    <string name="set_current_status">set as current</string>
+    <string name="current_diet">current</string>
     <string name="action_settings">settings</string>
     <string name="pick_time">pick time</string>
     <string name="glycaemia_value_unit">mg/Dl</string>
