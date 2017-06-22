@@ -8,8 +8,9 @@
     <dimen name="medium_margin">16dp</dimen>
     <dimen name="large_margin">32dp</dimen>
 
-    <dimen name="glycaemia_header_size">72dp</dimen>
-    <dimen name="glycaemia_date_to_hour_margin">20dp</dimen>
+    <dimen name="glycaemia_hour_edit_icon_size">24sp</dimen>
+    <dimen name="glycaemia_date_top_margin">96dp</dimen>
+    <dimen name="glycaemia_big_value_margin">24dp</dimen>
     <dimen name="glycaemia_big_value_text_size">100dp</dimen>
     <dimen name="glycaemia_big_value_unit_text_size">20dp</dimen>
     <dimen name="glycaemia_validate_button_top_margin">30dp</dimen>
