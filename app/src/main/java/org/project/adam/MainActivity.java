@@ -14,6 +14,7 @@ import org.androidannotations.annotations.ViewById;
 import org.project.adam.ui.dashboard.DashboardFragment_;
 import org.project.adam.ui.data.DataFragment_;
 import org.project.adam.ui.diet.DietFragment_;
+import org.project.adam.ui.preferences.PrefActivity_;
 
 @SuppressLint("Registered")
 @EActivity(R.layout.activity_main)

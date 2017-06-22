@@ -1,30 +1,32 @@
-package org.project.adam;
+package org.project.adam.ui.preferences;
 
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
-import android.preference.PreferenceActivity;
+import android.preference.PreferenceFragment;
 import android.preference.PreferenceGroup;
 import android.text.InputType;
 
 import org.androidannotations.annotations.AfterPreferences;
-import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.PreferenceByKey;
 import org.androidannotations.annotations.PreferenceChange;
 import org.androidannotations.annotations.PreferenceScreen;
 import org.androidannotations.annotations.res.StringRes;
 import org.androidannotations.annotations.sharedpreferences.Pref;
+import org.project.adam.Preferences_;
+import org.project.adam.R;
 
 import java.util.Locale;
 
 @SuppressLint("Registered")
 @PreferenceScreen(R.xml.settings)
 @OptionsMenu(R.menu.main)
-@EActivity
-public class PrefActivity extends PreferenceActivity {
+@EFragment
+public class PrefFragment extends PreferenceFragment {
 
     @PreferenceByKey(R.string.pref_time_before_alert)
     EditTextPreference timeAlertPreference;
@@ -54,7 +56,7 @@ public class PrefActivity extends PreferenceActivity {
         initSummary(getPreferenceScreen());
 
         if (ActivityManager.isUserAMonkey()) {
-            finish();
+            getActivity().finish();
         }
     }
 
