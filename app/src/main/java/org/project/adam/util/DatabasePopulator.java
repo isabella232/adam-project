@@ -8,11 +8,11 @@ import org.project.adam.persistence.Lunch;
 public class DatabasePopulator {
 
     public static void initializeDb(AppDatabase db) {
-        insertDiet(db, 1, 0, "Premier menu");
+        insertDiet(db, 1, 0, "Premier régime");
         // Dirty
-        insertDiet(db, 2, 7, "Second menu");
+        insertDiet(db, 2, 7, "Second régime");
         // Dirty
-        insertDiet(db, 3, 14, "Third menu");
+        insertDiet(db, 3, 14, "Third régime");
     }
 
     private static void insertDiet(AppDatabase db, int dietId, int baseLunchId, String menuName) {
