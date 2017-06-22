@@ -83,4 +83,21 @@ public class DietFragment extends BaseFragment implements DietListAdapter.DietSe
             .show();
 
     }
+
+    @Override
+    public void removeDiet(final Diet diet) {
+        new AlertDialog.Builder(getContext())
+            .setTitle(R.string.remove_diet_confirmation_title)
+            .setMessage(R.string.remove_diet_confirmation_message)
+            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                dietListViewModel.removeDiet(diet);
+                dietUtils.clearCurrent ();
+                }
+            })
+            .setNegativeButton(android.R.string.cancel, null)
+            .show();
+    }
 }

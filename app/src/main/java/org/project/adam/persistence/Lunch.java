@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Entity(tableName = "lunches",
-    foreignKeys = @ForeignKey(entity = Diet.class, parentColumns = "id", childColumns = "diet_id"),
+    foreignKeys = @ForeignKey(entity = Diet.class, parentColumns = "id", childColumns = "diet_id", onDelete = ForeignKey.CASCADE),
     indices = {@Index("diet_id"), @Index({"diet_id", "time_of_day"})})
 public class Lunch {
     @PrimaryKey(autoGenerate = true)
