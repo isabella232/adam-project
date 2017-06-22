@@ -6,22 +6,23 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.widget.SeekBar;
 import android.widget.TextView;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.SeekBarProgressChange;
+import org.androidannotations.annotations.PageSelected;
 import org.androidannotations.annotations.ViewById;
 import org.project.adam.BaseFragment;
 import org.project.adam.R;
 import org.project.adam.persistence.Lunch;
 import org.project.adam.util.DateFormatters;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import me.relex.circleindicator.CircleIndicator;
 
 @EFragment(R.layout.fragment_lunches_of_the_day)
 public class LunchesOfTheDayFragment extends BaseFragment {
@@ -29,11 +30,11 @@ public class LunchesOfTheDayFragment extends BaseFragment {
     @ViewById(R.id.date)
     TextView date;
 
-    @ViewById(R.id.selected_time_of_day)
-    TextView selectedTimeOfDay;
+    @ViewById(R.id.selected_lunch_time_of_day)
+    TextView selectedLunchTimeOfDay;
 
     @ViewById(R.id.hours_of_day)
-    SeekBar hoursOfDay;
+    CircleIndicator hoursOfDay;
 
     @ViewById(R.id.lunch_detail)
     ViewPager lunchDetailViewPager;
@@ -45,6 +46,8 @@ public class LunchesOfTheDayFragment extends BaseFragment {
     void init() {
         lunchDetailAdapter = new LunchDetailAdapter();
         lunchDetailViewPager.setAdapter(lunchDetailAdapter);
+        hoursOfDay.setViewPager(lunchDetailViewPager);
+        lunchDetailAdapter.registerDataSetObserver(hoursOfDay.getDataSetObserver());
 
         lunchListViewModel = ViewModelProviders.of(this).get(LunchListViewModel.class);
         // TODO: read diet id from preferences
@@ -57,21 +60,6 @@ public class LunchesOfTheDayFragment extends BaseFragment {
             });
     }
 
-    @AfterViews
-    void initSeekBar() {
-        hoursOfDay.setMax(1440);
-    }
-
-    @SeekBarProgressChange(R.id.hours_of_day)
-    void onProgressChangeOnSeekBar(int progress) {
-        lunchDetailAdapter.displayPageForTimeOfDayInMinutes(progress);
-        displaySelectedTimeOfDay(progress);
-    }
-
-    private void displaySelectedTimeOfDay(int minutesOfDay) {
-        selectedTimeOfDay.setText(DateFormatters.formatMinutesOfDay(minutesOfDay));
-    }
-
     @Override
     public void onResume() {
         super.onResume();
@@ -82,10 +70,25 @@ public class LunchesOfTheDayFragment extends BaseFragment {
         date.setText(DateFormatters.formatDay(new Date()));
     }
 
+    @PageSelected(R.id.lunch_detail)
+    void displayCurrentLunchTime() {
+        selectedLunchTimeOfDay.setText(DateFormatters.formatMinutesOfDay(lunchDetailAdapter.getCurrentLunch().getTimeOfDay()));
+    }
+
+    @Click(R.id.next_lunch)
+    void onDisplayNextLunch() {
+        lunchDetailViewPager.setCurrentItem(lunchDetailViewPager.getCurrentItem() + 1);
+    }
+
+    @Click(R.id.previous_lunch)
+    void onDisplayPreviousLunch() {
+        lunchDetailViewPager.setCurrentItem(lunchDetailViewPager.getCurrentItem() - 1);
+    }
+
     private class LunchDetailAdapter extends FragmentPagerAdapter {
 
         List<LunchDetailFragment> mealFragments = new ArrayList<>();
-        private List<Lunch> lunches = new ArrayList<>();
+        private List<Lunch> lunches;
 
         public LunchDetailAdapter() {
             super(LunchesOfTheDayFragment.this.getChildFragmentManager());
@@ -110,20 +113,13 @@ public class LunchesOfTheDayFragment extends BaseFragment {
                 mealFragments.add(fragment);
             }
             notifyDataSetChanged();
+            if (!lunches.isEmpty()) {
+                displayCurrentLunchTime();
+            }
         }
 
-        public void displayPageForTimeOfDayInMinutes(int timeOfDayInMinutes) {
-            if (lunches.isEmpty()) {
-                return;
-            }
-
-            int pageToDisplay = lunches.size() - 1;
-            for (int i = lunches.size() - 1; i >= 0; i--) {
-                if (timeOfDayInMinutes < lunches.get(i).getTimeOfDay() + 15) {
-                    pageToDisplay = i;
-                }
-            }
-            lunchDetailViewPager.setCurrentItem(pageToDisplay);
+        public Lunch getCurrentLunch() {
+            return lunches.get(lunchDetailViewPager.getCurrentItem());
         }
     }
 }
