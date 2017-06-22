@@ -96,6 +96,7 @@
         android:background="@color/colorAccent"
         android:paddingLeft="@dimen/glycaemia_big_value_margin"
         android:paddingRight="@dimen/glycaemia_big_value_margin"
-        android:text="@string/validate_glycaemia"/>
+        android:text="@string/validate_glycaemia"
+        android:textColor="@android:color/white"/>
 
 </LinearLayout>
