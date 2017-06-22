@@ -26,6 +26,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import timber.log.Timber;
+
 @EFragment(R.layout.fragment_lunches_of_the_day)
 public class LunchesOfTheDayFragment extends BaseFragment {
 
@@ -80,7 +82,10 @@ public class LunchesOfTheDayFragment extends BaseFragment {
                 nextMealPage = i;
             }
         }
+
         circleView.setNextMealPosition(nextMealPage);
+        lunchDetailViewPager.setCurrentItem(nextMealPage);
+
     }
 
     @Override
