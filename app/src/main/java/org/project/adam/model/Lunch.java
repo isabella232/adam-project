@@ -17,11 +17,17 @@ import lombok.NoArgsConstructor;
 @Builder
 @Entity(tableName = "lunches",
     foreignKeys = @ForeignKey(entity = Diet.class, parentColumns = "id", childColumns = "diet_id"),
-    indices = @Index("diet_id"))
+    indices = {@Index("diet_id"), @Index({"diet_id", "time_of_day"})})
 public class Lunch {
     @PrimaryKey(autoGenerate = true)
     int id;
 
     @ColumnInfo(name = "diet_id")
     int dietId;
+
+    // Minutes in a day
+    @ColumnInfo(name = "time_of_day")
+    int timeOfDay;
+
+    String content;
 }
