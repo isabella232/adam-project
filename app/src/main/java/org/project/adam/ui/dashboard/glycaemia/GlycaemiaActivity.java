@@ -1,4 +1,4 @@
-package org.project.adam.glycaemia;
+package org.project.adam.ui.dashboard.glycaemia;
 
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
