@@ -3,6 +3,7 @@ package org.project.adam;
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
+import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 
 import org.project.adam.model.Diet;
@@ -11,8 +12,10 @@ import org.project.adam.model.Glycemia;
 import org.project.adam.model.GlycemiaDao;
 import org.project.adam.model.Lunch;
 import org.project.adam.model.LunchDao;
+import org.project.adam.util.DateConverters;
 
 @Database(entities = {Lunch.class, Glycemia.class, Diet.class}, version = 1)
+@TypeConverters(DateConverters.class)
 public abstract class AppDatabase extends RoomDatabase {
 
     public static final String DATABASE_NAME = "database";
