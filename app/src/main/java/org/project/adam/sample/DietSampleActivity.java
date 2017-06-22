@@ -46,7 +46,9 @@ public class DietSampleActivity extends BaseActivity {
 
     @Click(R.id.add_item)
     void addItem (){
-        dietListViewModel.addItem(Diet.builder().name("test").current(true).build());
+        dietListViewModel.addItem(Diet.builder()
+            .name("test")
+            .build());
     }
 
 
