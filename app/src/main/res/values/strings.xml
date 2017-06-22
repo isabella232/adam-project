@@ -11,7 +11,7 @@
     <string name="glycaemia_value">Value mg/Dl</string>
     <string name="glycaemia_unit" translatable="false">mg/dL</string>
     <string name="glycaemia_value_placeholder">Input Value</string>
-    <string name="validate_glycaemia">Validate</string>
+    <string name="validate_glycaemia">Save</string>
 
     <string name="tab_dashboard">Home</string>
     <string name="tab_diet">Diet</string>
