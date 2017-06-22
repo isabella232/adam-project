@@ -27,11 +27,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public static AppDatabase getDatabase(Context context) {
         if (INSTANCE == null) {
             INSTANCE = Room.databaseBuilder(context.getApplicationContext(), AppDatabase.class, DATABASE_NAME).build();
-
-            if (BuildConfig.DEBUG) {
-                mockData(context, INSTANCE);
-            }
-
+            mockData(context, INSTANCE);
         }
         return INSTANCE;
     }
