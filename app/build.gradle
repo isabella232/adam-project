@@ -64,19 +64,18 @@ android {
             zipAlignEnabled true
             minifyEnabled false
             signingConfig signingConfigs.release
-       
 
             // put your exceptions here
             proguardFile 'proguard-rules.pro'
 
             proguardFile getDefaultProguardFile('proguard-android.txt')
 
-            ext.betaDistributionGroupAliases="Adam"
+            ext.betaDistributionGroupAliases = "Adam"
 //            ext.betaDistributionReleaseNotesFilePath="fabric/release_notes.txt"
         }
     }
 
-    aaptOptions{
+    aaptOptions {
         cruncherEnabled = !isDev()
     }
 
