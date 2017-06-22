@@ -15,7 +15,7 @@ public interface GlycaemiaDao {
     @Query("SELECT * from glycaemias")
     LiveData<List<Glycaemia>> findAll();
 
-    @Query("SELECT * from glycaemias where date > :min and date < :max")
+    @Query("SELECT * from glycaemias where date > :min and date < :max order by date")
     LiveData<List<Glycaemia>> findGlycaemiaBetween(Date min, Date max);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
