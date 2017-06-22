@@ -22,6 +22,7 @@ import org.project.adam.ui.IndicatorCircleView_;
 import org.project.adam.util.DateFormatters;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -47,13 +48,12 @@ public class LunchesOfTheDayFragment extends BaseFragment {
     private LunchDetailAdapter lunchDetailAdapter;
 
 
+
     @AfterViews
     void init() {
         lunchDetailAdapter = new LunchDetailAdapter();
         lunchDetailViewPager.setAdapter(lunchDetailAdapter);
         circleView.setViewPager(lunchDetailViewPager);
-        //TODO
-        circleView.setNextMealPosition(2);
 
         lunchListViewModel = ViewModelProviders.of(this).get(LunchListViewModel.class);
         lunchListViewModel.findFromDiet(preferences.currentDietId().get())
@@ -62,8 +62,25 @@ public class LunchesOfTheDayFragment extends BaseFragment {
                 public void onChanged(@Nullable List<Lunch> lunches) {
                     lunchDetailAdapter.update(lunches);
                     circleView.setMeals(lunches);
+                    setNextMeal(lunches);
                 }
             });
+    }
+
+    void setNextMeal(List<Lunch> lunches) {
+        if (lunches.isEmpty()) {
+            return;
+        }
+        Calendar currentTime = Calendar.getInstance();
+        int currentTimeInMinutes = currentTime.get(Calendar.MINUTE) + currentTime.get(Calendar.HOUR_OF_DAY) * 60;
+        int nextMealPage = lunches.size() - 1;
+
+        for (int i = lunches.size() - 1; i >= 0; --i) {
+            if (lunches.get(i).getTimeOfDay() + 15 > currentTimeInMinutes) {
+                nextMealPage = i;
+            }
+        }
+        circleView.setNextMealPosition(nextMealPage);
     }
 
     @Override
