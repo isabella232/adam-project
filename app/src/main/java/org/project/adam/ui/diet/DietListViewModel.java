@@ -28,18 +28,6 @@ public class DietListViewModel extends AndroidViewModel {
         diets = appDatabase.dietDao().findAll();
     }
 
-    public void removeDiet(final Diet diet) {
-
-        new AsyncTask<Void, Void, Void>(){
-            @Override
-            protected Void doInBackground(Void... voids) {
-                appDatabase.dietDao().delete(diet);
-                return null;
-            }
-        }.execute();
-
-    }
-
     public void createDiet(final Diet diet, final Lunch ... lunches){
         new AsyncTask<Void, Void, Void>(){
             @Override

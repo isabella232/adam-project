@@ -13,7 +13,7 @@ import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 import org.project.adam.ui.dashboard.DashboardFragment_;
 import org.project.adam.ui.data.DataFragment_;
-import org.project.adam.ui.diet.DietFragment_;
+import org.project.adam.ui.diet.DietListFragment_;
 import org.project.adam.ui.preferences.PrefActivity_;
 
 @SuppressLint("Registered")
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
                             break;
 
                         case R.id.tab_diet:
-                            showFragment(DietFragment_.builder().build());
+                            showFragment(DietListFragment_.builder().build());
                             break;
                     }
                     return true;

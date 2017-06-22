@@ -2,25 +2,24 @@ package org.project.adam.ui.diet;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.Application;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.EditText;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.res.StringRes;
-import org.project.adam.AppDatabase;
 import org.project.adam.BaseFragment;
 import org.project.adam.R;
 import org.project.adam.persistence.Diet;
@@ -32,8 +31,8 @@ import java.util.List;
 import timber.log.Timber;
 
 @SuppressLint("Registered")
-@EFragment(R.layout.fragment_diet)
-public class DietFragment extends BaseFragment implements DietListAdapter.DietSelectorListener {
+@EFragment(R.layout.fragment_diet_list)
+public class DietListFragment extends BaseFragment implements DietListAdapter.DietSelectorListener {
 
     private static final int SELECT_FILE_RESULT_CODE = 666;
 
@@ -66,10 +65,7 @@ public class DietFragment extends BaseFragment implements DietListAdapter.DietSe
     void setUpRepoAdapter() {
         items.setAdapter(listAdapter);
         items.setHasFixedSize(true);
-    }
-
-    @AfterViews
-    void setUpDietSelector() {
+        items.addItemDecoration(new VerticalSpaceItemDecoration(32));
         listAdapter.setDietSelectorListener(this);
     }
 
@@ -85,6 +81,12 @@ public class DietFragment extends BaseFragment implements DietListAdapter.DietSe
             });
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        listAdapter.reload();
+    }
+
     @Click(R.id.add_diet)
     public void onAddDietClick() {
         Timber.d("onAddDietClick - launching file selector intent");
@@ -93,43 +95,6 @@ public class DietFragment extends BaseFragment implements DietListAdapter.DietSe
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         startActivityForResult(Intent.createChooser(intent, fileSelectionTitle),
             SELECT_FILE_RESULT_CODE);
-    }
-
-    @Override
-    @UiThread(propagation = UiThread.Propagation.REUSE)
-    public void dietSelected(final Diet diet) {
-
-        new AlertDialog.Builder(getContext())
-            .setTitle(R.string.set_current_status_confirmation_title)
-            .setMessage(R.string.set_current_status_confirmation_message)
-            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    dietUtils.setCurrent(diet);
-                    listAdapter.reload();
-                }
-            })
-            .setNegativeButton(android.R.string.cancel, null)
-            .show();
-
-    }
-
-    @Override
-    public void removeDiet(final Diet diet) {
-        new AlertDialog.Builder(getContext())
-            .setTitle(R.string.remove_diet_confirmation_title)
-            .setMessage(R.string.remove_diet_confirmation_message)
-            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    dietListViewModel.removeDiet(diet);
-                    dietUtils.clearCurrent();
-                }
-            })
-            .setNegativeButton(android.R.string.cancel, null)
-            .show();
     }
 
     @Override
@@ -150,6 +115,31 @@ public class DietFragment extends BaseFragment implements DietListAdapter.DietSe
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+
+    @Override
+    public void dietSelected(Diet diet) {
+        DietDetailActivity_.intent(this).dietId(diet.getId()).start();
+    }
+
+
+    public class VerticalSpaceItemDecoration extends RecyclerView.ItemDecoration {
+
+        private final int verticalSpaceHeight;
+
+        public VerticalSpaceItemDecoration(int verticalSpaceHeight) {
+            this.verticalSpaceHeight = verticalSpaceHeight;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent,
+                                   RecyclerView.State state) {
+            final int childAdapterPosition = parent.getChildAdapterPosition(view);
+            if (childAdapterPosition == 0 && parent.getAdapter().getItemCount() > 0) {
+                outRect.bottom = verticalSpaceHeight;
+            }
         }
     }
 
