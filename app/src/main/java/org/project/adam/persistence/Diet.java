@@ -1,4 +1,4 @@
-package org.project.adam.model;
+package org.project.adam.persistence;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;

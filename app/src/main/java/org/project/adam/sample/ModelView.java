@@ -1,4 +1,4 @@
-package org.project.adam.model.sample;
+package org.project.adam.sample;
 
 import android.content.Context;
 import android.widget.LinearLayout;
