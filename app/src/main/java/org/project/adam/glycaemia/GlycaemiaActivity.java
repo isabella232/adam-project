@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -25,6 +26,7 @@ import org.project.adam.util.DatabasePopulator;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import lombok.RequiredArgsConstructor;
 
@@ -59,6 +61,8 @@ public class GlycaemiaActivity extends AppCompatActivity {
     SeekBar seekBarGlycaemia;
 
     Hour hour;
+
+    int lunchId = -1;
 
     @AfterViews
     void fillDateAndHour() {
@@ -96,6 +100,11 @@ public class GlycaemiaActivity extends AppCompatActivity {
 
     @Click(R.id.glycaemia_validate)
     void validate() {
+        if (lunchId < 0) {
+            Toast.makeText(this, "Invalid lunch id", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         new AsyncTask<Void, Void, Void>(){
             @Override
             protected Void doInBackground(Void... voids) {
@@ -118,7 +127,7 @@ public class GlycaemiaActivity extends AppCompatActivity {
         }
 
         Glycaemia glycaemia = Glycaemia.builder()
-            .lunchId(1)
+            .lunchId(lunchId)
             .date(date)
             .value(value)
             .comment("Not implemented yet")
