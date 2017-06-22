@@ -26,4 +26,9 @@ public class GlycaemiaViewModel extends AndroidViewModel {
         glycaemias = appDatabase.glycemiaDao().findGlycaemiaBetween(min, max);
         return glycaemias;
     }
+
+    public LiveData<List<Glycaemia>> findAll() {
+        glycaemias = appDatabase.glycemiaDao().findAll();
+        return glycaemias;
+    }
 }
