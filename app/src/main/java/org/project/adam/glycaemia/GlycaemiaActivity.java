@@ -13,7 +13,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tistory.dwfox.dwrulerviewlibrary.utils.DWUtils;
-import com.tistory.dwfox.dwrulerviewlibrary.view.DWRulerSeekbar;
 import com.tistory.dwfox.dwrulerviewlibrary.view.ObservableHorizontalScrollView;
 import com.tistory.dwfox.dwrulerviewlibrary.view.ScrollingValuePicker;
 
@@ -107,31 +106,28 @@ public class GlycaemiaActivity extends AppCompatActivity {
         seekBarGlycaemia
             .setOnScrollChangedListener(new ObservableHorizontalScrollView.OnScrollChangedListener() {
 
-                @Override
-                public void onScrollChanged(ObservableHorizontalScrollView view, int l, int t) {
-                    glycaemiaValueMgDl.setText(String.valueOf(DWUtils.getValueAndScrollItemToCenter(seekBarGlycaemia.getScrollView()
-                        , l
-                        , t
-                        , prefs.maxGly().get()
-                        , prefs.minGly().get()
-                        , seekBarGlycaemia.getViewMultipleSize())));
-                }
+                                            @Override
+                                            public void onScrollChanged(ObservableHorizontalScrollView view, int l, int t) {
+                                                glycaemiaValueMgDl.setText(String.valueOf(DWUtils.getValueAndScrollItemToCenter(seekBarGlycaemia.getScrollView()
+                                                    , l
+                                                    , t
+                                                    , prefs.maxGly().get()
+                                                    , prefs.minGly().get()
+                                                    , seekBarGlycaemia.getViewMultipleSize())));
+
+                                                int value = Integer.parseInt(glycaemiaValueMgDl.getText().toString());
+                                                int color = value < DANGEROUS_GLYCAEMIA_THRESHOLD ?
+                                                    getResources().getColor(R.color.sunflower_yellow) :
+                                                    getResources().getColor(R.color.glycaemia_green);
+                                                glycaemiaRootView.setBackgroundColor(color);
+                                            }
 
 
-                @Override
-                public void onScrollStopped(int l, int t) {
-                }
-            }
+                                            @Override
+                                            public void onScrollStopped(int l, int t) {
+                                            }
+                                        }
             );
-
-    @SeekBarProgressChange(R.id.glycaemia_seekBar)
-    void onSeekBarProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        int value = progress + MIN_GLYCAEMIA;
-        glycaemiaValueMgDl.setText(String.valueOf(value));
-        int color = value < DANGEROUS_GLYCAEMIA_THRESHOLD ?
-            getResources().getColor(R.color.sunflower_yellow) :
-            getResources().getColor(R.color.glycaemia_green);
-        glycaemiaRootView.setBackgroundColor(color);
     }
 
     public void showTimePickerDialog(View v) {
