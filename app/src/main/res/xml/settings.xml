@@ -6,9 +6,12 @@
             android:key="@string/pref_time_before_alert"
             android:title="@string/pref_time_before_alert" />
 
-        <Preference android:title="@string/pref_notif"
+        <RingtonePreference
+            android:showDefault="true"
+            android:title="@string/pref_notif"
             android:key="@string/pref_notif"
-            android:summary="@string/pref_notif_summary"/>
+            android:summary="@string/pref_notif_summary"
+            android:ringtoneType="notification"/>
 
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_category_mail">

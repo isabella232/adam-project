@@ -15,6 +15,8 @@ public interface Preferences {
 
     String recipientsEmails();
 
+    String alertRingtone();
+
 
     @DefaultInt(20)
     int minGly();
