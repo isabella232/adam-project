@@ -14,6 +14,9 @@ public interface LunchDao {
     @Query("SELECT * from lunches")
     LiveData<List<Lunch>> findAll();
 
+    @Query("SELECT * from lunches where diet_id = :dietId order by time_of_day")
+    LiveData<List<Lunch>> findFromDiet(int dietId);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Lunch... lunches);
 }
