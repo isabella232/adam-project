@@ -9,6 +9,8 @@ import android.graphics.RectF;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 
 import org.androidannotations.annotations.AfterInject;
@@ -16,7 +18,9 @@ import org.androidannotations.annotations.EView;
 import org.project.adam.persistence.Lunch;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import lombok.Setter;
 import timber.log.Timber;
@@ -24,10 +28,7 @@ import timber.log.Timber;
 
 @EView
 public class IndicatorCircleView extends View implements ViewPager.OnPageChangeListener {
-
-
-    public static final int COLOR_TEXT = Color.GREEN;
-
+    
     private static final int COLOR_ARC = Color.WHITE;
     private static final int COLOR_ARC_PAST = Color.LTGRAY;
     private static final int COLOR_POINTS = Color.BLUE;
@@ -35,16 +36,21 @@ public class IndicatorCircleView extends View implements ViewPager.OnPageChangeL
     protected ViewPager viewPager;
     private Paint shadowPaint;
     private Paint arcPaint;
+    private GestureDetector gestureDetector;
+    private float ww;
+    private float hh;
+
 
     @Setter
-    int selectedItem = -1;
+    private int selectedItem = -1;
 
-    RectF bounds = new RectF(0, 0, 0, 0);
+    private RectF bounds = new RectF(0, 0, 0, 0);
     /**
      * from 0 to 100
      */
     private List<Float> indicators = new ArrayList<>();
 
+    private Map<RectF,Integer> actionMap = new HashMap<>();
 
     public IndicatorCircleView(Context context) {
         super(context);
@@ -58,6 +64,35 @@ public class IndicatorCircleView extends View implements ViewPager.OnPageChangeL
         super(context, attrs, defStyleAttr);
     }
 
+    public void setViewPager(ViewPager viewPager) {
+        viewPager.addOnPageChangeListener(this);
+        this.viewPager = viewPager;
+    }
+
+    class mListener extends GestureDetector.SimpleOnGestureListener {
+        @Override
+        public boolean onDown(MotionEvent e) {
+            return true;
+        }
+
+        @Override
+        public boolean onSingleTapUp(MotionEvent e) {
+            handleTouchOn(e.getX(),e.getY());
+            return super.onSingleTapUp(e);
+        }
+    }
+
+    private void handleTouchOn(float x, float y) {
+        for (Map.Entry<RectF, Integer> entry : actionMap.entrySet()) {
+            Timber.d(entry.getKey() + "/" + entry.getValue()+ "on "+x+ " and "+y);
+            if(entry.getKey().contains(x,y)){Timber.d("Yes");
+                viewPager.setCurrentItem(entry.getValue());
+                return;
+            }
+
+        }
+    }
+
     @AfterInject
     public void init() {
         arcPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -68,8 +103,14 @@ public class IndicatorCircleView extends View implements ViewPager.OnPageChangeL
         shadowPaint.setColor(0xff101010);
         shadowPaint.setStyle(Paint.Style.STROKE);
         shadowPaint.setMaskFilter(new BlurMaskFilter(8, BlurMaskFilter.Blur.NORMAL));
+
+        gestureDetector = new GestureDetector(getContext(), new mListener());
     }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return gestureDetector.onTouchEvent(event);
+    }
 
     /**
      * TODO move somewhere else
@@ -113,9 +154,6 @@ public class IndicatorCircleView extends View implements ViewPager.OnPageChangeL
 
         bounds.set(xpad, ypad, xpad + ww, ypad + hh * 2);
     }
-
-    float ww;
-    float hh;
 
 
     protected void onDraw(Canvas canvas) {
@@ -162,14 +200,14 @@ public class IndicatorCircleView extends View implements ViewPager.OnPageChangeL
                 double x2 = bounds.centerX();
 
 
+                float circleRadius = ww / 50;
                 float x = (float) (bounds.centerX() - ww / 2 * Math.cos(Math.PI * item));
                 float y = (float) (bounds.centerY() - hh * Math.sin(Math.PI * item));
-                canvas.drawCircle(x, y, ww / 50, arcPaint);
+                canvas.drawCircle(x, y, circleRadius, arcPaint);
+                actionMap.put(new RectF(x-circleRadius,y-circleRadius,x+circleRadius,y+circleRadius),i);
                 i++;
             }
-
         }
-
     }
 
     @Override
