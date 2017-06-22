@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -19,7 +20,7 @@ import java.util.Date;
 public class GlycaemiaActivity extends AppCompatActivity {
 
     @ViewById(R.id.glycaemia_date)
-    EditText glycaemiaDate;
+    TextView glycaemiaDate;
 
     @ViewById(R.id.glycaemia_hour)
     EditText glycaemiaHour;
@@ -39,7 +40,7 @@ public class GlycaemiaActivity extends AppCompatActivity {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE, d MMM");
         glycaemiaDate.setText(simpleDateFormat.format(date));
 
-        simpleDateFormat = new SimpleDateFormat("h: mm");
+        simpleDateFormat = new SimpleDateFormat("H: mm");
         glycaemiaHour.setText(simpleDateFormat.format(date));
     }
 
