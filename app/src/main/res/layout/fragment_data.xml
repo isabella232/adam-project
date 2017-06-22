@@ -84,13 +84,13 @@
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/chart"
             android:layout_width="match_parent"
-            android:layout_height="300dp"/>
+            android:layout_height="250dp"/>
 
     </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:layout_margin="5dp"
         app:cardCornerRadius="4dp"
         app:cardElevation="2dp">

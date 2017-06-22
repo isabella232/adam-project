@@ -27,6 +27,7 @@ import org.project.adam.R;
 import org.project.adam.persistence.Glycaemia;
 import org.project.adam.ui.dashboard.glycaemia.GlycaemiaViewModel;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -56,6 +57,9 @@ public class DataFragment extends BaseFragment {
 
     String mailContent;
 
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE d MMM");
+
+
     @AfterViews
     public void init() {
         glycaemiaViewModel = ViewModelProviders.of(this).get(GlycaemiaViewModel.class);
@@ -65,8 +69,8 @@ public class DataFragment extends BaseFragment {
     }
 
     public void refreshDates(Date min, Date max) {
-        fromDateLabel.setText(min.toString());
-        toDateLabel.setText(max.toString());
+        fromDateLabel.setText(simpleDateFormat.format(min));
+        toDateLabel.setText(simpleDateFormat.format(max));
         refreshData(min, max);
     }
 
