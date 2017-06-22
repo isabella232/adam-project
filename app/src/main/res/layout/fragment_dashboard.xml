@@ -6,7 +6,7 @@
               android:orientation="vertical"
               tools:context="org.project.adam.MainActivity">
 
-     <fragment
+    <fragment
         android:id="@+id/meals_of_the_day"
         android:name="org.project.adam.lunch.LunchesOfTheDayFragment_"
         android:layout_width="match_parent"
@@ -14,12 +14,16 @@
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="0dp"/>
 
-
     <Button
-        android:id="@+id/start_glycaemia_picker"
+        android:id="@+id/model_sample"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Glycaemia picker"
+        android:text="Diet Model sample"
         />
 
+    <fragment
+        android:name="org.project.adam.ui.dashboard.DashboardFragmentGlycaemia_"
+        android:id="@+id/fragment_dashboard_glycaemia"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 </LinearLayout>

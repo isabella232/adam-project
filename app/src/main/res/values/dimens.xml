@@ -15,4 +15,5 @@
     <dimen name="glycaemia_validate_button_top_margin">30dp</dimen>
 
     <dimen name="font_lunch_selected_time_size">48sp</dimen>
+    <dimen name="dashboard_glycaemia_view_margin">10dp</dimen>
 </resources>

@@ -31,6 +31,8 @@
     <string name="current_diet">actif</string>
     <string name="set_current_status_confirmation_message">Etes vous sûr de vouloir activer ce régime ?</string>
     <string name="set_current_status_confirmation_title">Confirmation</string>
+    <string name="glycaemia_value_unit">mg/Dl</string>
+    <string name="dashboard_input_glycaemia">Ajouter une mesure de glycémie</string>
 
 
 </resources>
