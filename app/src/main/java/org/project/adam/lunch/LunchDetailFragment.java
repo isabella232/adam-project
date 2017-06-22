@@ -13,9 +13,6 @@ import org.project.adam.util.DateFormatters;
 @EFragment(R.layout.fragment_lunch)
 public class LunchDetailFragment extends BaseFragment {
 
-    @ViewById(R.id.hour_of_day)
-    TextView hourOfDay;
-
     @ViewById(R.id.content)
     TextView content;
 
@@ -27,7 +24,6 @@ public class LunchDetailFragment extends BaseFragment {
 
     @AfterViews
     void init() {
-        hourOfDay.setText(DateFormatters.formatMinutesOfDay(lunch.getTimeOfDay()));
         content.setText(lunch.getContent());
     }
 }

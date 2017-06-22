@@ -25,6 +25,7 @@ captures/
 .idea/dynamic.xml
 .idea/uiDesigner.xml
 .idea/kotlinc.xml
+.idea/codeStyleSettings.xml
 
 # Gradle files
 .gradle

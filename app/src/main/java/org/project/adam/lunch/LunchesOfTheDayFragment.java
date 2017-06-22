@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.widget.TextView;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.PageSelected;
 import org.androidannotations.annotations.ViewById;
@@ -72,6 +73,16 @@ public class LunchesOfTheDayFragment extends BaseFragment {
     @PageSelected(R.id.lunch_detail)
     void displayCurrentLunchTime() {
         selectedTimeOfDay.setText(DateFormatters.formatMinutesOfDay(lunchDetailAdapter.getCurrentLunch().getTimeOfDay()));
+    }
+
+    @Click(R.id.next_lunch)
+    void onDisplayNextLunch() {
+        lunchDetailViewPager.setCurrentItem(lunchDetailViewPager.getCurrentItem() + 1);
+    }
+
+    @Click(R.id.previous_lunch)
+    void onDisplayPreviousLunch() {
+        lunchDetailViewPager.setCurrentItem(lunchDetailViewPager.getCurrentItem() - 1);
     }
 
     private class LunchDetailAdapter extends FragmentPagerAdapter {
