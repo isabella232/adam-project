@@ -9,6 +9,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -25,8 +27,8 @@ public class DietLoader {
     protected Preferences_ preferences;
 
 
-    public  List<Lunch> parseLunchesFromCsv(File csvFile) throws IOException {
-        Timber.d("parseLunchesFromCsv - start - %s", csvFile.getAbsolutePath());
+    public  List<Lunch> parseLunchesFromCsv(InputStream csvFile) throws IOException {
+        Timber.d("parseLunchesFromCsv - start");
         List<String> lines = readFileContent(csvFile);
         String separator = preferences.fieldSeparatorsForImport().getOr(CSV_DEFAULT_SEPARATOR);
         List<Lunch> result = new ArrayList<>();
@@ -53,8 +55,8 @@ public class DietLoader {
 
     }
 
-    private List<String> readFileContent(File csvFile) throws IOException {
-        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+    private List<String> readFileContent(InputStream csvFile) throws IOException {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(csvFile))) {
             List<String> lines = new ArrayList<>();
             String line;
             while ((line = br.readLine()) != null) {
