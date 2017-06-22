@@ -46,4 +46,7 @@
     <string name="enter_diet_name_content">Entrez un nom de régime</string>
     <string name="enter_diet_name_ok_btn">ok</string>
     <string name="glycaemia_add">Ajouter une glycémie</string>
+
+    <string name="glycaemia_unit" translatable="false">mg/dL</string>
+    <string name="pref_default_time_before_alert"  translatable="false">15</string>
 </resources>
