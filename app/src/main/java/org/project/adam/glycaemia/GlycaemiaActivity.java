@@ -46,9 +46,9 @@ public class GlycaemiaActivity extends AppCompatActivity {
 /*    private float lr_multiple_size = 2.5f * (prefs.maxGly().get() / 120.0f);*/
 
     @RequiredArgsConstructor
-    private class Hour {
-        final int hourOfDay;
-        final int minute;
+    public static class Hour {
+        public final int hourOfDay;
+        public final int minute;
     }
 
     @ViewById(R.id.glycaemia_root_view)
@@ -129,13 +129,14 @@ public class GlycaemiaActivity extends AppCompatActivity {
     }
 
     public void showTimePickerDialog(View v) {
-        DialogFragment newFragment = new TimePickerFragment();
+        DialogFragment newFragment = new TimePickerFragment(hour);
         newFragment.show(getSupportFragmentManager(), "timePicker");
     }
 
     void updateTime(int hourOfDay, int minute) {
         hour = new Hour(hourOfDay, minute);
-        glycaemiaHour.setText(hourOfDay + ":" + minute);
+        glycaemiaHour.setText(String.format("%02d:%02d",hourOfDay,minute));
+        //glycaemiaHour.setText(hourOfDay + ":" + minute);
     }
 
     @Click(R.id.glycaemia_validate)
