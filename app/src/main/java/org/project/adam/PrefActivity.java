@@ -11,6 +11,7 @@ import android.text.InputType;
 
 import org.androidannotations.annotations.AfterPreferences;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.PreferenceByKey;
 import org.androidannotations.annotations.PreferenceChange;
 import org.androidannotations.annotations.PreferenceScreen;
@@ -23,6 +24,7 @@ import timber.log.Timber;
 
 @SuppressLint("Registered")
 @PreferenceScreen(R.xml.settings)
+@OptionsMenu(R.menu.main)
 @EActivity
 public class PrefActivity extends PreferenceActivity {
 
