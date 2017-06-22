@@ -10,23 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.project.adam.BaseFragment;
 import org.project.adam.R;
-import org.project.adam.glycaemia.GlycaemiaActivity_;
 import org.project.adam.persistence.Glycaemia;
-import org.project.adam.persistence.Lunch;
-import org.project.adam.ui.dashboard.DashboardFragment;
-import org.project.adam.ui.dashboard.lunch.LunchListViewModel;
-import org.project.adam.ui.diet.DietItemView;
 import org.project.adam.util.ui.RecyclerViewAdapterBase;
-import org.project.adam.util.ui.ViewWrapper;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
