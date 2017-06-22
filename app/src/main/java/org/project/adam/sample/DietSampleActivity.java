@@ -1,6 +1,5 @@
 package org.project.adam.sample;
 
-import android.arch.lifecycle.LifecycleActivity;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.support.annotation.Nullable;
@@ -11,13 +10,14 @@ import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
+import org.project.adam.BaseActivity;
 import org.project.adam.R;
 import org.project.adam.persistence.Diet;
 
 import java.util.List;
 
 @EActivity(R.layout.activity_model_sample)
-public class DietSampleActivity extends LifecycleActivity {
+public class DietSampleActivity extends BaseActivity {
 
     DietListViewModel dietListViewModel;
 
