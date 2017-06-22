@@ -13,7 +13,7 @@
         <item name="android:textSize">@dimen/font_lunch_selected_time_size</item>
     </style>
 
-    <style name="font_lunch_details">
+    <style name="font_simple_white">
         <item name="android:textColor">@color/white</item>
     </style>
 
