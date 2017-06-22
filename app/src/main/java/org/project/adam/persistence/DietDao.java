@@ -19,7 +19,7 @@ public interface DietDao {
     LiveData<Diet> find(int id);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(Diet... diets);
+    List<Long> insert(Diet... diets);
 
     @Delete
     void delete(Diet... diets);

@@ -40,4 +40,7 @@
     <string name="dashboard_input_glycaemia">Input glycaemia</string>
 
     <string name="select_file_to_load">Select a file to load</string>
+    <string name="enter_diet_name_title">Diet</string>
+    <string name="enter_diet_name_content">Enter a diet name</string>
+    <string name="enter_diet_name_ok_btn">ok</string>
 </resources>
