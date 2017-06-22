@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/glycaemia_header_size"
-        android:gravity="center">
+    android:layout_height="@dimen/glycaemia_header_size"
+    android:gravity="center">
 
-        <TextView
-            android:id="@+id/glycaemia_date"
-            style="@style/TextAppearance.AppCompat.Large"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/glycaemia_date_to_hour_margin"
-            android:layout_marginEnd="@dimen/glycaemia_date_to_hour_margin"/>
+    <TextView
+        android:id="@+id/glycaemia_date"
+        style="@style/TextAppearance.AppCompat.Large"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/glycaemia_date_to_hour_margin"
+        android:layout_marginEnd="@dimen/glycaemia_date_to_hour_margin"/>
 
-        <TextView
-            android:id="@+id/glycaemia_hour"
-            style="@style/TextAppearance.AppCompat.Large"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/glycaemia_hour"
+        style="@style/TextAppearance.AppCompat.Large"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
-        <Button
-            android:layout_width="@android:dimen/app_icon_size"
-            android:layout_height="@android:dimen/app_icon_size"
-            android:background="@android:drawable/ic_menu_edit"
-            android:onClick="showTimePickerDialog"/>
-    </LinearLayout>
+    <Button
+        android:layout_width="@android:dimen/app_icon_size"
+        android:layout_height="@android:dimen/app_icon_size"
+        android:background="@android:drawable/ic_menu_edit"
+        android:onClick="showTimePickerDialog"/>
+    </RelativeLayout>
 
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center">
@@ -56,11 +56,6 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/glycaemia_value_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/glycaemia_value"/>
 
         <EditText
             android:id="@+id/glycaemia_value_mg_Dl"
@@ -69,7 +64,22 @@
             android:hint="@string/glycaemia_value_placeholder"
             android:inputType="numberDecimal"
             />
-    </LinearLayout>
+
+        <TextView
+            android:id="@+id/glycaemia_value_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/glycaemia_unit"/>
+
+        <SeekBar
+            android:id="@+id/glycaemia_seekBar"
+            style="@style/Widget.AppCompat.SeekBar.Discrete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="150"
+            android:progress="1"
+            />
+    </RelativeLayout>
 
     <Button
         android:id="@+id/glycaemia_validate"
@@ -77,4 +87,4 @@
         android:layout_height="wrap_content"
         android:text="@string/validate_glycaemia"/>
 
-</LinearLayout>
+</RelativeLayout>
