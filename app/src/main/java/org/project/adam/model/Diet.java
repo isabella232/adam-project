@@ -18,4 +18,6 @@ public class Diet {
     int id;
 
     String name;
+
+    boolean current;
 }

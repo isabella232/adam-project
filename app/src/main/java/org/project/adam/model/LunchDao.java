@@ -12,7 +12,7 @@ import java.util.List;
 public interface LunchDao {
 
     @Query("SELECT * from lunches")
-    LiveData<List<Glycemia>> findAll();
+    LiveData<List<Lunch>> findAll();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Lunch... lunches);

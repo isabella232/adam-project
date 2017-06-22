@@ -14,6 +14,9 @@ public interface DietDao {
     @Query("SELECT * from diets")
     LiveData<List<Diet>> findAll();
 
+    @Query("SELECT * from diets where current=1")
+    LiveData<Diet> findCurent();
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Diet... diets);
 }

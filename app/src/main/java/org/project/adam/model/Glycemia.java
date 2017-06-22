@@ -16,4 +16,6 @@ import lombok.NoArgsConstructor;
 public class Glycemia {
     @PrimaryKey(autoGenerate = true)
     int id;
+
+
 }
