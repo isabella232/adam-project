@@ -13,4 +13,8 @@
     <string name="glycaemia_value_placeholder">saisir la glycémie</string>
     <string name="validate_glycaemia">Valider</string>
 
+    <string name="tab_dashboard">Accueil</string>
+    <string name="tab_diet">Régime</string>
+    <string name="tab_data">Données</string>
+
 </resources>
