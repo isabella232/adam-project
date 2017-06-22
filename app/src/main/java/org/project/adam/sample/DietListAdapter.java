@@ -1,11 +1,11 @@
-package org.project.adam.model.sample;
+package org.project.adam.sample;
 
 import android.content.Context;
 import android.view.ViewGroup;
 
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
-import org.project.adam.model.Diet;
+import org.project.adam.persistence.Diet;
 import org.project.adam.util.ui.RecyclerViewAdapterBase;
 import org.project.adam.util.ui.ViewWrapper;
 

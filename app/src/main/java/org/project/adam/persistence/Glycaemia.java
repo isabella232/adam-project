@@ -1,4 +1,4 @@
-package org.project.adam.model;
+package org.project.adam.persistence;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
@@ -17,10 +17,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Entity(tableName = "glycemias",
+@Entity(tableName = "glycaemias",
     foreignKeys = @ForeignKey(entity = Lunch.class, parentColumns = "id", childColumns = "lunch_id"),
     indices = {@Index("lunch_id"), @Index("context")})
-public class Glycemia {
+public class Glycaemia {
 
     @PrimaryKey(autoGenerate = true)
     int id;

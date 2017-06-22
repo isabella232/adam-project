@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.project.adam.glycaemia.GlycaemiaActivity_;
-import org.project.adam.model.sample.DietSampleActivity_;
+import org.project.adam.sample.DietSampleActivity_;
 
 @SuppressLint("Registered")
 @EActivity(R.layout.activity_main)

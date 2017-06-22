@@ -6,15 +6,15 @@ import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 
-import org.project.adam.model.Diet;
-import org.project.adam.model.DietDao;
-import org.project.adam.model.Glycemia;
-import org.project.adam.model.GlycemiaDao;
-import org.project.adam.model.Lunch;
-import org.project.adam.model.LunchDao;
+import org.project.adam.persistence.Diet;
+import org.project.adam.persistence.DietDao;
+import org.project.adam.persistence.Glycaemia;
+import org.project.adam.persistence.GlycaemiaDao;
+import org.project.adam.persistence.Lunch;
+import org.project.adam.persistence.LunchDao;
 import org.project.adam.util.DateConverters;
 
-@Database(entities = {Lunch.class, Glycemia.class, Diet.class}, version = 1)
+@Database(entities = {Lunch.class, Glycaemia.class, Diet.class}, version = 1)
 @TypeConverters(DateConverters.class)
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -29,7 +29,7 @@ public abstract class AppDatabase extends RoomDatabase {
     }
 
     public abstract DietDao dietDao();
-    public abstract GlycemiaDao glycemiaDao();
+    public abstract GlycaemiaDao glycemiaDao();
     public abstract LunchDao lunchDao();
 
 }

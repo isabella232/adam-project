@@ -2,10 +2,8 @@ package org.project.adam.util;
 
 
 import org.project.adam.AppDatabase;
-import org.project.adam.model.Diet;
-import org.project.adam.model.Lunch;
-
-import java.util.List;
+import org.project.adam.persistence.Diet;
+import org.project.adam.persistence.Lunch;
 
 public class DatabasePopulator {
 

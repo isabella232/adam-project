@@ -1,4 +1,4 @@
-package org.project.adam.model;
+package org.project.adam.persistence;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
@@ -9,11 +9,11 @@ import android.arch.persistence.room.Query;
 import java.util.List;
 
 @Dao
-public interface GlycemiaDao {
+public interface LunchDao {
 
-    @Query("SELECT * from glycemias")
-    LiveData<List<Glycemia>> findAll();
+    @Query("SELECT * from lunches")
+    LiveData<List<Lunch>> findAll();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(Glycemia... glycemias);
+    void insert(Lunch... lunches);
 }

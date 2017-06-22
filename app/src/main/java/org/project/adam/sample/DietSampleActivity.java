@@ -1,4 +1,4 @@
-package org.project.adam.model.sample;
+package org.project.adam.sample;
 
 import android.arch.lifecycle.LifecycleActivity;
 import android.arch.lifecycle.Observer;
@@ -12,7 +12,7 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 import org.project.adam.R;
-import org.project.adam.model.Diet;
+import org.project.adam.persistence.Diet;
 
 import java.util.List;
 
