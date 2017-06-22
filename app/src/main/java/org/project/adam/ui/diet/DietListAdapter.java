@@ -56,6 +56,11 @@ class DietListAdapter extends RecyclerViewAdapterBase<Diet, DietItemView> {
         });
     }
 
+    public void reload (){
+        // ugly
+        update(items);
+    }
+
     @Override
     public void update(Collection<Diet> diets) {
 

@@ -81,6 +81,12 @@ public class DietListFragment extends BaseFragment implements DietListAdapter.Di
             });
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        listAdapter.reload();
+    }
+
     @Click(R.id.add_diet)
     public void onAddDietClick() {
         Timber.d("onAddDietClick - launching file selector intent");
