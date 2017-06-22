@@ -31,7 +31,9 @@ public class DietItemView extends RelativeLayout {
 
     public void bind(final Diet diet) {
         this.name.setText(diet.getName());
-        this.setAsCurrent.setText(dietUtils.isCurrent(diet) ? R.string.current_diet : R.string.set_current_status);
+        final boolean isCurrent = dietUtils.isCurrent(diet);
+        this.setAsCurrent.setText(isCurrent ? R.string.current_diet : R.string.set_current_status);
+        this.setAsCurrent.setEnabled(!isCurrent);
     }
 
 
