@@ -5,18 +5,26 @@ import android.os.AsyncTask;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.tistory.dwfox.dwrulerviewlibrary.utils.DWUtils;
+import com.tistory.dwfox.dwrulerviewlibrary.view.DWRulerSeekbar;
+import com.tistory.dwfox.dwrulerviewlibrary.view.ObservableHorizontalScrollView;
+import com.tistory.dwfox.dwrulerviewlibrary.view.ScrollingValuePicker;
+
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.SeekBarProgressChange;
 import org.androidannotations.annotations.ViewById;
+import org.androidannotations.annotations.sharedpreferences.Pref;
 import org.project.adam.AppDatabase;
+import org.project.adam.Preferences_;
 import org.project.adam.R;
 import org.project.adam.persistence.Glycaemia;
 import org.project.adam.persistence.GlycaemiaDao;
@@ -31,10 +39,14 @@ import lombok.RequiredArgsConstructor;
 @EActivity(R.layout.input_glycaemia)
 public class GlycaemiaActivity extends AppCompatActivity {
 
+    @Pref
+    protected Preferences_ prefs;
+
     private static final int DEFAULT_GLYCAEMIA = 70;
-    private static final int MIN_GLYCAEMIA = 20;
-    private static final int MAX_GLYCAEMIA = 150;
     private static final int DANGEROUS_GLYCAEMIA_THRESHOLD = 60;
+    private static final float LINE_RULER_MULTIPLE_SIZE = 2.5f;
+    private static final int MULTIPLE_TYPE = 5;
+/*    private float lr_multiple_size = 2.5f * (prefs.maxGly().get() / 120.0f);*/
 
     @RequiredArgsConstructor
     private class Hour {
@@ -57,8 +69,7 @@ public class GlycaemiaActivity extends AppCompatActivity {
     @ViewById(R.id.glycaemia_validate)
     Button validateGlycaemia;
 
-    // FIXME: should work with android annotations
-    SeekBar seekBarGlycaemia;
+    ScrollingValuePicker seekBarGlycaemia;
 
     Hour hour;
 
@@ -77,20 +88,42 @@ public class GlycaemiaActivity extends AppCompatActivity {
 
     @AfterViews
     void initSeekBar() {
-        seekBarGlycaemia = (SeekBar) findViewById(R.id.glycaemia_seekBar);
-        seekBarGlycaemia.setProgress(DEFAULT_GLYCAEMIA);
-        seekBarGlycaemia.setMax(MAX_GLYCAEMIA - MIN_GLYCAEMIA);
+        seekBarGlycaemia = (ScrollingValuePicker) findViewById(R.id.glycaemia_seekBar);
+        seekBarGlycaemia.setInitValue(DEFAULT_GLYCAEMIA);
         glycaemiaValueMgDl.setText(String.valueOf(DEFAULT_GLYCAEMIA));
-    }
+        seekBarGlycaemia.setMaxValue(prefs.minGly().get(), prefs.maxGly().get());
+        seekBarGlycaemia.setViewMultipleSize(LINE_RULER_MULTIPLE_SIZE);
+        seekBarGlycaemia.setValueTypeMultiple(MULTIPLE_TYPE);
+        seekBarGlycaemia.getScrollView().setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    seekBarGlycaemia.getScrollView().startScrollerTask();
+                }
+                return false;
+            }
+        });
 
-    @SeekBarProgressChange(R.id.glycaemia_seekBar)
-    void onSeekBarProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        int value = progress + MIN_GLYCAEMIA;
-        glycaemiaValueMgDl.setText(String.valueOf(value));
-        int color = value < DANGEROUS_GLYCAEMIA_THRESHOLD ?
-            getResources().getColor(android.R.color.holo_orange_light) :
-            getResources().getColor(android.R.color.holo_green_light);
-        glycaemiaRootView.setBackgroundColor(color);
+        seekBarGlycaemia
+            .setOnScrollChangedListener(new ObservableHorizontalScrollView.OnScrollChangedListener() {
+
+                @Override
+                public void onScrollChanged(ObservableHorizontalScrollView view, int l, int t) {
+                    glycaemiaValueMgDl.setText(String.valueOf(DWUtils.getValueAndScrollItemToCenter(seekBarGlycaemia.getScrollView()
+                        , l
+                        , t
+                        , prefs.maxGly().get()
+                        , prefs.minGly().get()
+                        , seekBarGlycaemia.getViewMultipleSize())));
+                }
+
+
+                @Override
+                public void onScrollStopped(int l, int t) {
+                }
+            }
+            );
+
     }
 
     public void showTimePickerDialog(View v) {
@@ -110,7 +143,7 @@ public class GlycaemiaActivity extends AppCompatActivity {
             return;
         }
 
-        new AsyncTask<Void, Void, Void>(){
+        new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
                 GlycaemiaDao glycaemiaDao = AppDatabase.getDatabase(getApplicationContext()).glycemiaDao();

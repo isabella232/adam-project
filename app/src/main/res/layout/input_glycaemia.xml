@@ -59,13 +59,13 @@
                 android:textSize="@dimen/glycaemia_big_value_unit_text_size"/>
         </LinearLayout>
 
-        <SeekBar
+        <com.tistory.dwfox.dwrulerviewlibrary.view.ScrollingValuePicker
             android:id="@+id/glycaemia_seekBar"
-            style="@style/Widget.AppCompat.SeekBar.Discrete"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:max="150"
-            android:progress="1"/>
+            android:layout_height="40dp"
+            android:layout_centerInParent="true"
+            android:background="#6464ec"/>
+
     </LinearLayout>
 
     <Button
