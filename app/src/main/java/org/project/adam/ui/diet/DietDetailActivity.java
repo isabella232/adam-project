@@ -53,10 +53,19 @@ public class DietDetailActivity extends BaseActivity {
             @Override
             public void onChanged(@Nullable Integer count) {
                 if (count != null) {
-                    remove.setVisibility(count > 1 ? View.VISIBLE : View.INVISIBLE);
+                    updateRemoveButton(count);
                 }
             }
         });
+    }
+
+    @AfterViews
+    void updateRemoveButton (){
+        remove.setVisibility(dietUtils.isCurrent(dietId) ? View.INVISIBLE : View.VISIBLE);
+    }
+
+    private void updateRemoveButton(@Nullable Integer count) {
+        remove.setVisibility(count > 1 && remove.getVisibility() == View.VISIBLE ? View.VISIBLE : View.INVISIBLE);
     }
 
     private void update(Diet diet) {

@@ -26,6 +26,10 @@ public class DietUtils {
     }
 
     boolean isCurrent(Diet diet) {
-        return preferences.currentMenuId().getOr(-1) == diet.getId();
+        return isCurrent(diet.getId());
+    }
+
+    boolean isCurrent(int dietId) {
+        return preferences.currentMenuId().getOr(-1) == dietId;
     }
 }
