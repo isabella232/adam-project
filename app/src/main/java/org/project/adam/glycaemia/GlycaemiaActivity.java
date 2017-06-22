@@ -136,7 +136,6 @@ public class GlycaemiaActivity extends AppCompatActivity {
     void updateTime(int hourOfDay, int minute) {
         hour = new Hour(hourOfDay, minute);
         glycaemiaHour.setText(String.format("%02d:%02d",hourOfDay,minute));
-        //glycaemiaHour.setText(hourOfDay + ":" + minute);
     }
 
     @Click(R.id.glycaemia_validate)
