@@ -16,13 +16,12 @@ import org.androidannotations.annotations.ViewById;
 import org.project.adam.BaseFragment;
 import org.project.adam.R;
 import org.project.adam.persistence.Lunch;
+import org.project.adam.ui.IndicatorCircleView_;
 import org.project.adam.util.DateFormatters;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import me.relex.circleindicator.CircleIndicator;
 
 @EFragment(R.layout.fragment_lunches_of_the_day)
 public class LunchesOfTheDayFragment extends BaseFragment {
@@ -33,21 +32,21 @@ public class LunchesOfTheDayFragment extends BaseFragment {
     @ViewById(R.id.selected_lunch_time_of_day)
     TextView selectedLunchTimeOfDay;
 
-    @ViewById(R.id.hours_of_day)
-    CircleIndicator hoursOfDay;
-
     @ViewById(R.id.lunch_detail)
     ViewPager lunchDetailViewPager;
 
+    @ViewById(R.id.circleIndicator)
+    IndicatorCircleView_ circleView;
+
     private LunchListViewModel lunchListViewModel;
     private LunchDetailAdapter lunchDetailAdapter;
+
 
     @AfterViews
     void init() {
         lunchDetailAdapter = new LunchDetailAdapter();
         lunchDetailViewPager.setAdapter(lunchDetailAdapter);
-        hoursOfDay.setViewPager(lunchDetailViewPager);
-        lunchDetailAdapter.registerDataSetObserver(hoursOfDay.getDataSetObserver());
+        lunchDetailViewPager.addOnPageChangeListener(circleView);
 
         lunchListViewModel = ViewModelProviders.of(this).get(LunchListViewModel.class);
         // TODO: read diet id from preferences
@@ -56,6 +55,7 @@ public class LunchesOfTheDayFragment extends BaseFragment {
                 @Override
                 public void onChanged(@Nullable List<Lunch> lunches) {
                     lunchDetailAdapter.update(lunches);
+                    circleView.setMeals(lunches);
                 }
             });
     }
