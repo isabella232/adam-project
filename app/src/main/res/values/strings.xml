@@ -34,5 +34,8 @@
     <string name="glycaemia_value_unit">mg/Dl</string>
     <string name="set_current_status_confirmation_message">Are you sure to set this Diet as current ?</string>
     <string name="set_current_status_confirmation_title">Confirmation</string>
+    <string name="remove_diet">remove</string>
+    <string name="remove_diet_confirmation_title">Confirmation</string>
+    <string name="remove_diet_confirmation_message">Would you like to remove this Diet ?</string>
     <string name="dashboard_input_glycaemia">Input glycaemia</string>
 </resources>
