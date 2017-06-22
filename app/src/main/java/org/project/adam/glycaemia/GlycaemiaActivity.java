@@ -6,11 +6,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.SeekBarProgressChange;
 import org.androidannotations.annotations.ViewById;
 import org.project.adam.R;
 
@@ -21,6 +23,10 @@ import java.util.Date;
 @EActivity(R.layout.input_glycaemia)
 public class GlycaemiaActivity extends AppCompatActivity {
 
+    private static final int DEFAULT_GLYCAEMIA = 70;
+    private static final int MIN_GLYCAEMIA = 20;
+    private static final int MAX_GLYCAEMIA = 150;
+
     @ViewById(R.id.glycaemia_date)
     TextView glycaemiaDate;
 
@@ -28,10 +34,13 @@ public class GlycaemiaActivity extends AppCompatActivity {
     TextView glycaemiaHour;
 
     @ViewById(R.id.glycaemia_value_mg_Dl)
-    EditText glycaemiaValueMgDl;
+    TextView glycaemiaValueMgDl;
 
     @ViewById(R.id.glycaemia_validate)
     Button validateGlycaemia;
+
+    // FIXME: should work with android annotations
+    SeekBar seekBarGlycaemia;
 
     private Date currentDate = new Date();
 
@@ -44,6 +53,19 @@ public class GlycaemiaActivity extends AppCompatActivity {
 
         simpleDateFormat = new SimpleDateFormat("H: mm");
         glycaemiaHour.setText(simpleDateFormat.format(date));
+    }
+
+    @AfterViews
+    void initSeekBar() {
+        seekBarGlycaemia = (SeekBar) findViewById(R.id.glycaemia_seekBar);
+        seekBarGlycaemia.setProgress(DEFAULT_GLYCAEMIA);
+        seekBarGlycaemia.setMax(MAX_GLYCAEMIA - MIN_GLYCAEMIA);
+        glycaemiaValueMgDl.setText(String.valueOf(DEFAULT_GLYCAEMIA));
+    }
+
+    @SeekBarProgressChange(R.id.glycaemia_seekBar)
+    void onSeekBarProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+        glycaemiaValueMgDl.setText(String.valueOf(progress + MIN_GLYCAEMIA));
     }
 
     public void showTimePickerDialog(View v) {
