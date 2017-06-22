@@ -24,6 +24,10 @@
     <string name="pref_recipients">Destinataires du mail</string>
     <string name="pref_notif" >Notifications</string>
     <string name="pref_notif_summary">selection du son de notification</string>
+    <string name="pref_glycaemia" >Saisie glycémie</string>
+    <string name="pref_min_glycaemia" >Minimum autorisé</string>
+    <string name="pref_max_glycaemia" >Maximum autorisé</string>
+    <string name="pref_risk_glycaemia" >Seuil glycémie risquée</string>
 
     <string name="action_add_diet">Importer un régime</string>
     <string name="action_settings">paramètres</string>

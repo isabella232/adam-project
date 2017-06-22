@@ -41,7 +41,6 @@ public class InputGlycaemiaActivity extends AppCompatActivity {
     protected Preferences_ prefs;
 
     private static final int DEFAULT_GLYCAEMIA = 70;
-    private static final int DANGEROUS_GLYCAEMIA_THRESHOLD = 60;
     private static final float LINE_RULER_MULTIPLE_SIZE = 2.5f;
     private static final int MULTIPLE_TYPE = 5;
 /*    private float lr_multiple_size = 2.5f * (prefs.maxGly().get() / 120.0f);*/
@@ -113,7 +112,7 @@ public class InputGlycaemiaActivity extends AppCompatActivity {
                                                     , seekBarGlycaemia.getViewMultipleSize())));
 
                                                 int value = Integer.parseInt(glycaemiaValueMgDl.getText().toString());
-                                                int color = value < DANGEROUS_GLYCAEMIA_THRESHOLD ?
+                                                int color = value < prefs.riskGly().get() ?
                                                     getResources().getColor(R.color.sunflower_yellow) :
                                                     getResources().getColor(R.color.glycaemia_green);
                                                 glycaemiaRootView.setBackgroundColor(color);
