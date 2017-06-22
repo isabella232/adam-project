@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -18,6 +19,9 @@ import org.androidannotations.annotations.ViewById;
 import org.project.adam.BaseActivity;
 import org.project.adam.R;
 import org.project.adam.persistence.Diet;
+import org.project.adam.persistence.Lunch;
+
+import java.util.List;
 
 @EActivity(R.layout.activity_diet_detail)
 public class DietDetailActivity extends BaseActivity {
@@ -28,10 +32,15 @@ public class DietDetailActivity extends BaseActivity {
     @Bean
     DietUtils dietUtils;
 
+    @Bean
+    LunchListAdapter lunchListAdapter;
+
     @ViewById(R.id.name)
     TextView name;
     @ViewById(R.id.remove)
     Button remove;
+    @ViewById(R.id.item_list)
+    RecyclerView lunches;
 
     DietDetailViewModel dietDetailViewModel;
 
@@ -57,6 +66,20 @@ public class DietDetailActivity extends BaseActivity {
                 }
             }
         });
+
+        dietDetailViewModel.getLunches()
+            .observe(this, new Observer<List<Lunch>>() {
+                @Override
+                public void onChanged(@Nullable List<Lunch> lunches) {
+                    lunchListAdapter.update(lunches);
+                }
+            });
+    }
+
+    @AfterViews
+    void setUpAdapter() {
+        lunches.setAdapter(lunchListAdapter);
+        lunches.setHasFixedSize(true);
     }
 
     @AfterViews
