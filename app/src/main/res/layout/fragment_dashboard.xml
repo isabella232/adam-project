@@ -14,13 +14,6 @@
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="0dp"/>
 
-    <Button
-        android:id="@+id/model_sample"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Diet Model sample"
-        />
-
     <fragment
         android:name="org.project.adam.ui.dashboard.DashboardFragmentGlycaemia_"
         android:id="@+id/fragment_dashboard_glycaemia"
