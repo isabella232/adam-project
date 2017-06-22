@@ -7,6 +7,9 @@ import android.os.AsyncTask;
 
 import org.project.adam.AppDatabase;
 import org.project.adam.persistence.Diet;
+import org.project.adam.persistence.Lunch;
+
+import java.util.List;
 
 import lombok.Getter;
 
@@ -20,6 +23,10 @@ public class DietDetailViewModel extends AndroidViewModel {
     @Getter
     private LiveData<Diet> diet;
 
+    @Getter
+    private LiveData<List<Lunch>> lunches;
+
+
     public DietDetailViewModel(Application application) {
         super(application);
 
@@ -30,6 +37,7 @@ public class DietDetailViewModel extends AndroidViewModel {
     public void loadDiet(int dietId){
         if (diet == null){
             diet = appDatabase.dietDao().find(dietId);
+            lunches = appDatabase.lunchDao().findFromDiet(dietId);
         }
     }
 
