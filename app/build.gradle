@@ -134,8 +134,8 @@ dependencies {
     provided 'org.projectlombok:lombok:1.16.16'
     annotationProcessor "org.projectlombok:lombok:1.16.16"
 
-    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.2'
-    
+    compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
+
     //crashlytics
     compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
         transitive = true
