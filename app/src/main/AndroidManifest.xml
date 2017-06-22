@@ -31,6 +31,10 @@
             -->
         </activity>
 
+
+        <activity android:name=".model.sample.DietSampleActivity_"/>
+
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="b79586cd711cad927d473fd1f58749bf7df87ae1"

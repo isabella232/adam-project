@@ -6,7 +6,7 @@
               android:orientation="vertical"
               tools:context="org.project.adam.MainActivity">
 
-    <fragment
+     <fragment
         android:id="@+id/meals_of_the_day"
         android:name="org.project.adam.MealsOfTheDayFragment_"
         android:layout_width="368dp"
@@ -14,4 +14,11 @@
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="0dp"/>
 
+
+    <Button
+        android:id="@+id/model_sample"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Diet Model sample"
+        />
 </LinearLayout>
