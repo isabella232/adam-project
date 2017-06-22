@@ -128,9 +128,6 @@ dependencies {
     compile 'android.arch.lifecycle:runtime:' + rootProject.archhComponentsVersion
     annotationProcessor "android.arch.lifecycle:compiler:" + rootProject.archhComponentsVersion
 
-    // Circle indicator
-    compile 'me.relex:circleindicator:1.2.2@aar'
-
     // Timber
     compile 'com.jakewharton.timber:timber:4.5.1'
     // Lombok

@@ -87,7 +87,6 @@ public class IndicatorCircleView extends View implements ViewPager.OnPageChangeL
 
     private void handleTouchOn(float x, float y) {
         for (Map.Entry<RectF, Integer> entry : actionMap.entrySet()) {
-            Timber.d(entry.getKey() + "/" + entry.getValue() + "on " + x + " and " + y);
             if (entry.getKey().contains(x, y)) {
                 Timber.d("Yes");
                 viewPager.setCurrentItem(entry.getValue());
@@ -137,7 +136,6 @@ public class IndicatorCircleView extends View implements ViewPager.OnPageChangeL
 
         for (Lunch lunch : meals) {
             float progress = (float) (lunch.getTimeOfDay() - minTime) / (float) (maxTime - minTime);
-            Timber.d("computed progress %f", progress);
             indicators.add(progress);
         }
     }
@@ -164,23 +162,9 @@ public class IndicatorCircleView extends View implements ViewPager.OnPageChangeL
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        // Draw the shadow
-      /*  canvas.drawOval(
-            mShadowBounds,
-            shadowPaint
-        );*/
-
-        // Draw the label text
-
         if (canvas != null) {
-            // Draw the pie slices
-
-
             //draw full line
             arcPaint.setColor(COLOR_ARC);
-           // canvas.drawArc(bounds, 180, 180, false, arcPaint);
-
-
             int i = 0;
             //first search for selected item, cause need to be draw first
             for (Float item : indicators) {
@@ -194,17 +178,20 @@ public class IndicatorCircleView extends View implements ViewPager.OnPageChangeL
                 i++;
             }
 
-
-
             i = 0;
             actionMap.clear();
             circlePaint.setColor(COLOR_ARC_PAST);
             for (Float item : indicators) {
                 if (i == selectedItem) {
                     circlePaint.setStyle(Paint.Style.FILL);
-                    circlePaint.setColor(COLOR_ARC);
+
                 } else {
                     circlePaint.setStyle(Paint.Style.STROKE);
+                }
+
+
+                if(i == nextMealPosition){
+                    circlePaint.setColor(COLOR_ARC);
                 }
                 double x1 = Math.cos(Math.PI * item);
                 double x2 = bounds.centerX();
@@ -214,8 +201,8 @@ public class IndicatorCircleView extends View implements ViewPager.OnPageChangeL
                 float y = (float) (bounds.centerY() - hh * Math.sin(Math.PI * item));
                 canvas.drawCircle(x, y, circleRadius, circlePaint);
 
+                actionMap.put(new RectF(x - circleRadius*2, y - circleRadius*2, x + circleRadius*2, y + circleRadius*2), i);
 
-                Timber.d("Action added "+i);
                 i++;
             }
         }
