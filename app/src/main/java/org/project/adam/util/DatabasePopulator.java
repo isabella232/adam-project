@@ -83,10 +83,10 @@ public class DatabasePopulator {
 
     private static void insertManyGlycaemia(AppDatabase db) {
         int id = 0;
-        float value = 0.5f;
+        float value = 40f;
         for (int i = 0; i < 5; ++i) {
             insertGlycaemia(db, id++, 1, value, new Date(), "context " + id, "comment " + id);
-            value += 0.1;
+            value += 10;
         }
     }
 

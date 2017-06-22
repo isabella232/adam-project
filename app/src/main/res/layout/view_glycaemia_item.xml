@@ -17,6 +17,7 @@
             android:orientation="horizontal">
 
             <View
+                android:id="@+id/status_color"
                 android:layout_width="4dp"
                 android:layout_height="match_parent"
                 android:background="@color/lunches_background"/>
