@@ -5,15 +5,18 @@
         android:id="@+id/tab_dashboard"
         android:enabled="true"
         android:title="@string/tab_dashboard"
+        android:icon="@drawable/tab_suivi"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/tab_data"
         android:enabled="true"
+        android:icon="@drawable/tab_history"
         android:title="@string/tab_data"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/tab_diet"
         android:enabled="true"
+        android:icon="@drawable/tab_regime"
         android:title="@string/tab_diet"
         app:showAsAction="ifRoom" />
 </menu>
