@@ -3,7 +3,6 @@ package org.project.adam.ui.diet;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
-import android.os.AsyncTask;
 
 import org.project.adam.AppDatabase;
 import org.project.adam.persistence.Diet;
@@ -26,18 +25,6 @@ public class DietListViewModel extends AndroidViewModel {
 
         appDatabase = AppDatabase.getDatabase(application);
         diets = appDatabase.dietDao().findAll();
-    }
-
-    public void removeDiet(final Diet diet) {
-
-        new AsyncTask<Void, Void, Void>(){
-            @Override
-            protected Void doInBackground(Void... voids) {
-                appDatabase.dietDao().delete(diet);
-                return null;
-            }
-        }.execute();
-
     }
 
     public void createDiet(final Diet diet, final Lunch ... lunches){

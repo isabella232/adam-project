@@ -1,7 +1,6 @@
 package org.project.adam.ui.diet;
 
 import android.content.Context;
-import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -11,14 +10,9 @@ import org.androidannotations.annotations.ViewById;
 import org.project.adam.R;
 import org.project.adam.persistence.Diet;
 
-import lombok.Getter;
-
 @EViewGroup(R.layout.diet_item)
 public class DietItemView extends RelativeLayout {
 
-    @ViewById(R.id.set_as_current)
-    @Getter
-    Button setAsCurrent;
     @ViewById(R.id.name)
     TextView name;
 
@@ -32,8 +26,6 @@ public class DietItemView extends RelativeLayout {
     public void bind(final Diet diet) {
         this.name.setText(diet.getName());
         final boolean isCurrent = dietUtils.isCurrent(diet);
-        this.setAsCurrent.setText(isCurrent ? R.string.current_diet : R.string.set_current_status);
-        this.setAsCurrent.setEnabled(!isCurrent);
     }
 
 

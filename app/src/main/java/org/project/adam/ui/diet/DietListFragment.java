@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.widget.EditText;
 
@@ -17,7 +16,6 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.res.StringRes;
 import org.project.adam.AppDatabase;
@@ -32,8 +30,8 @@ import java.util.List;
 import timber.log.Timber;
 
 @SuppressLint("Registered")
-@EFragment(R.layout.fragment_diet)
-public class DietFragment extends BaseFragment implements DietListAdapter.DietSelectorListener {
+@EFragment(R.layout.fragment_diet_list)
+public class DietListFragment extends BaseFragment implements DietListAdapter.DietSelectorListener {
 
     private static final int SELECT_FILE_RESULT_CODE = 666;
 
@@ -66,10 +64,6 @@ public class DietFragment extends BaseFragment implements DietListAdapter.DietSe
     void setUpRepoAdapter() {
         items.setAdapter(listAdapter);
         items.setHasFixedSize(true);
-    }
-
-    @AfterViews
-    void setUpDietSelector() {
         listAdapter.setDietSelectorListener(this);
     }
 
@@ -96,43 +90,6 @@ public class DietFragment extends BaseFragment implements DietListAdapter.DietSe
     }
 
     @Override
-    @UiThread(propagation = UiThread.Propagation.REUSE)
-    public void dietSelected(final Diet diet) {
-
-        new AlertDialog.Builder(getContext())
-            .setTitle(R.string.set_current_status_confirmation_title)
-            .setMessage(R.string.set_current_status_confirmation_message)
-            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    dietUtils.setCurrent(diet);
-                    listAdapter.reload();
-                }
-            })
-            .setNegativeButton(android.R.string.cancel, null)
-            .show();
-
-    }
-
-    @Override
-    public void removeDiet(final Diet diet) {
-        new AlertDialog.Builder(getContext())
-            .setTitle(R.string.remove_diet_confirmation_title)
-            .setMessage(R.string.remove_diet_confirmation_message)
-            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    dietListViewModel.removeDiet(diet);
-                    dietUtils.clearCurrent();
-                }
-            })
-            .setNegativeButton(android.R.string.cancel, null)
-            .show();
-    }
-
-    @Override
     public void onActivityResult(int requestCode, int resultCode, final Intent data) {
         Timber.d("onActivityResult - %d - %d", requestCode, resultCode);
         if (requestCode == SELECT_FILE_RESULT_CODE) {
@@ -151,6 +108,12 @@ public class DietFragment extends BaseFragment implements DietListAdapter.DietSe
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+
+    @Override
+    public void dietSelected(Diet diet) {
+        DietDetailActivity_.intent(this).dietId(diet.getId()).start();
     }
 
     private void createDiet(final Context context, final List<Lunch> lunches) {
