@@ -8,8 +8,10 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.EditText;
 
 import org.androidannotations.annotations.AfterViews;
@@ -64,6 +66,7 @@ public class DietListFragment extends BaseFragment implements DietListAdapter.Di
     void setUpRepoAdapter() {
         items.setAdapter(listAdapter);
         items.setHasFixedSize(true);
+        items.addItemDecoration(new VerticalSpaceItemDecoration(32));
         listAdapter.setDietSelectorListener(this);
     }
 
@@ -114,6 +117,25 @@ public class DietListFragment extends BaseFragment implements DietListAdapter.Di
     @Override
     public void dietSelected(Diet diet) {
         DietDetailActivity_.intent(this).dietId(diet.getId()).start();
+    }
+
+
+    public class VerticalSpaceItemDecoration extends RecyclerView.ItemDecoration {
+
+        private final int verticalSpaceHeight;
+
+        public VerticalSpaceItemDecoration(int verticalSpaceHeight) {
+            this.verticalSpaceHeight = verticalSpaceHeight;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent,
+                                   RecyclerView.State state) {
+            final int childAdapterPosition = parent.getChildAdapterPosition(view);
+            if (childAdapterPosition == 0 && parent.getAdapter().getItemCount() > 0) {
+                outRect.bottom = verticalSpaceHeight;
+            }
+        }
     }
 
     private void createDiet(final Context context, final List<Lunch> lunches) {

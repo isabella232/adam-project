@@ -15,6 +15,8 @@ public class DietItemView extends RelativeLayout {
 
     @ViewById(R.id.name)
     TextView name;
+    @ViewById(R.id.status)
+    TextView status;
 
     @Bean
     DietUtils dietUtils;
@@ -26,6 +28,7 @@ public class DietItemView extends RelativeLayout {
     public void bind(final Diet diet) {
         this.name.setText(diet.getName());
         final boolean isCurrent = dietUtils.isCurrent(diet);
+        this.status.setVisibility(isCurrent ? VISIBLE : GONE);
     }
 
 
