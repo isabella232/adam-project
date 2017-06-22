@@ -9,7 +9,8 @@
     <string name="glycaemia_hour">Heure</string>
     <string name="glycaemia_hour_placeholder">saisir l\'heure</string>
 
-    <string name="glycaemia_value">Valeur</string>
+    <string name="glycaemia_value">Valeur mg/Dl</string>
     <string name="glycaemia_value_placeholder">saisir la glycémie</string>
+    <string name="validate_glycaemia">Valider</string>
 
 </resources>
