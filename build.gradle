@@ -23,7 +23,7 @@ allprojects {
 
 ext {
     supportLibVersion = '25.4.0'
-    archRoomVersion = '1.0.0-alpha3'
+    archhComponentsVersion = '1.0.0-alpha3'
 }
 
 task clean(type: Delete) {
