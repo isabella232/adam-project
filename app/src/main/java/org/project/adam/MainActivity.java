@@ -8,6 +8,8 @@ import android.view.MenuItem;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.OptionsItem;
+import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 import org.project.adam.ui.dashboard.DashboardFragment_;
 import org.project.adam.ui.data.DataFragment_;
@@ -15,6 +17,7 @@ import org.project.adam.ui.diet.DietFragment_;
 
 @SuppressLint("Registered")
 @EActivity(R.layout.activity_main)
+@OptionsMenu(R.menu.main)
 public class MainActivity extends AppCompatActivity {
 
     @ViewById(R.id.bottom_navigation)
@@ -52,5 +55,9 @@ public class MainActivity extends AppCompatActivity {
             .commitNow();
     }
 
+    @OptionsItem(R.id.action_settings)
+    public void menuSettings() {
+        PrefActivity_.intent(this).start();
+    }
 
 }
