@@ -74,7 +74,7 @@ public class DashboardFragmentGlycaemia extends BaseFragment {
                 addView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        GlycaemiaActivity_.intent(DashboardFragmentGlycaemia.this).start();
+                        InputGlycaemiaActivity_.intent(DashboardFragmentGlycaemia.this).start();
                     }
                 });
                 return addView;
