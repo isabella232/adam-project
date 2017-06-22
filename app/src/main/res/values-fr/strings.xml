@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Adam-Project</string>
+
+    <!-- glycaemia screen -->
+    <string name="glycaemia_date">Date</string>
+    <string name="glycaemia_date_placeholder">saisir la date</string>
+
+    <string name="glycaemia_hour">Heure</string>
+    <string name="glycaemia_hour_placeholder">saisir l\'heure</string>
+
+    <string name="glycaemia_value">Valeur</string>
+    <string name="glycaemia_value_placeholder">saisir la glycémie</string>
+
+</resources>
