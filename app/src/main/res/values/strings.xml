@@ -38,4 +38,6 @@
     <string name="remove_diet_confirmation_title">Confirmation</string>
     <string name="remove_diet_confirmation_message">Would you like to remove this Diet ?</string>
     <string name="dashboard_input_glycaemia">Input glycaemia</string>
+
+    <string name="select_file_to_load">Select a file to load</string>
 </resources>

@@ -22,7 +22,7 @@ android {
     buildToolsVersion "25.0.3"
     defaultConfig {
         applicationId "org.project.adam"
-        minSdkVersion isDev() ? 21 : 16
+        minSdkVersion isDev() ? 21 : 19
         targetSdkVersion 25
         versionCode 1
         versionName "1.2.1"
@@ -105,6 +105,12 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:' + rootProject.supportLibVersion
 
     testCompile 'junit:junit:4.12'
+    testCompile('com.squareup.assertj:assertj-android:1.1.1', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    testCompile "org.mockito:mockito-core:2.8.47"
+    testCompile "com.googlecode.zohhak:zohhak:1.1.1"
+
     // Android annotations
     compile 'org.androidannotations:androidannotations-api:4.3.1'
     annotationProcessor 'org.androidannotations:androidannotations:4.3.1'

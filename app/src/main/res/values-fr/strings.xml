@@ -38,4 +38,5 @@
     <string name="dashboard_input_glycaemia">Ajouter une mesure de glycémie</string>
 
 
+    <string name="select_file_to_load">Sélectionner un fichier</string>
 </resources>
