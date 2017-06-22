@@ -8,8 +8,11 @@ import org.androidannotations.annotations.sharedpreferences.SharedPref;
 @SharedPref(value = SharedPref.Scope.UNIQUE)
 public interface Preferences {
 
-    @DefaultLong(15)
-    long reminderTimeInMinutes();
+    @DefaultInt(15)
+    int reminderTimeInMinutes();
+
+    @DefaultInt(-1)
+    int currentMenuId();
 
     String recipientsEmails();
 
