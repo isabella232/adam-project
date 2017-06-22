@@ -3,6 +3,7 @@ package org.project.adam.ui.diet;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
+import android.os.AsyncTask;
 
 import org.project.adam.AppDatabase;
 import org.project.adam.persistence.Diet;
