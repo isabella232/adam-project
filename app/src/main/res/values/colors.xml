@@ -5,4 +5,6 @@
     <color name="colorAccent">#FF4081</color>
     <color name="white">#FFFFFF</color>
     <color name="lunches_background">#518aff</color>
+    <color name="glycaemia_green">#c1d54b</color>
+    <color name="sunflower_yellow">#ffcd00</color>
 </resources>

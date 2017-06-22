@@ -124,6 +124,14 @@ public class GlycaemiaActivity extends AppCompatActivity {
             }
             );
 
+    @SeekBarProgressChange(R.id.glycaemia_seekBar)
+    void onSeekBarProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+        int value = progress + MIN_GLYCAEMIA;
+        glycaemiaValueMgDl.setText(String.valueOf(value));
+        int color = value < DANGEROUS_GLYCAEMIA_THRESHOLD ?
+            getResources().getColor(R.color.sunflower_yellow) :
+            getResources().getColor(R.color.glycaemia_green);
+        glycaemiaRootView.setBackgroundColor(color);
     }
 
     public void showTimePickerDialog(View v) {
