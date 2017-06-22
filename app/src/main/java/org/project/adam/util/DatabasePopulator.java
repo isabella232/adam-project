@@ -11,6 +11,8 @@ public class DatabasePopulator {
         insertDiet(db, 1, 0, "Premier menu");
         // Dirty
         insertDiet(db, 2, 6, "Second menu");
+        // Dirty
+        insertDiet(db, 3, 12, "Third menu");
     }
 
     private static void insertDiet(AppDatabase db, int dietId, int baseLunchId, String menuName) {
