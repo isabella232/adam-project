@@ -25,6 +25,7 @@
     <string name="pref_notif" >Notifications</string>
     <string name="pref_notif_summary">selection du son de notification</string>
 
+    <string name="action_add_diet">Importer un menu</string>
     <string name="action_settings">paramètres</string>
 
 

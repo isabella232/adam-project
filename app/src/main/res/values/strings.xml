@@ -24,6 +24,9 @@
     <string name="pref_recipients">Mail recipients</string>
     <string name="pref_notif" >Notifications</string>
     <string name="pref_notif_summary">select alert notification sound</string>
+
+
+    <string name="action_add_diet">Import a diet</string>
     <string name="action_settings">settings</string>
     <string name="pick_time">pick time</string>
     <string name="glycaemia_value_unit">mg/Dl</string>
