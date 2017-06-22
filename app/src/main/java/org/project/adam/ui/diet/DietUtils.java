@@ -13,14 +13,14 @@ public class DietUtils {
 
     void clearCurrent() {
         preferences.edit()
-            .currentMenuId()
+            .currentDietId()
             .remove()
             .apply();
     }
 
     void setCurrent(Diet diet) {
         preferences.edit()
-            .currentMenuId()
+            .currentDietId()
             .put(diet.getId())
             .apply();
     }
@@ -30,6 +30,6 @@ public class DietUtils {
     }
 
     boolean isCurrent(int dietId) {
-        return preferences.currentMenuId().getOr(-1) == dietId;
+        return preferences.currentDietId().getOr(-1) == dietId;
     }
 }

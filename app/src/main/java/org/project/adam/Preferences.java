@@ -13,7 +13,7 @@ public interface Preferences {
     int reminderTimeInMinutes();
 
     @DefaultInt(-1)
-    int currentMenuId();
+    int currentDietId();
 
     @DefaultString(DietLoader.CSV_DEFAULT_SEPARATOR)
     String fieldSeparatorsForImport();
