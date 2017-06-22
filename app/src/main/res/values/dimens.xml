@@ -10,4 +10,6 @@
 
     <dimen name="glycaemia_header_size">72dp</dimen>
     <dimen name="glycaemia_date_to_hour_margin">20dp</dimen>
+    <dimen name="glycaemia_big_value_text_size">90dp</dimen>
+    <dimen name="glycaemia_big_value_unit_text_size">40dp</dimen>
 </resources>

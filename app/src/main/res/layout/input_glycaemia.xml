@@ -34,6 +34,26 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/glycaemia_big_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/glycaemia_big_value_text_size"
+            android:text="77"/>
+
+        <TextView
+            android:id="@+id/glycaemia_big_value_unit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/glycaemia_big_value_unit_text_size"
+            android:text="@string/glycaemia_value_unit"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <TextView
