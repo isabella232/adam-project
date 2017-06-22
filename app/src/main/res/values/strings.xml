@@ -1,47 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Adam-Project</string>
 
     <!-- glycaemia screen -->
     <string name="glycaemia_date">Date</string>
-    <string name="glycaemia_date_placeholder">input date</string>
+    <string name="glycaemia_date_placeholder">saisir la date</string>
 
-    <string name="glycaemia_hour">Hour</string>
-    <string name="glycaemia_hour_placeholder">Input hour</string>
+    <string name="glycaemia_hour">Heure</string>
+    <string name="glycaemia_hour_placeholder">saisir l\'heure</string>
 
-    <string name="glycaemia_value">Value mg/Dl</string>
-    <string name="glycaemia_unit" translatable="false">mg/dL</string>
-    <string name="glycaemia_value_placeholder">Input Value</string>
-    <string name="validate_glycaemia">Save</string>
+    <string name="glycaemia_value">Valeur mg/Dl</string>
+    <string name="glycaemia_value_placeholder">saisir la glycémie</string>
+    <string name="validate_glycaemia">Enregistrer</string>
+    <string name="pick_time">changer l\'heure</string>
 
-    <string name="tab_dashboard">Home</string>
-    <string name="tab_diet">Diets</string>
-    <string name="tab_data">Data</string>
+    <string name="tab_dashboard">Accueil</string>
+    <string name="tab_diet">Régimes</string>
+    <string name="tab_data">Données</string>
 
-    <string name="pref_category_alerts">Alerts</string>
+    <string name="pref_category_alerts">Alertes</string>
     <string name="pref_category_mail">Mails</string>
-    <string name="pref_default_time_before_alert"  translatable="false">15</string>
-    <string name="pref_time_before_alert">Nb minutes before alerting</string>
-    <string name="pref_recipients">Mail recipients</string>
+    <string name="pref_time_before_alert">Nombre de minutes pour l\'alerte</string>
+    <string name="pref_recipients">Destinataires du mail</string>
     <string name="pref_notif" >Notifications</string>
-    <string name="pref_notif_summary">select alert notification sound</string>
+    <string name="pref_notif_summary">selection du son de notification</string>
 
-
-    <string name="action_add_diet">Import a diet</string>
-    <string name="set_current_status">set as current</string>
-    <string name="current_diet">current</string>
-    <string name="action_settings">settings</string>
-    <string name="pick_time">pick time</string>
-    <string name="glycaemia_value_unit">mg/Dl</string>
-    <string name="set_current_status_confirmation_message">Are you sure to set this Diet as current ?</string>
+    <string name="action_add_diet">Importer un régime</string>
+    <string name="action_settings">paramètres</string>
+    <string name="set_current_status">définir comme actif</string>
+    <string name="current_diet">actif</string>
+    <string name="set_current_status_confirmation_message">Etes vous sûr de vouloir activer ce régime ?</string>
     <string name="set_current_status_confirmation_title">Confirmation</string>
-    <string name="remove_diet">remove</string>
+    <string name="remove_diet">supprimer</string>
     <string name="remove_diet_confirmation_title">Confirmation</string>
-    <string name="remove_diet_confirmation_message">Would you like to remove this Diet ?</string>
-    <string name="dashboard_input_glycaemia">Input glycaemia</string>
+    <string name="remove_diet_confirmation_message">Voulez vous supprimer ce régime ?</string>
+    <string name="glycaemia_value_unit">mg/Dl</string>
+    <string name="dashboard_input_glycaemia">Ajouter une mesure de glycémie</string>
+
 
     <string name="glycaemia_value_format">%.2f mg/dL</string>
-    <string name="select_file_to_load">Select a file to load</string>
-    <string name="enter_diet_name_title">Diet</string>
-    <string name="enter_diet_name_content">Enter a diet name</string>
+
+
+    <string name="select_file_to_load">Sélectionner un fichier</string>
+    <string name="enter_diet_name_title">Régime</string>
+    <string name="enter_diet_name_content">Entrez un nom de régime</string>
     <string name="enter_diet_name_ok_btn">ok</string>
 </resources>
