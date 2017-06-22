@@ -80,7 +80,10 @@ public class LunchesOfTheDayFragment extends BaseFragment {
                 nextMealPage = i;
             }
         }
+
         circleView.setNextMealPosition(nextMealPage);
+        lunchDetailViewPager.setCurrentItem(nextMealPage);
+
     }
 
     @Override
