@@ -1,7 +1,6 @@
 package org.project.adam;
 
 import org.androidannotations.annotations.sharedpreferences.DefaultInt;
-import org.androidannotations.annotations.sharedpreferences.DefaultLong;
 import org.androidannotations.annotations.sharedpreferences.SharedPref;
 
 
@@ -15,5 +14,15 @@ public interface Preferences {
     int currentMenuId();
 
     String recipientsEmails();
+
+
+    @DefaultInt(20)
+    int minGly();
+
+    @DefaultInt(60)
+    int riskGly();
+
+    @DefaultInt(120)
+    int maxGly();
 
 }

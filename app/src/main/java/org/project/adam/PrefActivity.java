@@ -1,0 +1,118 @@
+package org.project.adam;
+
+import android.annotation.SuppressLint;
+import android.app.ActivityManager;
+import android.preference.EditTextPreference;
+import android.preference.ListPreference;
+import android.preference.Preference;
+import android.preference.PreferenceActivity;
+import android.preference.PreferenceGroup;
+import android.text.InputType;
+
+import org.androidannotations.annotations.AfterPreferences;
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.PreferenceByKey;
+import org.androidannotations.annotations.PreferenceChange;
+import org.androidannotations.annotations.PreferenceScreen;
+import org.androidannotations.annotations.res.StringRes;
+import org.androidannotations.annotations.sharedpreferences.Pref;
+
+import java.util.Locale;
+
+import timber.log.Timber;
+
+@SuppressLint("Registered")
+@PreferenceScreen(R.xml.settings)
+@EActivity
+public class PrefActivity extends PreferenceActivity {
+
+    @PreferenceByKey(R.string.pref_time_before_alert)
+    EditTextPreference timeAlertPreference;
+
+    @PreferenceByKey(R.string.pref_recipients)
+    EditTextPreference recipientsPreference;
+
+    @PreferenceByKey(R.string.pref_notif)
+    Preference notifPreference;
+
+    @Pref
+    protected Preferences_ prefs;
+
+    @StringRes(R.string.pref_default_time_before_alert)
+    protected String defaultTime;
+
+
+    @AfterPreferences
+    void initPrefs() {
+        timeAlertPreference.setText(prefs.reminderTimeInMinutes().getOr(Integer.valueOf(defaultTime)) + "");
+        timeAlertPreference.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER);
+
+
+        recipientsPreference.setText(prefs.recipientsEmails().getOr(""));
+        recipientsPreference.getEditText().setSingleLine(false);
+        recipientsPreference.setSummary(prefs.recipientsEmails().getOr(""));
+        initSummary(getPreferenceScreen());
+
+
+        notifPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                //TODO
+                Timber.d("Todo");
+                return false;
+            }
+        });
+
+        if (ActivityManager.isUserAMonkey()) {
+            finish();
+        }
+    }
+
+    @PreferenceChange(R.string.pref_time_before_alert)
+    void userIdChanged(Preference preference, String newValue) {
+        prefs.reminderTimeInMinutes().put(Integer.valueOf(newValue));
+        setEditTextSummary(preference,newValue);
+    }
+
+    @PreferenceChange(R.string.pref_recipients)
+    void recipientsChanged(Preference preference, String newValue) {
+        prefs.recipientsEmails().put(newValue);
+        setEditTextSummary(preference,newValue);
+    }
+
+    private void initSummary(Preference p) {
+        if (p instanceof PreferenceGroup) {
+            PreferenceGroup pGrp = (PreferenceGroup) p;
+            for (int i = 0; i < pGrp.getPreferenceCount(); i++) {
+                initSummary(pGrp.getPreference(i));
+            }
+        } else {
+            updatePrefSummary(p);
+        }
+    }
+
+    private void updatePrefSummary(Preference p) {
+        if (p instanceof ListPreference) {
+            ListPreference listPref = (ListPreference) p;
+            p.setSummary(listPref.getEntry());
+        }
+        if (p instanceof EditTextPreference) {
+            setEditTextSummary(p,null);
+        }
+    }
+
+    private void setEditTextSummary(Preference p, String newValue) {
+
+        EditTextPreference editTextPref = (EditTextPreference) p;
+        if (newValue == null) {
+            newValue = editTextPref.getText();
+        }
+        if (p.getTitle().toString().toLowerCase(Locale.getDefault()).contains("password")) {
+            p.setSummary("******");
+        } else {
+            p.setSummary(newValue);
+        }
+    }
+
+
+}
