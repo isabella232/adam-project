@@ -23,4 +23,10 @@ public class DateFormatters {
     public static final String formatDay(Date date) {
         return DATE_FORMATTER.format(date);
     }
+
+    public static final String formatMinutesOfDay(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return HOUR_FORMATTER.format(calendar.getTime());
+    }
 }

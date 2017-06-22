@@ -16,4 +16,18 @@
     <style name="font_lunch_details">
         <item name="android:textColor">@color/white</item>
     </style>
+
+    <style name="font_glycaemia_hour">
+        <item name="android:textColor">@color/pink</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="font_glycaemia_value">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="font_glycaemia_comment">
+        <item name="android:textSize">@dimen/font_glycaemia_comment_size</item>
+    </style>
 </resources>

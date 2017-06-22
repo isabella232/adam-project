@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="very_mall_padding">4dp</dimen>
     <dimen name="small_padding">8dp</dimen>
     <dimen name="medium_padding">16dp</dimen>
     <dimen name="large_padding">32dp</dimen>
@@ -16,5 +17,7 @@
     <dimen name="glycaemia_validate_button_top_margin">30dp</dimen>
 
     <dimen name="font_lunch_selected_time_size">48sp</dimen>
+    <dimen name="font_glycaemia_comment_size">12sp</dimen>
     <dimen name="dashboard_glycaemia_view_margin">10dp</dimen>
+    <dimen name="dashboard_glycaemia_item_min_height">64dp</dimen>
 </resources>

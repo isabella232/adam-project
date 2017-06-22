@@ -38,6 +38,9 @@
     <string name="dashboard_input_glycaemia">Ajouter une mesure de glycémie</string>
 
 
+    <string name="glycaemia_value_format">%.2f mg/dL</string>
+
+
     <string name="select_file_to_load">Sélectionner un fichier</string>
     <string name="enter_diet_name_title">Régime</string>
     <string name="enter_diet_name_content">Entrez un nom de régime</string>

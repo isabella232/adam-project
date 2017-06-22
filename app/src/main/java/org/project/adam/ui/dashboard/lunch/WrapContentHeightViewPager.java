@@ -1,4 +1,4 @@
-package org.project.adam.lunch;
+package org.project.adam.ui.dashboard.lunch;
 
 import android.content.Context;
 import android.support.v4.view.ViewPager;
