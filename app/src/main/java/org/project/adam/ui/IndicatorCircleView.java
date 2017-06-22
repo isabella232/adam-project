@@ -224,6 +224,7 @@ public class IndicatorCircleView extends View implements ViewPager.OnPageChangeL
                 float y = (float) (bounds.centerY() - hh * Math.sin(Math.PI * item));
                 canvas.drawCircle(x, y, circleRadius, circlePaint);
 
+                actionMap.put(new RectF(x - circleRadius*2, y - circleRadius*2, x + circleRadius*2, y + circleRadius*2), i);
 
                 Timber.d("Action added "+i);
                 i++;
