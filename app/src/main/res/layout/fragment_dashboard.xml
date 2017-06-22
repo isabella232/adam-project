@@ -11,7 +11,7 @@
         android:name="org.project.adam.ui.dashboard.lunch.LunchesOfTheDayFragment_"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="6"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="0dp"/>
 
@@ -20,5 +20,5 @@
         android:name="org.project.adam.ui.dashboard.glycaemia.DashboardFragmentGlycaemia_"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="4"/>
 </LinearLayout>

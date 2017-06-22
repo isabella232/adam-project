@@ -2,11 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:orientation="horizontal">
+              android:orientation="horizontal"
+              android:padding="@dimen/medium_padding">
 
     <TextView
-        style="@style/font_lunch_details"
         android:id="@+id/content"
+        style="@style/font_simple_white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

@@ -13,9 +13,11 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:minHeight="@dimen/dashboard_glycaemia_item_min_height"
             android:orientation="horizontal">
 
             <View
+                android:id="@+id/status_color"
                 android:layout_width="4dp"
                 android:layout_height="match_parent"
                 android:background="@color/lunches_background"/>

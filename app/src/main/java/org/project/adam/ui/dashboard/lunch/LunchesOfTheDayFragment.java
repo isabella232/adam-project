@@ -13,13 +13,16 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.PageSelected;
 import org.androidannotations.annotations.ViewById;
+import org.androidannotations.annotations.sharedpreferences.Pref;
 import org.project.adam.BaseFragment;
+import org.project.adam.Preferences_;
 import org.project.adam.R;
 import org.project.adam.persistence.Lunch;
 import org.project.adam.ui.IndicatorCircleView_;
 import org.project.adam.util.DateFormatters;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -38,8 +41,12 @@ public class LunchesOfTheDayFragment extends BaseFragment {
     @ViewById(R.id.circleIndicator)
     IndicatorCircleView_ circleView;
 
+    @Pref
+    Preferences_ preferences;
+
     private LunchListViewModel lunchListViewModel;
     private LunchDetailAdapter lunchDetailAdapter;
+
 
 
     @AfterViews
@@ -47,19 +54,33 @@ public class LunchesOfTheDayFragment extends BaseFragment {
         lunchDetailAdapter = new LunchDetailAdapter();
         lunchDetailViewPager.setAdapter(lunchDetailAdapter);
         circleView.setViewPager(lunchDetailViewPager);
-        //TODO
-        circleView.setNextMealPosition(2);
 
         lunchListViewModel = ViewModelProviders.of(this).get(LunchListViewModel.class);
-        // TODO: read diet id from preferences
-        lunchListViewModel.findFromDiet(1)
+        lunchListViewModel.findFromDiet(preferences.currentDietId().get())
             .observe(this, new Observer<List<Lunch>>() {
                 @Override
                 public void onChanged(@Nullable List<Lunch> lunches) {
                     lunchDetailAdapter.update(lunches);
                     circleView.setMeals(lunches);
+                    setNextMeal(lunches);
                 }
             });
+    }
+
+    void setNextMeal(List<Lunch> lunches) {
+        if (lunches.isEmpty()) {
+            return;
+        }
+        Calendar currentTime = Calendar.getInstance();
+        int currentTimeInMinutes = currentTime.get(Calendar.MINUTE) + currentTime.get(Calendar.HOUR_OF_DAY) * 60;
+        int nextMealPage = lunches.size() - 1;
+
+        for (int i = lunches.size() - 1; i >= 0; --i) {
+            if (lunches.get(i).getTimeOfDay() + 15 > currentTimeInMinutes) {
+                nextMealPage = i;
+            }
+        }
+        circleView.setNextMealPosition(nextMealPage);
     }
 
     @Override
