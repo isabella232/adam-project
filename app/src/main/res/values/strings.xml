@@ -9,6 +9,7 @@
     <string name="glycaemia_hour_placeholder">Input hour</string>
 
     <string name="glycaemia_value">Value mg/Dl</string>
+    <string name="glycaemia_unit">mg/dL</string>
     <string name="glycaemia_value_placeholder">Input Value</string>
     <string name="validate_glycaemia">Validate</string>
 
@@ -24,4 +25,6 @@
     <string name="pref_notif" >Notifications</string>
     <string name="pref_notif_summary">select alert notification sound</string>
     <string name="action_settings">settings</string>
+    <string name="pick_time">pick time</string>
+    <string name="glycaemia_value_unit">mg/Dl</string>
 </resources>
