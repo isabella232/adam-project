@@ -3,13 +3,16 @@ package org.project.adam.ui.diet;
 import android.annotation.SuppressLint;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.DialogInterface;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.project.adam.BaseFragment;
 import org.project.adam.R;
@@ -57,13 +60,27 @@ public class DietFragment extends BaseFragment implements DietListAdapter.DietSe
     }
 
     @Click(R.id.add_diet)
-    public void onAddDietClick(){
+    public void onAddDietClick() {
         Timber.d("add diet clicked");
     }
 
     @Override
-    public void dietSelected(Diet diet) {
-        dietUtils.setCurrent(diet);
-        listAdapter.reload();
+    @UiThread(propagation = UiThread.Propagation.REUSE)
+    public void dietSelected(final Diet diet) {
+
+        new AlertDialog.Builder(getContext())
+            .setTitle(R.string.set_current_status_confirmation_title)
+            .setMessage(R.string.set_current_status_confirmation_message)
+            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dietUtils.setCurrent(diet);
+                    listAdapter.reload();
+                }
+            })
+            .setNegativeButton(android.R.string.cancel, null)
+            .show();
+
     }
 }
