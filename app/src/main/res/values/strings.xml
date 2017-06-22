@@ -9,7 +9,7 @@
     <string name="glycaemia_hour_placeholder">Input hour</string>
 
     <string name="glycaemia_value">Value mg/Dl</string>
-    <string name="glycaemia_unit">mg/dL</string>
+    <string name="glycaemia_unit" translatable="false">mg/dL</string>
     <string name="glycaemia_value_placeholder">Input Value</string>
     <string name="validate_glycaemia">Validate</string>
 
@@ -19,7 +19,7 @@
     
     <string name="pref_category_alerts">Alerts</string>
     <string name="pref_category_mail">Mails</string>
-    <string name="pref_default_time_before_alert">15</string>
+    <string name="pref_default_time_before_alert"  translatable="false">15</string>
     <string name="pref_time_before_alert">Nb minutes before alerting</string>
     <string name="pref_recipients">Mail recipients</string>
     <string name="pref_notif" >Notifications</string>

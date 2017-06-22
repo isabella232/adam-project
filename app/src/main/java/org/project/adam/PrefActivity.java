@@ -20,8 +20,6 @@ import org.androidannotations.annotations.sharedpreferences.Pref;
 
 import java.util.Locale;
 
-import timber.log.Timber;
-
 @SuppressLint("Registered")
 @PreferenceScreen(R.xml.settings)
 @OptionsMenu(R.menu.main)
@@ -55,23 +53,13 @@ public class PrefActivity extends PreferenceActivity {
         recipientsPreference.setSummary(prefs.recipientsEmails().getOr(""));
         initSummary(getPreferenceScreen());
 
-
-        notifPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                //TODO
-                Timber.d("Todo");
-                return false;
-            }
-        });
-
         if (ActivityManager.isUserAMonkey()) {
             finish();
         }
     }
 
     @PreferenceChange(R.string.pref_time_before_alert)
-    void userIdChanged(Preference preference, String newValue) {
+    void timeBeforeAlertChnaged(Preference preference, String newValue) {
         prefs.reminderTimeInMinutes().put(Integer.valueOf(newValue));
         setEditTextSummary(preference,newValue);
     }
@@ -80,6 +68,11 @@ public class PrefActivity extends PreferenceActivity {
     void recipientsChanged(Preference preference, String newValue) {
         prefs.recipientsEmails().put(newValue);
         setEditTextSummary(preference,newValue);
+    }
+
+    @PreferenceChange(R.string.pref_notif)
+    void notifSoundChanged(Preference preference, String newValue) {
+        prefs.alertRingtone().put(newValue);
     }
 
     private void initSummary(Preference p) {
