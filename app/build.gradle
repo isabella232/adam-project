@@ -30,7 +30,7 @@ android {
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
-        resConfigs "en", isDev() ? "xxhdpi" : ""
+        resConfigs "en,fr", isDev() ? "xxhdpi" : ""
     }
 
     compileOptions {
