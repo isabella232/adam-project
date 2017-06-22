@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,12 +20,10 @@ import org.project.adam.AppDatabase;
 import org.project.adam.R;
 import org.project.adam.persistence.Glycaemia;
 import org.project.adam.persistence.GlycaemiaDao;
-import org.project.adam.util.DatabasePopulator;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 import lombok.RequiredArgsConstructor;
 
@@ -37,6 +34,7 @@ public class GlycaemiaActivity extends AppCompatActivity {
     private static final int DEFAULT_GLYCAEMIA = 70;
     private static final int MIN_GLYCAEMIA = 20;
     private static final int MAX_GLYCAEMIA = 150;
+    private static final int DANGEROUS_GLYCAEMIA_THRESHOLD = 60;
 
     @RequiredArgsConstructor
     private class Hour {
@@ -44,6 +42,8 @@ public class GlycaemiaActivity extends AppCompatActivity {
         final int minute;
     }
 
+    @ViewById(R.id.glycaemia_root_view)
+    View glycaemiaRootView;
 
     @ViewById(R.id.glycaemia_date)
     TextView glycaemiaDate;
@@ -85,7 +85,12 @@ public class GlycaemiaActivity extends AppCompatActivity {
 
     @SeekBarProgressChange(R.id.glycaemia_seekBar)
     void onSeekBarProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        glycaemiaValueMgDl.setText(String.valueOf(progress + MIN_GLYCAEMIA));
+        int value = progress + MIN_GLYCAEMIA;
+        glycaemiaValueMgDl.setText(String.valueOf(value));
+        int color = value < DANGEROUS_GLYCAEMIA_THRESHOLD ?
+            getResources().getColor(android.R.color.holo_orange_light) :
+            getResources().getColor(android.R.color.holo_green_light);
+        glycaemiaRootView.setBackgroundColor(color);
     }
 
     public void showTimePickerDialog(View v) {
