@@ -47,6 +47,8 @@ public class LunchesOfTheDayFragment extends BaseFragment {
         lunchDetailAdapter = new LunchDetailAdapter();
         lunchDetailViewPager.setAdapter(lunchDetailAdapter);
         circleView.setViewPager(lunchDetailViewPager);
+        //TODO
+        circleView.setNextMealPosition(2);
 
         lunchListViewModel = ViewModelProviders.of(this).get(LunchListViewModel.class);
         // TODO: read diet id from preferences
