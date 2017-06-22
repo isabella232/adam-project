@@ -20,4 +20,18 @@
             android:key="@string/pref_recipients"
             android:title="@string/pref_recipients" />
     </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_glycaemia">
+        <EditTextPreference
+            android:singleLine="false"
+            android:key="@string/pref_min_glycaemia"
+            android:title="@string/pref_min_glycaemia" />
+        <EditTextPreference
+            android:singleLine="false"
+            android:key="@string/pref_max_glycaemia"
+            android:title="@string/pref_max_glycaemia" />
+        <EditTextPreference
+            android:singleLine="false"
+            android:key="@string/pref_risk_glycaemia"
+            android:title="@string/pref_risk_glycaemia" />
+    </PreferenceCategory>
 </PreferenceScreen>

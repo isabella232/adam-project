@@ -37,6 +37,15 @@ public class PrefFragment extends PreferenceFragment {
     @PreferenceByKey(R.string.pref_notif)
     Preference notifPreference;
 
+    @PreferenceByKey(R.string.pref_min_glycaemia)
+    EditTextPreference minGlycaemiaPreference;
+
+    @PreferenceByKey(R.string.pref_max_glycaemia)
+    EditTextPreference maxGlycaemiaPreference;
+
+    @PreferenceByKey(R.string.pref_risk_glycaemia)
+    EditTextPreference riskGlycaemiaPreference;
+
     @Pref
     protected Preferences_ prefs;
 
@@ -48,6 +57,13 @@ public class PrefFragment extends PreferenceFragment {
     void initPrefs() {
         timeAlertPreference.setText(prefs.reminderTimeInMinutes().getOr(Integer.valueOf(defaultTime)) + "");
         timeAlertPreference.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER);
+
+        minGlycaemiaPreference.setText(prefs.minGly().get() + "");
+        minGlycaemiaPreference.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER);
+        maxGlycaemiaPreference.setText(prefs.maxGly().get() + "");
+        maxGlycaemiaPreference.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER);
+        riskGlycaemiaPreference.setText(prefs.riskGly().get() + "");
+        riskGlycaemiaPreference.getEditText().setInputType(InputType.TYPE_CLASS_NUMBER);
 
 
         recipientsPreference.setText(prefs.recipientsEmails().getOr(""));
@@ -69,6 +85,24 @@ public class PrefFragment extends PreferenceFragment {
     @PreferenceChange(R.string.pref_recipients)
     void recipientsChanged(Preference preference, String newValue) {
         prefs.recipientsEmails().put(newValue);
+        setEditTextSummary(preference,newValue);
+    }
+
+    @PreferenceChange(R.string.pref_min_glycaemia)
+    void minGlycaemiaChanged(Preference preference, String newValue) {
+        prefs.minGly().put(Integer.valueOf(newValue));
+        setEditTextSummary(preference,newValue);
+    }
+
+    @PreferenceChange(R.string.pref_max_glycaemia)
+    void maxGlycaemiaChanged(Preference preference, String newValue) {
+        prefs.maxGly().put(Integer.valueOf(newValue));
+        setEditTextSummary(preference,newValue);
+    }
+
+    @PreferenceChange(R.string.pref_risk_glycaemia)
+    void riskGlycaemiaChanged(Preference preference, String newValue) {
+        prefs.riskGly().put(Integer.valueOf(newValue));
         setEditTextSummary(preference,newValue);
     }
 
