@@ -1,7 +1,9 @@
 package org.project.adam.glycaemia;
 
 import android.annotation.SuppressLint;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -23,7 +25,7 @@ public class GlycaemiaActivity extends AppCompatActivity {
     TextView glycaemiaDate;
 
     @ViewById(R.id.glycaemia_hour)
-    EditText glycaemiaHour;
+    TextView glycaemiaHour;
 
     @ViewById(R.id.glycaemia_value_mg_Dl)
     EditText glycaemiaValueMgDl;
@@ -42,6 +44,15 @@ public class GlycaemiaActivity extends AppCompatActivity {
 
         simpleDateFormat = new SimpleDateFormat("H: mm");
         glycaemiaHour.setText(simpleDateFormat.format(date));
+    }
+
+    public void showTimePickerDialog(View v) {
+        DialogFragment newFragment = new TimePickerFragment();
+        newFragment.show(getSupportFragmentManager(), "timePicker");
+    }
+
+    void updateTime(int hourOfDay, int minute) {
+        glycaemiaHour.setText(hourOfDay + ":" + minute);
     }
 
     @Click(R.id.glycaemia_validate)

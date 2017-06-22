@@ -7,4 +7,7 @@
     <dimen name="small_margin">8dp</dimen>
     <dimen name="medium_margin">16dp</dimen>
     <dimen name="large_margin">32dp</dimen>
+
+    <dimen name="glycaemia_header_size">72dp</dimen>
+    <dimen name="glycaemia_date_to_hour_margin">20dp</dimen>
 </resources>
