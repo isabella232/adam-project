@@ -10,7 +10,7 @@
     <dimen name="large_margin">32dp</dimen>
 
     <dimen name="glycaemia_hour_edit_icon_size">24sp</dimen>
-    <dimen name="glycaemia_date_top_margin">96dp</dimen>
+    <dimen name="glycaemia_date_top_margin">48dp</dimen>
     <dimen name="glycaemia_big_value_margin">24dp</dimen>
     <dimen name="glycaemia_big_value_text_size">100dp</dimen>
     <dimen name="glycaemia_big_value_unit_text_size">20dp</dimen>
@@ -25,5 +25,6 @@
     <dimen name="lunch_item_min_height">60dp</dimen>
     <dimen name="font_diet_item_size">16sp</dimen>
     <dimen name="font_lunch_item_size">16sp</dimen>
+    <dimen name="glycaemia_input_min_height">100dp</dimen>
 
 </resources>

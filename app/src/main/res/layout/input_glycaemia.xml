@@ -14,25 +14,18 @@
         android:textColor="@android:color/black"
         android:textSize="14sp"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/glycaemia_hour"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:drawableEnd="@drawable/ic_edit"
+        android:drawablePadding="@dimen/small_padding"
+        android:paddingStart="@dimen/large_padding"
+        android:paddingEnd="@dimen/large_padding"
         android:onClick="showTimePickerDialog"
-        android:gravity="center">
-
-        <TextView
-            android:id="@+id/glycaemia_hour"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorAccent"
-            android:textSize="24sp"/>
-
-        <Button
-            android:layout_width="@dimen/glycaemia_hour_edit_icon_size"
-            android:layout_height="@dimen/glycaemia_hour_edit_icon_size"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/ic_edit"/>
-    </LinearLayout>
+        android:textColor="@color/colorAccent"
+        android:textSize="24sp"/>
 
 
     <LinearLayout
@@ -73,14 +66,14 @@
             <com.tistory.dwfox.dwrulerviewlibrary.view.ScrollingValuePicker
                 android:id="@+id/glycaemia_seekBar"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="@dimen/glycaemia_input_min_height"
                 android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"/>
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"/>
 
             <View
                 android:layout_width="2dp"
-                android:layout_height="40dp"
+                android:layout_height="@dimen/glycaemia_input_min_height"
                 android:layout_gravity="center"
                 android:background="@color/colorAccent"/>
         </FrameLayout>
