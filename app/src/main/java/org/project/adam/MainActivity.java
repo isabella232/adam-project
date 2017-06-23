@@ -11,6 +11,7 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
+import org.androidannotations.annotations.sharedpreferences.Pref;
 import org.project.adam.ui.dashboard.DashboardFragment_;
 import org.project.adam.ui.data.DataFragment_;
 import org.project.adam.ui.diet.DietListFragment_;
@@ -23,6 +24,9 @@ public class MainActivity extends AppCompatActivity {
 
     @ViewById(R.id.bottom_navigation)
     BottomNavigationView bottomNavigationView;
+
+    @Pref
+    protected Preferences_ prefs;
 
     @AfterViews
     void setUpTabs() {
@@ -47,7 +51,12 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-        showFragment(DashboardFragment_.builder().build());
+        if (prefs.currentDietId().get() == -1) {
+            showFragment(DietListFragment_.builder().build());
+        } else {
+            showFragment(DashboardFragment_.builder().build());
+        }
+
     }
 
     private void showFragment(Fragment fragment) {
