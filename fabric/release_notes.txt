@@ -1,4 +1,7 @@
-FIX: les données de test ne sont plus présentes en release
-- improved graph
-- improved mail
-- fix diet list
+FIX: crashes au démarrage lorsque pas de données de glycemie
+FIX: crashes au démarrage lorsque données à l'ancien format
+TOUTES VOS DONNEES (regimes,glycemies) SERONT SUPPRIMES EN INSTALLANT CETTE VERSION
+
+Et aussi :
+ - redirection automatique vers page des régimes lorsque aucun régime n'est selectionné.
+ - update du style de la liste des régimes
