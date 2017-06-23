@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-        if (prefs.currentDietId().get() == -1) {
+        if (prefs.currentDietId().getOr(-1) == -1) {
             showDiets();
         } else {
             showDashBoard();
