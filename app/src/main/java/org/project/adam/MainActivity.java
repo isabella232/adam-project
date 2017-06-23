@@ -36,15 +36,15 @@ public class MainActivity extends AppCompatActivity {
                 public boolean onNavigationItemSelected(MenuItem item) {
                     switch (item.getItemId()) {
                         case R.id.tab_dashboard:
-                            showFragment(DashboardFragment_.builder().build());
+                            showDashBoard();
                             break;
 
                         case R.id.tab_data:
-                            showFragment(DataFragment_.builder().build());
+                            showData();
                             break;
 
                         case R.id.tab_diet:
-                            showFragment(DietListFragment_.builder().build());
+                            showDiets();
                             break;
                     }
                     return true;
@@ -52,11 +52,22 @@ public class MainActivity extends AppCompatActivity {
             });
 
         if (prefs.currentDietId().get() == -1) {
-            showFragment(DietListFragment_.builder().build());
+            showDiets();
         } else {
-            showFragment(DashboardFragment_.builder().build());
+            showDashBoard();
         }
+    }
 
+    void showDashBoard() {
+        showFragment(DashboardFragment_.builder().build());
+    }
+
+    void showData() {
+        showFragment(DataFragment_.builder().build());
+    }
+
+    void showDiets() {
+        showFragment(DietListFragment_.builder().build());
     }
 
     private void showFragment(Fragment fragment) {

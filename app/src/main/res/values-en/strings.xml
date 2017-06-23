@@ -50,4 +50,9 @@
     <string name="enter_diet_name_ok_btn">ok</string>
     <string name="mail_subject">Glycaemias</string>
     <string name="mail_header">Glycaemias:</string>
+
+    <string name="from">From:</string>
+    <string name="to">To:</string>
+    <string name="glycaemia_add">Input glycaemia</string>
+
 </resources>
