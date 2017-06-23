@@ -4,12 +4,10 @@ import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.tistory.dwfox.dwrulerviewlibrary.utils.DWUtils;
 import com.tistory.dwfox.dwrulerviewlibrary.view.ObservableHorizontalScrollView;
@@ -19,6 +17,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
+import org.androidannotations.annotations.res.ColorRes;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 import org.project.adam.AppDatabase;
 import org.project.adam.Preferences_;
@@ -70,6 +69,12 @@ public class InputGlycaemiaActivity extends AppCompatActivity {
 
     Hour hour;
 
+    @ColorRes(R.color.sunflower_yellow)
+    int colorRisk;
+
+    @ColorRes(R.color.glycaemia_green)
+    int colorOK;
+
     @AfterViews
     void fillDateAndHour() {
         Date date = new Date();
@@ -112,9 +117,7 @@ public class InputGlycaemiaActivity extends AppCompatActivity {
                                                     , seekBarGlycaemia.getViewMultipleSize())));
 
                                                 int value = Integer.parseInt(glycaemiaValueMgDl.getText().toString());
-                                                int color = value < prefs.riskGly().get() ?
-                                                    getResources().getColor(R.color.sunflower_yellow) :
-                                                    getResources().getColor(R.color.glycaemia_green);
+                                                int color = value < prefs.riskGly().get() ? colorRisk : colorOK;
                                                 glycaemiaRootView.setBackgroundColor(color);
                                             }
 

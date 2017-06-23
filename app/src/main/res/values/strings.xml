@@ -53,4 +53,6 @@
 
     <string name="glycaemia_unit" translatable="false">mg/dL</string>
     <string name="pref_default_time_before_alert"  translatable="false">15</string>
+    <string name="mail_header">Relevés glycémie:</string>
+    <string name="mail_subject">Relevés glycémie</string>
 </resources>
