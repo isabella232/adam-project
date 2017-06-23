@@ -1,3 +1,4 @@
-fix next meal
-graphe data
-fin du hackathon !!!
+FIX: les données de test ne sont plus présentes en release
+- improved graph
+- improved mail
+- fix diet list
