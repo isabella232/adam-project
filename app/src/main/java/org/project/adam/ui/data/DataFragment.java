@@ -136,7 +136,9 @@ public class DataFragment extends BaseFragment {
         Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:" + prefs.recipientsEmails().get()));
         intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.mail_subject));
         intent.putExtra(Intent.EXTRA_TEXT, mailContent);
-        //emailIntent.putExtra(Intent.EXTRA_HTML_TEXT, body); //If you are using HTML in your body text
+        intent.setType("text/html");
+        intent.putExtra(Intent.EXTRA_STREAM, screenshotUri);
+        intent.putExtra(Intent.EXTRA_HTML_TEXT, "<b>This is </b> funny html"); //If you are using HTML in your body text
 
         startActivity(Intent.createChooser(intent, "Send Email"));
     }
