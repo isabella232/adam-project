@@ -21,4 +21,7 @@
     <dimen name="font_glycaemia_value_size">14sp</dimen>
     <dimen name="dashboard_glycaemia_view_margin">10dp</dimen>
     <dimen name="dashboard_glycaemia_item_min_height">64dp</dimen>
+    <dimen name="diet_item_min_height">60dp</dimen>
+    <dimen name="font_diet_item_size">16sp</dimen>
+
 </resources>

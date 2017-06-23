@@ -19,6 +19,9 @@ import lombok.Setter;
 @EBean
 class DietListAdapter extends RecyclerViewAdapterBase<Diet, DietItemView> {
 
+    public static final int CURRENT_TYPE = 1;
+    public static final int OTHER_TYPE = 2;
+
     interface DietSelectorListener {
         void dietSelected(Diet diet);
     }
@@ -34,8 +37,7 @@ class DietListAdapter extends RecyclerViewAdapterBase<Diet, DietItemView> {
 
     @Override
     protected DietItemView onCreateItemView(ViewGroup parent, int viewType) {
-        final DietItemView item = DietItemView_.build(context);
-        return item;
+        return DietItemView_.build(context);
     }
 
     @Override
@@ -55,6 +57,12 @@ class DietListAdapter extends RecyclerViewAdapterBase<Diet, DietItemView> {
             }
         });
     }
+
+    public int getItemViewType(int position) {
+        Diet diet = items.get(position);
+        return dietUtils.isCurrent(diet.getId()) ? CURRENT_TYPE : OTHER_TYPE;
+    }
+
 
     public void reload (){
         // ugly

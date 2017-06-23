@@ -11,13 +11,6 @@ public class DietUtils {
     @Pref
     Preferences_ preferences;
 
-    void clearCurrent() {
-        preferences.edit()
-            .currentDietId()
-            .remove()
-            .apply();
-    }
-
     void setCurrent(Diet diet) {
         preferences.edit()
             .currentDietId()

@@ -31,4 +31,11 @@
     <style name="font_glycaemia_comment">
         <item name="android:textSize">@dimen/font_glycaemia_comment_size</item>
     </style>
+
+    <style name="font_diet_item">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/font_diet_item_size</item>
+    </style>
+
 </resources>

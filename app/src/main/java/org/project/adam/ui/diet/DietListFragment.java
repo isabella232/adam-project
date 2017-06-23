@@ -18,6 +18,8 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.IgnoreWhen;
+import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.res.DimensionPixelSizeRes;
 import org.androidannotations.annotations.res.StringRes;
@@ -29,6 +31,8 @@ import org.project.adam.persistence.Lunch;
 import java.io.IOException;
 import java.util.List;
 
+import lombok.EqualsAndHashCode;
+import lombok.Value;
 import timber.log.Timber;
 
 @SuppressLint("Registered")
@@ -36,6 +40,7 @@ import timber.log.Timber;
 public class DietListFragment extends BaseFragment implements DietListAdapter.DietSelectorListener {
 
     private static final int SELECT_FILE_RESULT_CODE = 666;
+    private static final int DIET_DETAIL_RESULT_CODE = 777;
 
     DietListViewModel dietListViewModel;
 
@@ -75,7 +80,7 @@ public class DietListFragment extends BaseFragment implements DietListAdapter.Di
 
     @AfterViews
     void setUpViewModel() {
-        dietListViewModel = ViewModelProviders.of(this).get(DietListViewModel.class);
+        dietListViewModel = ViewModelProviders.of(getActivity()).get(DietListViewModel.class);
         dietListViewModel.getDiets()
             .observe(this, new Observer<List<Diet>>() {
                 @Override
@@ -83,12 +88,6 @@ public class DietListFragment extends BaseFragment implements DietListAdapter.Di
                     listAdapter.update(diets);
                 }
             });
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        listAdapter.reload();
     }
 
     @Click(R.id.add_diet)
@@ -101,51 +100,35 @@ public class DietListFragment extends BaseFragment implements DietListAdapter.Di
             SELECT_FILE_RESULT_CODE);
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, final Intent data) {
-        Timber.d("onActivityResult - %d - %d", requestCode, resultCode);
-        if (requestCode == SELECT_FILE_RESULT_CODE) {
-            if (resultCode == Activity.RESULT_OK) {
-                try {
-                    Context context = getActivity();
-                    List<Lunch> lunches = dietLoader.parseLunchesFromCsv(context.getContentResolver()
-                        .openInputStream(data.getData()));
-                    createDiet(context, lunches);
-                } catch (IOException f) {
-                    Timber.w(f, "Error while reading file");
-                }
-            } else {
-                Timber.w("Invalid result got from file selection");
+    @OnActivityResult(SELECT_FILE_RESULT_CODE)
+    void onFileSelectedResult (int resultCode, final Intent data){
+        if (resultCode == Activity.RESULT_OK) {
+            try {
+                Context context = getContext();
+                List<Lunch> lunches = dietLoader.parseLunchesFromCsv(context.getContentResolver()
+                    .openInputStream(data.getData()));
+                createDiet(context, lunches);
+            } catch (IOException f) {
+                Timber.w(f, "Error while reading file");
             }
         } else {
-            super.onActivityResult(requestCode, resultCode, data);
+            Timber.w("Invalid result got from file selection");
         }
     }
 
+    @OnActivityResult(DIET_DETAIL_RESULT_CODE)
+    void onDietDetailBack (int resultCode, @OnActivityResult.Extra(value = DietDetailActivity.NEW_CURRENT_DIET_ID_EXTRA) int newCurrentDietId){
+        if (resultCode == Activity.RESULT_OK) {
+            listAdapter.reload();
+        }
+    }
 
     @Override
+    @IgnoreWhen(IgnoreWhen.State.VIEW_DESTROYED)
     public void dietSelected(Diet diet) {
-        DietDetailActivity_.intent(this).dietId(diet.getId()).start();
+        DietDetailActivity_.intent(this).dietId(diet.getId()).startForResult(DIET_DETAIL_RESULT_CODE);
     }
 
-
-    public class VerticalSpaceItemDecoration extends RecyclerView.ItemDecoration {
-
-        private final int verticalSpaceHeight;
-
-        public VerticalSpaceItemDecoration(int verticalSpaceHeight) {
-            this.verticalSpaceHeight = verticalSpaceHeight;
-        }
-
-        @Override
-        public void getItemOffsets(Rect outRect, View view, RecyclerView parent,
-                                   RecyclerView.State state) {
-            final int childAdapterPosition = parent.getChildAdapterPosition(view);
-            if (childAdapterPosition == 0 && parent.getAdapter().getItemCount() > 0) {
-                outRect.bottom = verticalSpaceHeight;
-            }
-        }
-    }
 
     private void createDiet(final Context context, final List<Lunch> lunches) {
         AlertDialog.Builder alert = new AlertDialog.Builder(context);
@@ -167,5 +150,20 @@ public class DietListFragment extends BaseFragment implements DietListAdapter.Di
 
         AlertDialog alertDialog = alert.create();
         alertDialog.show();
+    }
+
+    @Value
+    @EqualsAndHashCode(callSuper = true)
+    private class VerticalSpaceItemDecoration extends RecyclerView.ItemDecoration {
+        int verticalSpaceHeight;
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent,
+                                   RecyclerView.State state) {
+            final int childAdapterPosition = parent.getChildAdapterPosition(view);
+            if (listAdapter.getItemViewType(childAdapterPosition) == DietListAdapter.CURRENT_TYPE) {
+                outRect.bottom = verticalSpaceHeight;
+            }
+        }
     }
 }
