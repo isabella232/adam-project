@@ -52,6 +52,9 @@ public class DataFragment extends BaseFragment {
     @StringRes(R.string.glycaemia_unit)
     protected String unit;
 
+    @StringRes(R.string.mail_header)
+    protected String mailHeader;
+
     @ColorRes(R.color.sunflower_yellow)
     int colorRisk;
 
@@ -69,7 +72,8 @@ public class DataFragment extends BaseFragment {
 
     String mailContent;
 
-    public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("EEE d MMM");
+    public static final SimpleDateFormat DISPLAY_DATE_FORMAT = new SimpleDateFormat("EEE d MMM");
+    public static final SimpleDateFormat MAIL_DATE_FORMAT = new SimpleDateFormat("EEE d MMM HH:mm");
 
 
     @AfterViews
@@ -81,8 +85,8 @@ public class DataFragment extends BaseFragment {
     }
 
     public void refreshDates(Date min, Date max) {
-        fromDateLabel.setText(DATE_FORMAT.format(min));
-        toDateLabel.setText(DATE_FORMAT.format(max));
+        fromDateLabel.setText(DISPLAY_DATE_FORMAT.format(min));
+        toDateLabel.setText(DISPLAY_DATE_FORMAT.format(max));
         refreshData(min, max);
     }
 
@@ -112,15 +116,15 @@ public class DataFragment extends BaseFragment {
                 @Override
                 public void onChanged(@Nullable List<Glycaemia> glycaemias) {
                     prepareMail(glycaemias);
-                    refreshGraph(glycaemias,min,max);
+                    refreshGraph(glycaemias, min, max);
                 }
             });
     }
 
     public void prepareMail(List<Glycaemia> glycaemias) {
-        mailContent = "Liste des relevés: \n";
+        mailContent = mailHeader + " \n";
         for (Glycaemia glycaemia : glycaemias) {
-            mailContent += " - " + glycaemia.getDate().toString() + "\t" + glycaemia.getValue() + " " + unit + " \n";
+            mailContent += " - " + MAIL_DATE_FORMAT.format(glycaemia.getDate()) + "\t    " + glycaemia.getValue() + " " + unit + " \n";
         }
         Timber.d("Mail content %s", mailContent);
 
@@ -130,7 +134,7 @@ public class DataFragment extends BaseFragment {
     @Click(R.id.button_mail)
     public void sendMail() {
         Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:" + prefs.recipientsEmails().get()));
-        intent.putExtra(Intent.EXTRA_SUBJECT, "Relevés glycémie");
+        intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.mail_subject));
         intent.putExtra(Intent.EXTRA_TEXT, mailContent);
         //emailIntent.putExtra(Intent.EXTRA_HTML_TEXT, body); //If you are using HTML in your body text
 
@@ -138,7 +142,6 @@ public class DataFragment extends BaseFragment {
     }
 
     public void refreshGraph(List<Glycaemia> glycaemias, Date min, Date max) {
-        Timber.d("Found %d glycaemie",glycaemias.size());
         ArrayList<BarEntry> yValues = new ArrayList<>();
 
         List<Entry> normalEntries = new ArrayList<>();
@@ -146,9 +149,9 @@ public class DataFragment extends BaseFragment {
         for (final Glycaemia glycaemia : glycaemias) {
 
             float value = glycaemia.getValue();
-            if(value <= prefs.riskGly().get()){
+            if (value <= prefs.riskGly().get()) {
                 dangerEntries.add(new Entry(glycaemia.getDate().getTime(), value));
-            }else{
+            } else {
                 normalEntries.add(new Entry(glycaemia.getDate().getTime(), value));
             }
 
@@ -163,7 +166,7 @@ public class DataFragment extends BaseFragment {
         setScatteredDataStyle(dangerValuesSet);
 
 
-        ScatterData lineData = new ScatterData(normalValuesSet,dangerValuesSet);
+        ScatterData lineData = new ScatterData(normalValuesSet, dangerValuesSet);
         lineData.setDrawValues(true);
 
         chart.getAxisLeft().setAxisMinimum(0);
@@ -181,12 +184,12 @@ public class DataFragment extends BaseFragment {
         chart.getLegend().setEnabled(false);
 
         chart.getXAxis().setAxisMinimum(min.getTime());
-     chart.getXAxis().setAxisMaximum(max.getTime());
+        chart.getXAxis().setAxisMaximum(max.getTime());
 
 
     }
 
-    private void setScatteredDataStyle(ScatterDataSet set){
+    private void setScatteredDataStyle(ScatterDataSet set) {
         set.setValueTextSize(11f);
         set.setScatterShape(ScatterChart.ScatterShape.CIRCLE);
         set.setScatterShapeSize(45);
@@ -200,7 +203,7 @@ public class DataFragment extends BaseFragment {
 
         @Override
         public String getFormattedValue(float value, AxisBase axis) {
-            mDate.setTime((long)value);
+            mDate.setTime((long) value);
             return mDataFormat.format(mDate);
         }
     }
