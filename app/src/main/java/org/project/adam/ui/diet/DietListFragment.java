@@ -19,6 +19,7 @@ import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
+import org.androidannotations.annotations.res.DimensionPixelSizeRes;
 import org.androidannotations.annotations.res.StringRes;
 import org.project.adam.BaseFragment;
 import org.project.adam.R;
@@ -50,22 +51,25 @@ public class DietListFragment extends BaseFragment implements DietListAdapter.Di
     DietLoader dietLoader;
 
     @StringRes(R.string.select_file_to_load)
-    protected String fileSelectionTitle;
+    String fileSelectionTitle;
 
     @StringRes(R.string.enter_diet_name_title)
-    protected String enterDietNameTitle;
+    String enterDietNameTitle;
 
     @StringRes(R.string.enter_diet_name_content)
-    protected String enterDietNameContent;
+    String enterDietNameContent;
 
     @StringRes(R.string.enter_diet_name_ok_btn)
-    protected String enterDietNameOk;
+    String enterDietNameOk;
+
+    @DimensionPixelSizeRes(R.dimen.medium_margin)
+    int verticalMargin;
 
     @AfterViews
     void setUpRepoAdapter() {
         items.setAdapter(listAdapter);
         items.setHasFixedSize(true);
-        items.addItemDecoration(new VerticalSpaceItemDecoration(32));
+        items.addItemDecoration(new VerticalSpaceItemDecoration(verticalMargin));
         listAdapter.setDietSelectorListener(this);
     }
 
