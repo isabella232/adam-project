@@ -6,6 +6,7 @@ import org.project.adam.persistence.Diet;
 import org.project.adam.persistence.Glycaemia;
 import org.project.adam.persistence.Lunch;
 
+import java.util.Calendar;
 import java.util.Date;
 
 public class DatabasePopulator {
@@ -84,8 +85,24 @@ public class DatabasePopulator {
     private static void insertManyGlycaemia(AppDatabase db) {
         int id = 0;
         float value = 40f;
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.MILLISECOND, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+
         for (int i = 0; i < 5; ++i) {
-            insertGlycaemia(db, id++, 1, value, new Date(), "context " + id, "comment " + id);
+            calendar.set(Calendar.HOUR_OF_DAY, i);
+            insertGlycaemia(db, id++, 1, value, calendar.getTime(), "context " + id, "comment " + id);
+            value += 10;
+        }
+
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+
+        for (int i = 5; i < 12; ++i) {
+            calendar.set(Calendar.HOUR_OF_DAY, i);
+            insertGlycaemia(db, id++, 1, value, calendar.getTime(), "context " + id, "comment " + id);
             value += 10;
         }
     }

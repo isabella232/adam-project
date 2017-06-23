@@ -81,7 +81,7 @@
         app:cardElevation="2dp">
 
 
-        <com.github.mikephil.charting.charts.LineChart
+        <com.github.mikephil.charting.charts.ScatterChart
             android:id="@+id/chart"
             android:layout_width="match_parent"
             android:layout_height="250dp"/>
