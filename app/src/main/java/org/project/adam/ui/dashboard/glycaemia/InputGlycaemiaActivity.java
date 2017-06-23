@@ -3,7 +3,6 @@ package org.project.adam.ui.dashboard.glycaemia;
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -20,12 +19,13 @@ import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.res.ColorRes;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 import org.project.adam.AppDatabase;
+import org.project.adam.BaseActivity;
 import org.project.adam.Preferences_;
 import org.project.adam.R;
 import org.project.adam.persistence.Glycaemia;
 import org.project.adam.persistence.GlycaemiaDao;
+import org.project.adam.util.DateFormatters;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -34,7 +34,7 @@ import timber.log.Timber;
 
 @SuppressLint("Registered")
 @EActivity(R.layout.input_glycaemia)
-public class InputGlycaemiaActivity extends AppCompatActivity {
+public class InputGlycaemiaActivity extends BaseActivity {
 
     @Pref
     protected Preferences_ prefs;
@@ -62,10 +62,11 @@ public class InputGlycaemiaActivity extends AppCompatActivity {
     @ViewById(R.id.glycaemia_value_mg_Dl)
     TextView glycaemiaValueMgDl;
 
+    @ViewById(R.id.glycaemia_seekBar)
+    ScrollingValuePicker seekBarGlycaemia;
+
     @ViewById(R.id.glycaemia_validate)
     Button validateGlycaemia;
-
-    ScrollingValuePicker seekBarGlycaemia;
 
     Hour hour;
 
@@ -79,16 +80,13 @@ public class InputGlycaemiaActivity extends AppCompatActivity {
     void fillDateAndHour() {
         Date date = new Date();
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE, d MMM");
-        glycaemiaDate.setText(simpleDateFormat.format(date));
+        glycaemiaDate.setText(DateFormatters.formatDay(date));
 
-        simpleDateFormat = new SimpleDateFormat("H: mm");
-        glycaemiaHour.setText(simpleDateFormat.format(date));
+        glycaemiaHour.setText(DateFormatters.formatMinutesOfDay(date));
     }
 
     @AfterViews
     void initSeekBar() {
-        seekBarGlycaemia = (ScrollingValuePicker) findViewById(R.id.glycaemia_seekBar);
         seekBarGlycaemia.setInitValue(DEFAULT_GLYCAEMIA);
         glycaemiaValueMgDl.setText(String.valueOf(DEFAULT_GLYCAEMIA));
         seekBarGlycaemia.setMaxValue(prefs.minGly().get(), prefs.maxGly().get());
