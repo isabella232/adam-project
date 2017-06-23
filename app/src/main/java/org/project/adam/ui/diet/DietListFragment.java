@@ -48,12 +48,11 @@ public class DietListFragment extends BaseFragment implements DietListAdapter.Di
     DietListAdapter listAdapter;
     @Bean
     DietUtils dietUtils;
+    @Bean
+    DietLoader dietLoader;
 
     @ViewById(R.id.item_list)
     RecyclerView items;
-
-    @Bean
-    DietLoader dietLoader;
 
     @StringRes(R.string.select_file_to_load)
     String fileSelectionTitle;

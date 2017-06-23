@@ -10,4 +10,8 @@ import org.project.adam.R;
 @EFragment(R.layout.fragment_dashboard)
 public class DashboardFragment extends BaseFragment {
 
+    @Override
+    protected boolean isTitleDisplayed() {
+        return false;
+    }
 }
