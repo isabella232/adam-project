@@ -19,6 +19,7 @@ import org.project.adam.util.ui.RecyclerViewAdapterBase;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -51,6 +52,7 @@ public class DashboardFragmentGlycaemia extends BaseFragment {
                     List<Glycaemia> glycaemiaList =new ArrayList<>();
                     Glycaemia fakeGlycaemiaForAddView = new Glycaemia();
                     glycaemiaList.add(fakeGlycaemiaForAddView);
+                    Collections.reverse(glycaemias);
                     glycaemiaList.addAll(glycaemias);
                     glycaemiaListAdapter.update(glycaemiaList);
                 }

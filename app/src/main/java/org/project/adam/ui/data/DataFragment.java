@@ -34,6 +34,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import timber.log.Timber;
+
 @SuppressLint("Registered")
 @EFragment(R.layout.fragment_data)
 public class DataFragment extends BaseFragment {
@@ -110,6 +112,7 @@ public class DataFragment extends BaseFragment {
         for (Glycaemia glycaemia : glycaemias) {
             mailContent += " - " + glycaemia.getDate().toString() + "\t" + glycaemia.getValue() + " " + unit + " \n";
         }
+        Timber.d("Mail content %s", mailContent);
 
     }
 
@@ -119,7 +122,7 @@ public class DataFragment extends BaseFragment {
         Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:" + prefs.recipientsEmails().get()));
         intent.putExtra(Intent.EXTRA_SUBJECT, "Relevés glycémie");
         intent.putExtra(Intent.EXTRA_TEXT, mailContent);
-//emailIntent.putExtra(Intent.EXTRA_HTML_TEXT, body); //If you are using HTML in your body text
+        //emailIntent.putExtra(Intent.EXTRA_HTML_TEXT, body); //If you are using HTML in your body text
 
         startActivity(Intent.createChooser(intent, "Send Email"));
     }
@@ -139,10 +142,14 @@ public class DataFragment extends BaseFragment {
         dataSet.setValueTextSize(11f);
         LineData lineData = new LineData(dataSet);
         lineData.setDrawValues(true);
+
+        dataSet.setMode(LineDataSet.Mode.STEPPED);
+
+        chart.getAxisLeft().setAxisMinimum(0);
+        chart.getAxisRight().setAxisMinimum(0);
         chart.setData(lineData);
         chart.invalidate();
-
-
+        
     }
 
 
