@@ -1,3 +1,4 @@
+
 package org.project.adam.ui.diet;
 
 import android.content.Context;
@@ -5,8 +6,6 @@ import android.content.Context;
 import com.googlecode.zohhak.api.TestWith;
 import com.googlecode.zohhak.api.runners.ZohhakRunner;
 
-import org.assertj.core.api.ThrowableAssert;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,8 +14,6 @@ import org.project.adam.Preferences_;
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import timber.log.Timber;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
