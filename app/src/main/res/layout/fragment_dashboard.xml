@@ -1,24 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-              tools:context="org.project.adam.MainActivity">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="org.project.adam.MainActivity"
+    >
 
-    <fragment
-        android:id="@+id/meals_of_the_day"
-        android:name="org.project.adam.ui.dashboard.lunch.LunchesOfTheDayFragment_"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="6"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="0dp"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
 
-    <fragment
-        android:id="@+id/fragment_dashboard_glycaemia"
-        android:name="org.project.adam.ui.dashboard.glycaemia.DashboardFragmentGlycaemia_"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="4"/>
-</LinearLayout>
+        <fragment
+            android:id="@+id/meals_of_the_day"
+            android:name="org.project.adam.ui.dashboard.lunch.LunchesOfTheDayFragment_"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="6"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="0dp"/>
+
+        <fragment
+            android:id="@+id/fragment_dashboard_glycaemia"
+            android:name="org.project.adam.ui.dashboard.glycaemia.DashboardFragmentGlycaemia_"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="4"/>
+    </LinearLayout>
+
+    <include layout="@layout/transparent_toolbar" />
+
+</RelativeLayout>
+
+

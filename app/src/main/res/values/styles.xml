@@ -8,6 +8,11 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
     <style name="font_lunch_selected_time">
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">@dimen/font_lunch_selected_time_size</item>

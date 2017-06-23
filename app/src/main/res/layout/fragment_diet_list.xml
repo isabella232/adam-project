@@ -1,46 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
-              android:padding="@dimen/small_padding"
               tools:context="org.project.adam.MainActivity">
 
-    <android.support.v7.widget.CardView android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        app:cardBackgroundColor="@android:color/white"
-                                        app:cardCornerRadius="2dp"
-                                        app:cardElevation="2dp"
-                                        app:cardUseCompatPadding="true">
+    <include layout="@layout/standard_toolbar"/>
 
-        <LinearLayout
-            android:id="@+id/add_diet"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:minHeight="@dimen/diet_item_min_height"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:padding="@dimen/medium_padding">
-
-            <TextView
-                android:id="@+id/name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableEnd="@drawable/ic_add"
-                android:gravity="center_vertical"
-                android:text="@string/action_add_diet"
-                style="@style/font_diet_item"/>
-
-        </LinearLayout>
-    </android.support.v7.widget.CardView>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/item_list"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        app:layoutManager="LinearLayoutManager"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/small_margin"
+        android:padding="@dimen/small_padding">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@android:color/white"
+            app:cardCornerRadius="2dp"
+            app:cardElevation="2dp"
+            app:cardUseCompatPadding="true">
+
+            <LinearLayout
+                android:id="@+id/add_diet"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:minHeight="@dimen/diet_item_min_height"
+                android:orientation="horizontal"
+                android:padding="@dimen/medium_padding">
+
+                <TextView
+                    android:id="@+id/name"
+                    style="@style/font_diet_item"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableEnd="@drawable/ic_add"
+                    android:gravity="center_vertical"
+                    android:text="@string/action_add_diet"/>
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/item_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:layoutManager="LinearLayoutManager"/>
+
+    </LinearLayout>
+
 
 </LinearLayout>
+
+
+
