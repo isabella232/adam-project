@@ -22,6 +22,8 @@
     <dimen name="dashboard_glycaemia_view_margin">10dp</dimen>
     <dimen name="dashboard_glycaemia_item_min_height">64dp</dimen>
     <dimen name="diet_item_min_height">60dp</dimen>
+    <dimen name="lunch_item_min_height">60dp</dimen>
     <dimen name="font_diet_item_size">16sp</dimen>
+    <dimen name="font_lunch_item_size">16sp</dimen>
 
 </resources>

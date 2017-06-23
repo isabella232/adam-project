@@ -9,7 +9,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
@@ -38,8 +37,6 @@ public class DietDetailActivity extends BaseActivity {
     @Bean
     LunchListAdapter lunchListAdapter;
 
-    @ViewById(R.id.name)
-    TextView name;
     @ViewById(R.id.remove)
     Button remove;
     @ViewById(R.id.set_current)
@@ -104,7 +101,7 @@ public class DietDetailActivity extends BaseActivity {
     }
 
     private void update(Diet diet) {
-        name.setText(diet.getName());
+        setTitle(diet.getName());
     }
 
     @Click(R.id.remove)
