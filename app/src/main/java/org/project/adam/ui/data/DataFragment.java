@@ -156,17 +156,22 @@ public class DataFragment extends BaseFragment {
             }
 
         }
-        ScatterDataSet normalValuesSet = new ScatterDataSet(normalEntries, "");
-        normalValuesSet.setColors(colorOK);
-        setScatteredDataStyle(normalValuesSet);
+        ScatterData lineData = new ScatterData();
 
+        if (normalEntries.size() != 0){
+            ScatterDataSet normalValuesSet = new ScatterDataSet(normalEntries, "");
+            normalValuesSet.setColors(colorOK);
+            setScatteredDataStyle(normalValuesSet);
+            lineData.addDataSet(normalValuesSet);
+        }
 
-        ScatterDataSet dangerValuesSet = new ScatterDataSet(dangerEntries, "");
-        dangerValuesSet.setColors(colorRisk);
-        setScatteredDataStyle(dangerValuesSet);
+        if (dangerEntries.size() != 0){
+            ScatterDataSet dangerValuesSet = new ScatterDataSet(dangerEntries, "");
+            dangerValuesSet.setColors(colorRisk);
+            setScatteredDataStyle(dangerValuesSet);
+            lineData.addDataSet(dangerValuesSet);
+        }
 
-
-        ScatterData lineData = new ScatterData(normalValuesSet, dangerValuesSet);
         lineData.setDrawValues(true);
 
         chart.getAxisLeft().setAxisMinimum(0);
