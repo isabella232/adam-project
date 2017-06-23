@@ -1,20 +1,20 @@
 8:45;30g de pain complet
-8:45;huile d’olive
+8:45;huile d'olive
 10:30;35g de Maizen
 10:30;10 g de Maxijul OU maltodextridine
-12:00;130 g de féculents (pâtes cuites ou riz cuit) 
-12:00;40 g de légumes mixés à l’eau 
+12:00;130 g de fÃ©culents (pÃ¢tes cuites ou riz cuit)
+12:00;40 g de lÃ©gumes mixes Ã  l'eau
 12:00;50g de viande ou poisson par jour 
-12:00;beurre ou huile +/- épices
+12:00;beurre ou huile +/- Ã©pices
 12:00;+/- Yaourt au soja
-13:30;Compléter par une prise de Maizena à  13H30
+13:30;ComplÃ©ter par une prise de Maizena
 13:30;25g de Maizena 
 13:30;5 g de Maltodextridine OU Maxijul
 15:00;35g de Maizena
 15:00;10 g de Maltodextridine OU Maxijul
-18:00;130 g de féculents (pâtes cuites ou riz cuit)
-18:00;40 g de légumes mixés à l’eau 
-18:00;beurre ou huile +/- épices
+18:00;130 g de fÃ©culents (pÃ¢tes cuites ou riz cuit)
+18:00;40 g de lÃ©gumes mixÃ©s Ã  l'eau
+18:00;beurre ou huile +/- Ã©pices
 18:00;+/- Yaourt au soja
 20:00;35g de Maizena 
 20:00;10 g de Maltodextridine OU Maxijul
