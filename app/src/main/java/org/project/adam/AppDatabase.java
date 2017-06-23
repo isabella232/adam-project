@@ -17,7 +17,7 @@ import org.project.adam.persistence.LunchDao;
 import org.project.adam.util.DatabasePopulator;
 import org.project.adam.util.DateConverters;
 
-@Database(entities = {Lunch.class, Glycaemia.class, Diet.class}, version = 1)
+@Database(entities = {Lunch.class, Glycaemia.class, Diet.class}, version = 2, exportSchema = false)
 @TypeConverters(DateConverters.class)
 public abstract class AppDatabase extends RoomDatabase {
 
