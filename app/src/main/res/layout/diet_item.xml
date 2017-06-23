@@ -6,32 +6,32 @@
                                     app:cardBackgroundColor="@android:color/white"
                                     app:cardCornerRadius="2dp"
                                     app:cardElevation="2dp"
-                                    android:layout_marginStart="4dp"
-                                    android:layout_marginEnd="4dp"
                                     app:cardUseCompatPadding="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:minHeight="?android:attr/listPreferredItemHeightSmall"
+        android:minHeight="@dimen/diet_item_min_height"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:padding="8dp">
+        android:padding="@dimen/medium_padding">
 
         <TextView
             android:id="@+id/name"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:layout_marginRight="8dp"
-            android:layout_marginEnd="8dp"/>
+            android:layout_marginRight="@dimen/small_margin"
+            android:layout_marginEnd="@dimen/small_margin"
+            style="@style/font_diet_item"/>
 
         <TextView
             android:id="@+id/status"
             android:textColor="@color/colorAccent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/current_diet"/>
+            android:text="@string/current_diet"
+            style="@style/font_diet_item"/>
 
     </LinearLayout>
 </android.support.v7.widget.CardView>

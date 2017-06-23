@@ -10,4 +10,5 @@
     <color name="glycaemia_green">#c1d54b</color>
     <color name="sunflower_yellow">#ffcd00</color>
     <color name="pale_grey">#e6eaf0</color>
+    <color name="grey">#767676</color>
 </resources>

@@ -3,6 +3,7 @@ package org.project.adam.ui.diet;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
@@ -26,6 +27,8 @@ import java.util.List;
 @EActivity(R.layout.activity_diet_detail)
 public class DietDetailActivity extends BaseActivity {
 
+    static final String NEW_CURRENT_DIET_ID_EXTRA = "new_current_diet_id";
+
     @Extra
     int dietId;
 
@@ -39,6 +42,9 @@ public class DietDetailActivity extends BaseActivity {
     TextView name;
     @ViewById(R.id.remove)
     Button remove;
+    @ViewById(R.id.set_current)
+    Button setCurrent;
+
     @ViewById(R.id.item_list)
     RecyclerView lunches;
 
@@ -87,6 +93,12 @@ public class DietDetailActivity extends BaseActivity {
         remove.setVisibility(dietUtils.isCurrent(dietId) ? View.INVISIBLE : View.VISIBLE);
     }
 
+    @AfterViews
+    void updateSetCurrentButton (){
+        setCurrent.setVisibility(dietUtils.isCurrent(dietId) ? View.INVISIBLE : View.VISIBLE);
+    }
+
+
     private void updateRemoveButton(@Nullable Integer count) {
         remove.setVisibility(count > 1 && remove.getVisibility() == View.VISIBLE ? View.VISIBLE : View.INVISIBLE);
     }
@@ -105,7 +117,6 @@ public class DietDetailActivity extends BaseActivity {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     dietDetailViewModel.removeDiet();
-                    dietUtils.clearCurrent();
                     finish();
                 }
             })
@@ -123,7 +134,11 @@ public class DietDetailActivity extends BaseActivity {
 
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    dietUtils.setCurrent(dietDetailViewModel.getDiet().getValue());
+                    final Diet diet = dietDetailViewModel.getDiet().getValue();
+                    dietUtils.setCurrent(diet);
+                    Intent resultIntent = new Intent();
+                    resultIntent.putExtra(NEW_CURRENT_DIET_ID_EXTRA, diet.getId());
+                    setResult(RESULT_OK, resultIntent);
                     finish();
                 }
             })

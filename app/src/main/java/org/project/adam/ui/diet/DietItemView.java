@@ -26,8 +26,10 @@ public class DietItemView extends RelativeLayout {
     }
 
     public void bind(final Diet diet) {
-        this.name.setText(diet.getName());
         final boolean isCurrent = dietUtils.isCurrent(diet);
+
+        this.name.setText(diet.getName());
+        this.name.setTextColor(getResources().getColor(isCurrent ? R.color.black : R.color.grey));
         this.status.setVisibility(isCurrent ? VISIBLE : GONE);
     }
 
