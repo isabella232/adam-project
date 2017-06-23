@@ -100,7 +100,7 @@ public class DietListFragment extends BaseFragment implements DietListAdapter.Di
     }
 
     @OnActivityResult(SELECT_FILE_RESULT_CODE)
-    void onFileSelectedResult (int resultCode, final Intent data){
+    void onFileSelectedResult(int resultCode, final Intent data) {
         if (resultCode == Activity.RESULT_OK) {
             try {
                 Context context = getContext();
@@ -116,7 +116,7 @@ public class DietListFragment extends BaseFragment implements DietListAdapter.Di
     }
 
     @OnActivityResult(DIET_DETAIL_RESULT_CODE)
-    void onDietDetailBack (int resultCode, @OnActivityResult.Extra(value = DietDetailActivity.NEW_CURRENT_DIET_ID_EXTRA) int newCurrentDietId){
+    void onDietDetailBack(int resultCode, @OnActivityResult.Extra(value = DietDetailActivity.NEW_CURRENT_DIET_ID_EXTRA) int newCurrentDietId) {
         if (resultCode == Activity.RESULT_OK) {
             listAdapter.reload();
         }
@@ -135,20 +135,32 @@ public class DietListFragment extends BaseFragment implements DietListAdapter.Di
         alert.setMessage(enterDietNameContent);
         final EditText userInput = new EditText(context);
         alert.setView(userInput);
-
-        alert.setPositiveButton(enterDietNameOk, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                String dietName = userInput.getText().toString();
-                dialog.dismiss();
-                dietListViewModel.createDiet(Diet.builder()
-                        .name(dietName)
-                        .build(),
-                    lunches.toArray(new Lunch[lunches.size()]));
-            }
-        });
+        alert.setPositiveButton(enterDietNameOk, null); //set later, to handle dismiss manually
 
         AlertDialog alertDialog = alert.create();
+        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+
+            @Override
+            public void onShow(final DialogInterface dialog) {
+                ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String dietName = userInput.getText().toString();
+                        if (dietName.trim().isEmpty()) {
+                            userInput.setError("Name required!");
+                        } else {
+                            dialog.dismiss();
+                            dietListViewModel.createDiet(Diet.builder()
+                                    .name(dietName)
+                                    .build(),
+                                lunches.toArray(new Lunch[lunches.size()]));
+                        }
+                    }
+                });
+            }
+        });
         alertDialog.show();
+
     }
 
     @Value
