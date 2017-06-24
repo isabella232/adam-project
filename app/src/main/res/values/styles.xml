@@ -54,4 +54,16 @@
         <item name="android:textSize">@dimen/font_diet_item_size</item>
     </style>
 
+    <style name="dashboard_title" parent="TextAppearance.Widget.AppCompat.Toolbar.Title"/>
+
+    <style name="dashboard_title.collapsed">
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
+
+    <style name="dashboard_title.expanded">
+        <item name="android:textColor">@color/transparent</item>
+    </style>
+
+
+
 </resources>

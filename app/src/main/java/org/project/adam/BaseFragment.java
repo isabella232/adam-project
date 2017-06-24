@@ -31,11 +31,6 @@ public abstract class BaseFragment extends Fragment implements LifecycleRegistry
         if (toolbar != null && getActivity() instanceof AppCompatActivity) {
             final AppCompatActivity appCompatActivity = (AppCompatActivity) getActivity();
             appCompatActivity.setSupportActionBar(toolbar);
-            appCompatActivity.getSupportActionBar().setDisplayShowTitleEnabled(isTitleDisplayed());
         }
-    }
-
-    protected boolean isTitleDisplayed() {
-        return true;
     }
 }
