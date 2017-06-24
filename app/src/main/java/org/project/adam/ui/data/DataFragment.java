@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.github.mikephil.charting.charts.ScatterChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.ScatterData;
 import com.github.mikephil.charting.data.ScatterDataSet;
@@ -30,8 +29,8 @@ import org.project.adam.BaseFragment;
 import org.project.adam.Preferences_;
 import org.project.adam.R;
 import org.project.adam.persistence.Glycaemia;
-import org.project.adam.ui.util.DatePickerActivity;
 import org.project.adam.ui.dashboard.glycaemia.GlycaemiaViewModel;
+import org.project.adam.ui.util.DatePickerActivity;
 import org.project.adam.ui.util.DatePickerActivity_;
 
 import java.text.DateFormat;
@@ -100,7 +99,7 @@ public class DataFragment extends BaseFragment {
     public void init() {
         glycaemiaViewModel = ViewModelProviders.of(this).get(GlycaemiaViewModel.class);
         beginDate = roundDateToBeginningOfDay(new Date());
-        endDate = roundDateToBeginningOfDay(new Date(beginDate.getTime() + DAY_TIME));
+        endDate = roundDateToBeginningOfDay(new Date(beginDate.getTime() + DAY_TIME - 1));
         refreshDatesDisplayAndData();
     }
 
