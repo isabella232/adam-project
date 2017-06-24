@@ -44,10 +44,13 @@
     <string name="dashboard_input_glycaemia">Input glycaemia</string>
 
     <string name="glycaemia_value_format">%.2f mg/dL</string>
+
+
     <string name="select_file_to_load">Select a file to load</string>
     <string name="enter_diet_name_title">Diet</string>
     <string name="enter_diet_name_content">Enter a diet name</string>
     <string name="enter_diet_name_ok_btn">ok</string>
+
     <string name="mail_subject">Glycaemias</string>
     <string name="mail_header">Glycaemias:</string>
 
@@ -55,4 +58,6 @@
     <string name="to">To:</string>
     <string name="glycaemia_add">Input glycaemia</string>
 
+    <string name="input_glycaemia_range_date_cancel_btn">Cancel</string>
+    <string name="input_glycaemia_range_date_ok_btn">Ok</string>
 </resources>

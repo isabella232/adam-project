@@ -28,7 +28,8 @@
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 app:cardCornerRadius="4dp"
-                app:cardElevation="2dp">
+            	app:cardElevation="2dp"
+            	android:id="@+id/data_from_date_container">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -57,7 +58,8 @@
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 app:cardCornerRadius="4dp"
-                app:cardElevation="2dp">
+            	app:cardElevation="2dp"
+            	android:id="@+id/data_to_date_container">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
