@@ -27,7 +27,7 @@ import timber.log.Timber;
 @SuppressLint("Registered")
 @EActivity(R.layout.activity_main)
 @OptionsMenu(R.menu.main)
-public class MainActivity extends BaseActivity {
+public class MainActivity extends AppCompatActivity {
 
     static final int DEFAULT_DIET_ID = -1;
 
@@ -79,6 +79,13 @@ public class MainActivity extends BaseActivity {
                 }
             });
         }
+
+    }
+
+    private boolean currentDietIsSelected() {
+        Integer currentDietId = prefs.currentDietId().get();
+        return currentDietId != DEFAULT_DIET_ID
+            && AppDatabase.getDatabase(this).dietDao().find(currentDietId).getValue() != null;
     }
 
     private void showDashBoard() {

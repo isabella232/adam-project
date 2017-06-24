@@ -5,6 +5,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application
         android:name=".App_"
@@ -57,6 +58,22 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity_" />
         </activity>
+
+        <activity android:name=".ui.util.DatePickerActivity_"
+            android:parentActivityName=".MainActivity_" >
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity_" />
+        </activity>
+
+        <receiver android:name=".alert.AlertReceiver_">RECEIVER_ACTION
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+                <action android:name="org.project.adam.ALARM"></action>
+            </intent-filter>
+            </receiver>
 
         <meta-data
             android:name="io.fabric.ApiKey"

@@ -60,4 +60,7 @@
 
     <string name="input_glycaemia_range_date_cancel_btn">Cancel</string>
     <string name="input_glycaemia_range_date_ok_btn">Ok</string>
+
+    <string name="notif_title">Time to prepare for lunch!</string>
+    <string name="notif_content">Next lunch at %1$s</string>
 </resources>

@@ -10,6 +10,7 @@ import android.preference.PreferenceGroup;
 import android.text.InputType;
 
 import org.androidannotations.annotations.AfterPreferences;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.PreferenceByKey;
@@ -19,6 +20,7 @@ import org.androidannotations.annotations.res.StringRes;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 import org.project.adam.Preferences_;
 import org.project.adam.R;
+import org.project.adam.alert.AlertScheduler;
 
 import java.util.Locale;
 
@@ -52,6 +54,9 @@ public class PrefFragment extends PreferenceFragment {
     @StringRes(R.string.pref_default_time_before_alert)
     protected String defaultTime;
 
+    @Bean
+    AlertScheduler alertScheduler;
+
 
     @AfterPreferences
     void initPrefs() {
@@ -77,9 +82,11 @@ public class PrefFragment extends PreferenceFragment {
     }
 
     @PreferenceChange(R.string.pref_time_before_alert)
-    void timeBeforeAlertChnaged(Preference preference, String newValue) {
+    void timeBeforeAlertChanged(Preference preference, String newValue) {
         prefs.reminderTimeInMinutes().put(Integer.valueOf(newValue));
         setEditTextSummary(preference,newValue);
+
+        alertScheduler.schedule();
     }
 
     @PreferenceChange(R.string.pref_recipients)
