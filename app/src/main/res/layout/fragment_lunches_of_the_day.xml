@@ -13,7 +13,7 @@
         <LinearLayout
             android:id="@+id/circleIndicatorLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="180dp"
             android:focusableInTouchMode="false"
             android:gravity="bottom"
             android:orientation="horizontal"
@@ -27,7 +27,7 @@
             <org.project.adam.ui.IndicatorCircleView_
                 android:id="@+id/circleIndicator"
                 android:layout_width="0dip"
-                android:layout_height="120dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:padding="7dp"/>
 
@@ -59,32 +59,40 @@
 
     </RelativeLayout>
 
+    <View
+        android:layout_marginLeft="@dimen/medium_margin"
+        android:layout_marginRight="@dimen/medium_margin"
+        android:layout_marginTop="@dimen/small_margin"
+        android:layout_marginBottom="@dimen/small_margin"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/white"/>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
+        android:layout_height="90dp"
         android:orientation="horizontal"
-        android:padding="@dimen/small_padding">
+        android:gravity="center_vertical"
+        android:layout_marginBottom="@dimen/small_margin">
 
         <ImageView
             android:id="@+id/previous_lunch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="@dimen/small_padding"
+            android:padding="@dimen/medium_padding"
             android:src="@drawable/ic_arrow_left"/>
 
         <org.project.adam.ui.dashboard.lunch.WrapContentHeightViewPager
             android:id="@+id/lunch_detail"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"/>
 
         <ImageView
             android:id="@+id/next_lunch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="@dimen/small_padding"
+            android:padding="@dimen/medium_padding"
             android:src="@drawable/ic_arrow_right"/>
     </LinearLayout>
 

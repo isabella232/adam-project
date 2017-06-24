@@ -6,13 +6,13 @@ import org.project.adam.Preferences_;
 import org.project.adam.persistence.Lunch;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -32,15 +32,30 @@ public class DietLoader {
         List<String> lines = readFileContent(csvFile);
         String separator = preferences.fieldSeparatorsForImport().getOr(CSV_DEFAULT_SEPARATOR);
         List<Lunch> result = new ArrayList<>();
+        Map<String,String> mealMap = new HashMap<>();
+
         for(String line : lines){
             int index = line.indexOf(separator);
             if(index >= 0 && index < (line.length() - separator.length())){
-                result.add(Lunch.builder()
-                    .timeOfDay(parseTimeOfDay(line.substring(0,index)))
-                    .content(line.substring(index+separator.length(), line.length()))
-                    .build());
+                String time = line.substring(0,index);
+                String mealContent;
+                if(mealMap.containsKey(time)){
+                    //concat content
+                    mealContent = mealMap.get(time)+ "\n"+line.substring(index+separator.length(), line.length()).trim();
+                }else{
+                    mealContent = line.substring(index+separator.length(), line.length()).trim();
+                }
+                mealMap.put(time,mealContent);
             }
         }
+
+        for (Map.Entry<String, String> entry : mealMap.entrySet()) {
+            result.add(Lunch.builder()
+                .timeOfDay(parseTimeOfDay(entry.getKey()))
+                .content(entry.getValue())
+                .build());
+        }
+
         return result;
     }
 

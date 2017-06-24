@@ -17,8 +17,7 @@
             android:id="@+id/meals_of_the_day"
             android:name="org.project.adam.ui.dashboard.lunch.LunchesOfTheDayFragment_"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="6"
+            android:layout_height="wrap_content"
             tools:layout_editor_absoluteX="8dp"
             tools:layout_editor_absoluteY="0dp"/>
 
