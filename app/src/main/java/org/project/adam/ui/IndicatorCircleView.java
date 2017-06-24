@@ -226,7 +226,6 @@ public class IndicatorCircleView extends View implements ViewPager.OnPageChangeL
 
                 actionMap.put(new RectF(x - circleRadius*2, y - circleRadius*2, x + circleRadius*2, y + circleRadius*2), i);
 
-                Timber.d("Action added "+i);
                 i++;
             }
         }
