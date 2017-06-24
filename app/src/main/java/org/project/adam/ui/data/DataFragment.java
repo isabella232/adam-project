@@ -99,7 +99,7 @@ public class DataFragment extends BaseFragment {
     public void init() {
         glycaemiaViewModel = ViewModelProviders.of(this).get(GlycaemiaViewModel.class);
         beginDate = roundDateToBeginningOfDay(new Date());
-        endDate = roundDateToBeginningOfDay(new Date(beginDate.getTime() + DAY_TIME - 1));
+        endDate = new Date(beginDate.getTime() + DAY_TIME - 1);
         refreshDatesDisplayAndData();
     }
 
