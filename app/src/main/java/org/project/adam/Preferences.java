@@ -14,7 +14,7 @@ public interface Preferences {
     @DefaultInt(15)
     int reminderTimeInMinutes();
 
-    @DefaultInt(-1)
+    @DefaultInt(MainActivity.DEFAULT_DIET_ID)
     int currentDietId();
 
     @DefaultString(DietLoader.CSV_DEFAULT_SEPARATOR)

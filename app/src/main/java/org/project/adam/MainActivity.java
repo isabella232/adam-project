@@ -22,6 +22,8 @@ import org.project.adam.ui.preferences.PrefActivity_;
 @OptionsMenu(R.menu.main)
 public class MainActivity extends AppCompatActivity {
 
+    static final int DEFAULT_DIET_ID = -1;
+
     @ViewById(R.id.bottom_navigation)
     BottomNavigationView bottomNavigationView;
 
@@ -50,23 +52,28 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 }
             });
-
-        if (prefs.currentDietId().getOr(-1) == -1) {
-            showDiets();
-        } else {
+        if (currentDietIsSelected()) {
             showDashBoard();
+        } else {
+            showDiets();
         }
     }
 
-    void showDashBoard() {
+    private boolean currentDietIsSelected(){
+        Integer currentDietId = prefs.currentDietId().get();
+        return currentDietId != DEFAULT_DIET_ID
+            && AppDatabase.getDatabase(this).dietDao().find(currentDietId).getValue() != null;
+    }
+
+    private void showDashBoard() {
         showFragment(DashboardFragment_.builder().build());
     }
 
-    void showData() {
+    private void showData() {
         showFragment(DataFragment_.builder().build());
     }
 
-    void showDiets() {
+    private void showDiets() {
         showFragment(DietListFragment_.builder().build());
     }
 
