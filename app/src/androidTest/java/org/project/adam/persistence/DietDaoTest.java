@@ -1,8 +1,10 @@
 package org.project.adam.persistence;
 
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
 import android.arch.persistence.room.Room;
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -53,17 +55,6 @@ public class DietDaoTest {
         assertThat(generatedIds.get(0)).isNotZero();
         assertThat(generatedIds.get(1)).isNotZero();
         assertThat(generatedIds.get(0)).isNotEqualTo(generatedIds.get(1));
-    }
-
-    @Test
-    public void load_unknown_diet_id_should_return_null() throws Exception {
-        // Given empty database
-        // When
-        LiveData<Diet> diet = dietDao.find(1);
-
-        // Then
-        assertThat(diet).isNotNull();
-        assertThat(diet.getValue()).isNull();
     }
 
 }
