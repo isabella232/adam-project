@@ -38,7 +38,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import timber.log.Timber;
@@ -49,8 +48,6 @@ public class DataFragment extends BaseFragment {
     public static final SimpleDateFormat DISPLAY_DATE_FORMAT = new SimpleDateFormat("EEE d MMM");
 
     public static final SimpleDateFormat MAIL_DATE_FORMAT = new SimpleDateFormat("EEE d MMM HH:mm");
-
-    private static final int DAY_TIME = 86400 * 1000;
 
     private static final int DATE_FROM_PICK_RESULT_CODE = 777;
 
@@ -98,24 +95,36 @@ public class DataFragment extends BaseFragment {
     @AfterViews
     public void init() {
         glycaemiaViewModel = ViewModelProviders.of(this).get(GlycaemiaViewModel.class);
-        beginDate = roundDateToBeginningOfDay(new Date());
-        endDate = new Date(beginDate.getTime() + DAY_TIME - 1);
+        Date now = new Date();
+        beginDate = beginningOfDay(now);
+        endDate = endOfDay(now);
         refreshDatesDisplayAndData();
     }
 
     public void refreshDatesDisplayAndData() {
+        Timber.w("refreshDatesDisplayAndData - %s - %s", this.beginDate, this.endDate);
         fromDateLabel.setText(DISPLAY_DATE_FORMAT.format(this.beginDate));
         toDateLabel.setText(DISPLAY_DATE_FORMAT.format(this.endDate));
         refreshData();
     }
 
-    private Date roundDateToBeginningOfDay(Date date) {
-        Calendar cal = new GregorianCalendar();
+    private Date beginningOfDay(Date date) {
+        Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);
+        return cal.getTime();
+    }
+
+    private Date endOfDay(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.set(Calendar.HOUR_OF_DAY, 23);
+        cal.set(Calendar.MINUTE, 59);
+        cal.set(Calendar.SECOND, 59);
+        cal.set(Calendar.MILLISECOND, 999);
         return cal.getTime();
     }
 
@@ -179,7 +188,7 @@ public class DataFragment extends BaseFragment {
                                       Date result){
         Timber.w("dateFromChosen - %d - %s", resultCode, result == null ? "null" : result.toString());
         if(resultCode == Activity.RESULT_OK){
-            this.beginDate =  result;
+            this.beginDate =  beginningOfDay(result);
             refreshDatesDisplayAndData();
         }
     }
@@ -190,7 +199,7 @@ public class DataFragment extends BaseFragment {
                                       Date result){
         Timber.w("dateToChosen - %d - %s", resultCode, result == null ? "null" : result.toString());
         if(resultCode == Activity.RESULT_OK){
-            this.endDate = result;
+            this.endDate = endOfDay(result);
             refreshDatesDisplayAndData();
         }
     }
