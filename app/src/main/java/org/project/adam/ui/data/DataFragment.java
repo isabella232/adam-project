@@ -47,7 +47,7 @@ import timber.log.Timber;
 public class DataFragment extends BaseFragment {
     public static final SimpleDateFormat DISPLAY_DATE_FORMAT = new SimpleDateFormat("EEE d MMM");
 
-    public static final SimpleDateFormat MAIL_DATE_FORMAT = new SimpleDateFormat("EEE d MMM HH:mm");
+    public static final SimpleDateFormat MAIL_DATE_FORMAT = new SimpleDateFormat("HH:mm");
 
     private static final int DATE_FROM_PICK_RESULT_CODE = 777;
 
@@ -143,8 +143,14 @@ public class DataFragment extends BaseFragment {
 
     public void prepareMail(List<Glycaemia> glycaemias) {
         mailContent = mailHeader + " \n";
+        String previousDate = "";
         for (Glycaemia glycaemia : glycaemias) {
-            mailContent += " - " + MAIL_DATE_FORMAT.format(glycaemia.getDate()) + "\t    " + glycaemia.getValue() + " " + unit + " \n";
+            String date = DISPLAY_DATE_FORMAT.format(glycaemia.getDate());
+            if (!date.equals(previousDate)) {
+                mailContent += "\n" + DISPLAY_DATE_FORMAT.format(glycaemia.getDate()) + ":\n";
+                previousDate = date.trim();
+            }
+            mailContent += "- " + MAIL_DATE_FORMAT.format(glycaemia.getDate()) + "\t   " + glycaemia.getValue() + " " + unit + " \n";
         }
         Timber.d("Mail content %s", mailContent);
 
@@ -162,20 +168,19 @@ public class DataFragment extends BaseFragment {
     }
 
 
-
     @Click(R.id.data_from_date_container)
-    protected void openFromDatePicker(){
+    protected void openFromDatePicker() {
         openDatePicket(fromLabel, this.beginDate, DATE_FROM_PICK_RESULT_CODE);
     }
 
     @Click(R.id.data_to_date_container)
-    protected void openToDatePicker(){
+    protected void openToDatePicker() {
         openDatePicket(toLabel, this.endDate, DATE_TO_PICK_RESULT_CODE);
     }
 
     private void openDatePicket(String fromToLabel,
                                 Date initDate,
-                                int requestResultCode){
+                                int requestResultCode) {
         DatePickerActivity_.intent(this)
             .extra(DatePickerActivity.FROM_TO_LABEL_PARAMETER, fromToLabel)
             .extra(DatePickerActivity.INIT_DATE_PARAMETER, initDate)
@@ -185,20 +190,20 @@ public class DataFragment extends BaseFragment {
     @OnActivityResult(DATE_FROM_PICK_RESULT_CODE)
     protected void dateFromChosen(int resultCode,
                                   @OnActivityResult.Extra(DatePickerActivity.RESULT_PARAMETER)
-                                      Date result){
+                                      Date result) {
         Timber.w("dateFromChosen - %d - %s", resultCode, result == null ? "null" : result.toString());
-        if(resultCode == Activity.RESULT_OK){
-            this.beginDate =  beginningOfDay(result);
+        if (resultCode == Activity.RESULT_OK) {
+            this.beginDate = beginningOfDay(result);
             refreshDatesDisplayAndData();
         }
     }
 
     @OnActivityResult(DATE_TO_PICK_RESULT_CODE)
     protected void dateToChosen(int resultCode,
-                                  @OnActivityResult.Extra(DatePickerActivity.RESULT_PARAMETER)
-                                      Date result){
+                                @OnActivityResult.Extra(DatePickerActivity.RESULT_PARAMETER)
+                                    Date result) {
         Timber.w("dateToChosen - %d - %s", resultCode, result == null ? "null" : result.toString());
-        if(resultCode == Activity.RESULT_OK){
+        if (resultCode == Activity.RESULT_OK) {
             this.endDate = endOfDay(result);
             refreshDatesDisplayAndData();
         }
@@ -219,14 +224,14 @@ public class DataFragment extends BaseFragment {
         }
         ScatterData lineData = new ScatterData();
 
-        if (normalEntries.size() != 0){
+        if (normalEntries.size() != 0) {
             ScatterDataSet normalValuesSet = new ScatterDataSet(normalEntries, "");
             normalValuesSet.setColors(colorOK);
             setScatteredDataStyle(normalValuesSet);
             lineData.addDataSet(normalValuesSet);
         }
 
-        if (dangerEntries.size() != 0){
+        if (dangerEntries.size() != 0) {
             ScatterDataSet dangerValuesSet = new ScatterDataSet(dangerEntries, "");
             dangerValuesSet.setColors(colorRisk);
             setScatteredDataStyle(dangerValuesSet);
