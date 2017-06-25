@@ -148,7 +148,7 @@ public class DataFragment extends BaseFragment {
             String date = DISPLAY_DATE_FORMAT.format(glycaemia.getDate());
             if (!date.equals(previousDate)) {
                 mailContent += "\n" + DISPLAY_DATE_FORMAT.format(glycaemia.getDate()) + ":\n";
-                previousDate = date.trim();
+                previousDate = date;
             }
             mailContent += "- " + MAIL_DATE_FORMAT.format(glycaemia.getDate()) + "\t   " + glycaemia.getValue() + " " + unit + " \n";
         }
