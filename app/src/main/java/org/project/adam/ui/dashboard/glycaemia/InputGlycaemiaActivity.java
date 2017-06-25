@@ -1,12 +1,14 @@
 package org.project.adam.ui.dashboard.glycaemia;
 
 import android.annotation.SuppressLint;
+import android.app.TimePickerDialog;
 import android.os.AsyncTask;
 import android.support.v4.app.DialogFragment;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.tistory.dwfox.dwrulerviewlibrary.utils.DWUtils;
 import com.tistory.dwfox.dwrulerviewlibrary.view.ObservableHorizontalScrollView;
@@ -18,13 +20,12 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.res.ColorRes;
 import org.androidannotations.annotations.sharedpreferences.Pref;
-import org.androidannotations.annotations.sharedpreferences.SharedPref;
 import org.project.adam.AppDatabase;
 import org.project.adam.BaseActivity;
 import org.project.adam.Preferences_;
 import org.project.adam.R;
 import org.project.adam.persistence.Glycaemia;
-import org.project.adam.persistence.GlycaemiaDao;
+import org.project.adam.ui.util.TimePickerFragment;
 import org.project.adam.util.DateFormatters;
 
 import java.util.Calendar;
@@ -47,12 +48,6 @@ public class InputGlycaemiaActivity extends BaseActivity {
     private static final int MULTIPLE_TYPE = 5;
 
 
-    @RequiredArgsConstructor
-    public static class Hour {
-        public final int hourOfDay;
-        public final int minute;
-    }
-
     @ViewById(R.id.glycaemia_root_view)
     protected View glycaemiaRootView;
 
@@ -74,7 +69,7 @@ public class InputGlycaemiaActivity extends BaseActivity {
     @Pref
     protected Preferences_ preferences;
 
-    Hour hour;
+    TimePickerFragment.Hour hour;
 
     @ColorRes(R.color.sunflower_yellow)
     int colorRisk;
@@ -135,12 +130,19 @@ public class InputGlycaemiaActivity extends BaseActivity {
     }
 
     public void showTimePickerDialog(View v) {
-        DialogFragment newFragment = new TimePickerFragment(hour);
+        DialogFragment newFragment = new TimePickerFragment()
+            .setHour(hour)
+            .setListener(new TimePickerDialog.OnTimeSetListener() {
+                @Override
+                public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                    InputGlycaemiaActivity.this.updateTime(hourOfDay, minute);
+                }
+            });
         newFragment.show(getSupportFragmentManager(), "timePicker");
     }
 
     void updateTime(int hourOfDay, int minute) {
-        hour = new Hour(hourOfDay, minute);
+        hour = new TimePickerFragment.Hour(hourOfDay, minute);
         glycaemiaHour.setText(String.format("%02d:%02d",hourOfDay,minute));
     }
 
@@ -165,8 +167,8 @@ public class InputGlycaemiaActivity extends BaseActivity {
         Date date = new Date();
         if (hour != null) {
             Calendar cal = Calendar.getInstance();
-            cal.set(Calendar.HOUR_OF_DAY, hour.hourOfDay);
-            cal.set(Calendar.MINUTE, hour.minute);
+            cal.set(Calendar.HOUR_OF_DAY, hour.getHourOfDay());
+            cal.set(Calendar.MINUTE, hour.getMinute());
             cal.set(Calendar.SECOND, 0);
             date = cal.getTime();
         }
