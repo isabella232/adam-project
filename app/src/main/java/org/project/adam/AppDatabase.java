@@ -42,9 +42,6 @@ public abstract class AppDatabase extends RoomDatabase {
             protected Void doInBackground(Context... params) {
                 Context context = params[0].getApplicationContext();
 
-                // Reset the database to have new data on every run.
-                context.deleteDatabase(DATABASE_NAME);
-
                 // Add some data to the database
                 DatabasePopulator.initializeDb(db);
                 return null;
