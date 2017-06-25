@@ -18,6 +18,7 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.res.ColorRes;
 import org.androidannotations.annotations.sharedpreferences.Pref;
+import org.androidannotations.annotations.sharedpreferences.SharedPref;
 import org.project.adam.AppDatabase;
 import org.project.adam.BaseActivity;
 import org.project.adam.Preferences_;
@@ -39,10 +40,12 @@ public class InputGlycaemiaActivity extends BaseActivity {
     @Pref
     protected Preferences_ prefs;
 
-    private static final int DEFAULT_GLYCAEMIA = 70;
+    public static final int DEFAULT_GLYCAEMIA = 70;
+
     private static final float LINE_RULER_MULTIPLE_SIZE = 2.5f;
+
     private static final int MULTIPLE_TYPE = 5;
-/*    private float lr_multiple_size = 2.5f * (prefs.maxGly().get() / 120.0f);*/
+
 
     @RequiredArgsConstructor
     public static class Hour {
@@ -51,22 +54,25 @@ public class InputGlycaemiaActivity extends BaseActivity {
     }
 
     @ViewById(R.id.glycaemia_root_view)
-    View glycaemiaRootView;
+    protected View glycaemiaRootView;
 
     @ViewById(R.id.glycaemia_date)
-    TextView glycaemiaDate;
+    protected TextView glycaemiaDate;
 
     @ViewById(R.id.glycaemia_hour)
-    TextView glycaemiaHour;
+    protected TextView glycaemiaHour;
 
     @ViewById(R.id.glycaemia_value_mg_Dl)
-    TextView glycaemiaValueMgDl;
+    protected TextView glycaemiaValueMgDl;
 
     @ViewById(R.id.glycaemia_seekBar)
-    ScrollingValuePicker seekBarGlycaemia;
+    protected ScrollingValuePicker seekBarGlycaemia;
 
     @ViewById(R.id.glycaemia_validate)
-    Button validateGlycaemia;
+    protected Button validateGlycaemia;
+
+    @Pref
+    protected Preferences_ preferences;
 
     Hour hour;
 
@@ -87,8 +93,9 @@ public class InputGlycaemiaActivity extends BaseActivity {
 
     @AfterViews
     void initSeekBar() {
-        seekBarGlycaemia.setInitValue(DEFAULT_GLYCAEMIA);
-        glycaemiaValueMgDl.setText(String.valueOf(DEFAULT_GLYCAEMIA));
+        float defaultGlycaemia = preferences.lastGlycaemiaSet().get();
+        seekBarGlycaemia.setInitValue(defaultGlycaemia);
+        glycaemiaValueMgDl.setText(String.valueOf(defaultGlycaemia));
         seekBarGlycaemia.setMaxValue(prefs.minGly().get(), prefs.maxGly().get());
         seekBarGlycaemia.setViewMultipleSize(LINE_RULER_MULTIPLE_SIZE);
         seekBarGlycaemia.setValueTypeMultiple(MULTIPLE_TYPE);
@@ -143,9 +150,11 @@ public class InputGlycaemiaActivity extends BaseActivity {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
-                GlycaemiaDao glycaemiaDao = AppDatabase.getDatabase(InputGlycaemiaActivity.this).glycemiaDao();
-                glycaemiaDao.insert(buildGlycaemia());
-                InputGlycaemiaActivity.this.finish();
+                InputGlycaemiaActivity currentActivity = InputGlycaemiaActivity.this;
+                Glycaemia glycaemia = buildGlycaemia();
+                AppDatabase.getDatabase(currentActivity).glycemiaDao().insert(glycaemia);
+                currentActivity.preferences.lastGlycaemiaSet().put(glycaemia.getValue());
+                currentActivity.finish();
                 return null;
             }
         }.execute();
