@@ -18,6 +18,9 @@ public interface DietDao {
     @Query("SELECT * from diets where id=:id")
     LiveData<Diet> find(int id);
 
+    @Query("SELECT * from diets where id=:id")
+    Diet findSync(int id);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     List<Long> insert(Diet... diets);
 
