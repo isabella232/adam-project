@@ -2,11 +2,9 @@ package org.project.adam;
 
 import android.annotation.SuppressLint;
 import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import org.androidannotations.annotations.AfterViews;
@@ -18,11 +16,8 @@ import org.androidannotations.annotations.sharedpreferences.Pref;
 import org.project.adam.persistence.Diet;
 import org.project.adam.ui.dashboard.DashboardFragment_;
 import org.project.adam.ui.data.DataFragment_;
-import org.project.adam.ui.diet.DietDetailViewModel;
 import org.project.adam.ui.diet.DietListFragment_;
 import org.project.adam.ui.preferences.PrefActivity_;
-
-import timber.log.Timber;
 
 @SuppressLint("Registered")
 @EActivity(R.layout.activity_main)
@@ -37,13 +32,20 @@ public class MainActivity extends BaseActivity {
     @Pref
     protected Preferences_ prefs;
 
+    private int selectedMenuId = -1;
+
     @AfterViews
     void setUpTabs() {
         bottomNavigationView.setOnNavigationItemSelectedListener(
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(MenuItem item) {
-                    switch (item.getItemId()) {
+                    if (selectedMenuId == item.getItemId()){
+                        return true;
+                    }
+                    selectedMenuId = item.getItemId();
+
+                    switch (selectedMenuId) {
                         case R.id.tab_dashboard:
                             showDashBoard();
                             break;
@@ -82,14 +84,17 @@ public class MainActivity extends BaseActivity {
     }
 
     private void showDashBoard() {
+        selectedMenuId = R.id.tab_dashboard;
         showFragment(DashboardFragment_.builder().build());
     }
 
     private void showData() {
+        selectedMenuId = R.id.tab_data;
         showFragment(DataFragment_.builder().build());
     }
 
     private void showDiets() {
+        selectedMenuId = R.id.tab_diet;
         showFragment(DietListFragment_.builder().build());
     }
 
