@@ -40,8 +40,6 @@ public abstract class AppDatabase extends RoomDatabase {
 
             @Override
             protected Void doInBackground(Context... params) {
-                Context context = params[0].getApplicationContext();
-
                 // Add some data to the database
                 DatabasePopulator.initializeDb(db);
                 return null;
