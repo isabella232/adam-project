@@ -28,6 +28,8 @@ import static org.project.adam.alert.AlertReceiver.RECEIVER_ACTION;
 @EBean
 public class AlertScheduler {
 
+    public static final int DEFAULT_TIME_IN_MN = 15;
+
     @SystemService
     protected AlarmManager alarmMgr;
 
@@ -73,7 +75,7 @@ public class AlertScheduler {
             Intent intent = getBroadcastIntent(lunch);
 
             //check if need to add 24h
-            Calendar calendar = DateFormatters.getCalendarFromMinutesOfDay(lunch.getTimeOfDay());
+            Calendar calendar = DateFormatters.getCalendarFromMinutesOfDay(lunch.getTimeOfDay()-preferences.reminderTimeInMinutes().getOr(DEFAULT_TIME_IN_MN));
 
             long time = calendar.getTimeInMillis();
             if (time < System.currentTimeMillis()) {
