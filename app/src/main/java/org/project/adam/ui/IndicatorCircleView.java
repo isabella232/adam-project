@@ -5,6 +5,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
@@ -35,6 +37,7 @@ public class IndicatorCircleView extends View implements ViewPager.OnPageChangeL
     protected ViewPager viewPager;
     private Paint arcPaint;
     private Paint circlePaint;
+    private Paint erasePaint;
 
     private GestureDetector gestureDetector;
     private float ww;
@@ -108,6 +111,14 @@ public class IndicatorCircleView extends View implements ViewPager.OnPageChangeL
         circlePaint.setStyle(Paint.Style.STROKE);
         circlePaint.setStrokeWidth(10);
 
+        erasePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        erasePaint.setStyle(Paint.Style.STROKE);
+        erasePaint.setStrokeWidth(10);
+        erasePaint.setStyle(Paint.Style.FILL);
+        erasePaint.setAlpha(0);//transperent color
+        erasePaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));//clear the draw
+
+
         gestureDetector = new GestureDetector(getContext(), new mListener());
     }
 
@@ -164,22 +175,11 @@ public class IndicatorCircleView extends View implements ViewPager.OnPageChangeL
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        // Draw the shadow
-      /*  canvas.drawOval(
-            mShadowBounds,
-            shadowPaint
-        );*/
 
-        // Draw the label text
 
         if (canvas != null) {
-            // Draw the pie slices
 
-
-            //draw full line
             arcPaint.setColor(COLOR_ARC);
-           // canvas.drawArc(bounds, 180, 180, false, arcPaint);
-
 
             int i = 0;
             //first search for selected item, cause need to be draw first
@@ -195,7 +195,6 @@ public class IndicatorCircleView extends View implements ViewPager.OnPageChangeL
             }
 
 
-
             i = 0;
             actionMap.clear();
 
@@ -206,13 +205,13 @@ public class IndicatorCircleView extends View implements ViewPager.OnPageChangeL
                 if (i == nextMealPosition) {
                     overCurrentMeal = true;
                 }
-                
+
                 if (i == selectedItem) {
                     circlePaint.setStyle(Paint.Style.FILL);
                     circlePaint.setColor(COLOR_ARC);
                 } else {
                     circlePaint.setStyle(Paint.Style.STROKE);
-                    circlePaint.setColor(overCurrentMeal?COLOR_ARC:COLOR_ARC_PAST);
+                    circlePaint.setColor(overCurrentMeal ? COLOR_ARC : COLOR_ARC_PAST);
                 }
 
 
@@ -222,9 +221,10 @@ public class IndicatorCircleView extends View implements ViewPager.OnPageChangeL
                 float circleRadius = ww / 50;
                 float x = (float) (bounds.centerX() - ww / 2 * Math.cos(Math.PI * item));
                 float y = (float) (bounds.centerY() - hh * Math.sin(Math.PI * item));
+                canvas.drawCircle(x, y, circleRadius, erasePaint);
                 canvas.drawCircle(x, y, circleRadius, circlePaint);
 
-                actionMap.put(new RectF(x - circleRadius*2, y - circleRadius*2, x + circleRadius*2, y + circleRadius*2), i);
+                actionMap.put(new RectF(x - circleRadius * 2, y - circleRadius * 2, x + circleRadius * 2, y + circleRadius * 2), i);
 
                 i++;
             }
