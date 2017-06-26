@@ -1,0 +1,5 @@
+<resources>
+    <declare-styleable name="IndicatorCircleView">
+        <attr name="circleFillColor" format="integer" />
+    </declare-styleable>
+</resources>
