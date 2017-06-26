@@ -8,9 +8,11 @@ import android.support.v4.app.Fragment;
 import android.view.MenuItem;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
+import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 import org.project.adam.persistence.Diet;
@@ -49,7 +51,8 @@ public class MainActivity extends BaseActivity {
         showWelcomeSection();
     }
 
-    private void selectMenu(int menuId, boolean changeMenuSelected) {
+    @UiThread(propagation = UiThread.Propagation.REUSE)
+    protected void selectMenu(int menuId, boolean changeMenuSelected) {
         switch (menuId) {
             case R.id.tab_dashboard:
                 showDashBoard();
@@ -73,25 +76,18 @@ public class MainActivity extends BaseActivity {
         if(currentDietId == DEFAULT_DIET_ID){
             selectMenu(R.id.tab_diet, true);
         } else {
-            AppDatabase.getDatabase(this).dietDao().find(currentDietId)
-                .observe(this, new Observer<Diet>() {
-                    @Override
-                    public void onChanged(@Nullable Diet diet) {
-                        if (diet == null){
-                            selectMenu(R.id.tab_diet, true);
-                        } else {
-                            selectMenu(R.id.tab_dashboard, true);
-                        }
-                    }
-                });
+            checkCurrentDietIdExists(currentDietId);
         }
-
     }
 
-    private boolean currentDietIsSelected() {
-        Integer currentDietId = prefs.currentDietId().get();
-        return currentDietId != DEFAULT_DIET_ID
-            && AppDatabase.getDatabase(this).dietDao().find(currentDietId).getValue() != null;
+    @Background
+    protected void checkCurrentDietIdExists(int currentDietId){
+        Diet diet = AppDatabase.getDatabase(this).dietDao().findSync(currentDietId);
+        if (diet == null){
+            selectMenu(R.id.tab_diet, true);
+        } else {
+            selectMenu(R.id.tab_dashboard, true);
+        }
     }
 
     private void showDashBoard() {
