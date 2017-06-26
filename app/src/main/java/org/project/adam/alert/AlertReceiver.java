@@ -61,6 +61,9 @@ public class AlertReceiver extends AbstractBroadcastReceiver {
                 .setGroup(GROUP)
                 .setGroupSummary(true);
 
+        if (content != null) {
+            mBuilder = mBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(body));
+        }
 
         PendingIntent pi = PendingIntent.getActivity(context,0, MainActivity_.intent(context).get(), PendingIntent.FLAG_UPDATE_CURRENT);
 
