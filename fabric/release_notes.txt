@@ -1,7 +1,24 @@
-FIX: crashes au démarrage lorsque pas de données de glycemie
-FIX: crashes au démarrage lorsque données à l'ancien format
-TOUTES VOS DONNEES (regimes,glycemies) SERONT SUPPRIMES EN INSTALLANT CETTE VERSION
+ça bosse même le week end! Voici la nouvelle release
 
-Et aussi :
- - redirection automatique vers page des régimes lorsque aucun régime n'est selectionné.
- - update du style de la liste des régimes
+Alarmes : les alertes sont enfin disponbiles avant chaque repas . A tester prudemment :)
+
+Ajout de glycémie:
+  . niveau de glycémie automatiquement mis au dernier niveau relevé
+  . Correction taille de la règle et zone de clique pour l'heure
+
+Détails des glycémies:
+  . Ajout des datepicker pour selection de la période
+
+Import régimes
+  . Fonctionne sur des repas de plusieurs lignes
+  . Interdit les régimes sans nom
+
+Accueil: 
+  . revue proportions globale
+  . coordinator layout (lorsque scroll vers le haut)
+  . barre d'outil
+  . Couleurs des icones du bas
+
+Autre: 
+  . plus de suppression systematique des données en mode debug
+  . correction sur la redirection lorsque aucun menu selectionné
