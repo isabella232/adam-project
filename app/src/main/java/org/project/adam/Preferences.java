@@ -7,11 +7,13 @@ import org.androidannotations.annotations.sharedpreferences.SharedPref;
 import org.project.adam.ui.dashboard.glycaemia.InputGlycaemiaActivity;
 import org.project.adam.ui.diet.DietLoader;
 
+import static org.project.adam.alert.AlertScheduler.DEFAULT_TIME_IN_MN;
+
 
 @SharedPref(value = SharedPref.Scope.UNIQUE)
 public interface Preferences {
 
-    @DefaultInt(15)
+    @DefaultInt(DEFAULT_TIME_IN_MN)
     int reminderTimeInMinutes();
 
     @DefaultInt(MainActivity.DEFAULT_DIET_ID)

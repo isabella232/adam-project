@@ -81,6 +81,13 @@ public class MainActivity extends BaseActivity {
                 }
             });
         }
+
+    }
+
+    private boolean currentDietIsSelected() {
+        Integer currentDietId = prefs.currentDietId().get();
+        return currentDietId != DEFAULT_DIET_ID
+            && AppDatabase.getDatabase(this).dietDao().find(currentDietId).getValue() != null;
     }
 
     private void showDashBoard() {
