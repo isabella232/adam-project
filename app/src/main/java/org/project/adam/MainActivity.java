@@ -40,23 +40,8 @@ public class MainActivity extends BaseActivity {
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(MenuItem item) {
-                    if (selectedMenuId == item.getItemId()){
-                        return true;
-                    }
-                    selectedMenuId = item.getItemId();
-
-                    switch (selectedMenuId) {
-                        case R.id.tab_dashboard:
-                            showDashBoard();
-                            break;
-
-                        case R.id.tab_data:
-                            showData();
-                            break;
-
-                        case R.id.tab_diet:
-                            showDiets();
-                            break;
+                    if (selectedMenuId != item.getItemId()){
+                        selectMenu(item.getItemId(), false);
                     }
                     return true;
                 }
@@ -64,22 +49,41 @@ public class MainActivity extends BaseActivity {
         showWelcomeSection();
     }
 
+    private void selectMenu(int menuId, boolean changeMenuSelected) {
+        switch (menuId) {
+            case R.id.tab_dashboard:
+                showDashBoard();
+                break;
+            case R.id.tab_data:
+                showData();
+                break;
+            case R.id.tab_diet:
+                showDiets();
+                break;
+            default:
+                return;
+        }
+        if(changeMenuSelected){
+            bottomNavigationView.getMenu().findItem(selectedMenuId).setChecked(true);
+        }
+    }
+
     private void showWelcomeSection() {
         final Integer currentDietId = prefs.currentDietId().get();
         if(currentDietId == DEFAULT_DIET_ID){
-            showDiets();
+            selectMenu(R.id.tab_diet, true);
         } else {
             AppDatabase.getDatabase(this).dietDao().find(currentDietId)
                 .observe(this, new Observer<Diet>() {
-                @Override
-                public void onChanged(@Nullable Diet diet) {
-                    if (diet == null){
-                        showDiets();
-                    } else {
-                        showDashBoard();
+                    @Override
+                    public void onChanged(@Nullable Diet diet) {
+                        if (diet == null){
+                            selectMenu(R.id.tab_diet, true);
+                        } else {
+                            selectMenu(R.id.tab_dashboard, true);
+                        }
                     }
-                }
-            });
+                });
         }
 
     }
@@ -104,6 +108,7 @@ public class MainActivity extends BaseActivity {
         selectedMenuId = R.id.tab_diet;
         showFragment(DietListFragment_.builder().build());
     }
+
 
     private void showFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction()
