@@ -1,4 +1,4 @@
-package org.project.adam.util.ui;
+package org.project.adam.ui.util;
 
 import android.content.Context;
 import android.support.annotation.Nullable;

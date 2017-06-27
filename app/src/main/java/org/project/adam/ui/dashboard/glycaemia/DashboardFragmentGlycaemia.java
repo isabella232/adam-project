@@ -15,7 +15,7 @@ import org.androidannotations.annotations.ViewById;
 import org.project.adam.BaseFragment;
 import org.project.adam.R;
 import org.project.adam.persistence.Glycaemia;
-import org.project.adam.util.ui.RecyclerViewAdapterBase;
+import org.project.adam.ui.util.RecyclerViewAdapterBase;
 
 import java.util.ArrayList;
 import java.util.Calendar;

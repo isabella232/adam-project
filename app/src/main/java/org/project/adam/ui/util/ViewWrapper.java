@@ -1,4 +1,4 @@
-package org.project.adam.util.ui;
+package org.project.adam.ui.util;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;

@@ -8,8 +8,8 @@ import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
 import org.project.adam.persistence.Diet;
-import org.project.adam.util.ui.RecyclerViewAdapterBase;
-import org.project.adam.util.ui.ViewWrapper;
+import org.project.adam.ui.util.RecyclerViewAdapterBase;
+import org.project.adam.ui.util.ViewWrapper;
 
 import java.util.ArrayList;
 import java.util.Collection;
