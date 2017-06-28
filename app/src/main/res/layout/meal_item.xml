@@ -10,7 +10,7 @@
 
     <TextView
         android:id="@+id/hour"
-        style="@style/font_lunch_item_hour"
+        style="@style/font_meal_item_hour"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/small_margin"
@@ -19,7 +19,7 @@
 
     <TextView
         android:id="@+id/content"
-        style="@style/font_lunch_item_content"
+        style="@style/font_meal_item_content"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"/>

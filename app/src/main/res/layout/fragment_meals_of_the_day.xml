@@ -42,7 +42,7 @@
 
 
         <TextView
-            android:id="@+id/selected_lunch_time_of_day"
+            android:id="@+id/selected_meal_time_of_day"
             style="@style/font_lunch_selected_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -78,20 +78,20 @@
         android:layout_marginBottom="@dimen/small_margin">
 
         <ImageView
-            android:id="@+id/previous_lunch"
+            android:id="@+id/previous_meal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/medium_padding"
             android:src="@drawable/ic_arrow_left"/>
 
-        <org.project.adam.ui.dashboard.lunch.WrapContentHeightViewPager
-            android:id="@+id/lunch_detail"
+        <org.project.adam.ui.dashboard.meal.WrapContentHeightViewPager
+            android:id="@+id/meal_detail"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"/>
 
         <ImageView
-            android:id="@+id/next_lunch"
+            android:id="@+id/next_meal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/medium_padding"

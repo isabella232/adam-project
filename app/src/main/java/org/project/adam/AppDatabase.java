@@ -12,12 +12,12 @@ import org.project.adam.persistence.Diet;
 import org.project.adam.persistence.DietDao;
 import org.project.adam.persistence.Glycaemia;
 import org.project.adam.persistence.GlycaemiaDao;
-import org.project.adam.persistence.Lunch;
-import org.project.adam.persistence.LunchDao;
+import org.project.adam.persistence.Meal;
+import org.project.adam.persistence.MealDao;
 import org.project.adam.util.DatabasePopulator;
 import org.project.adam.util.DateConverters;
 
-@Database(entities = {Lunch.class, Glycaemia.class, Diet.class}, version = 2, exportSchema = false)
+@Database(entities = {Meal.class, Glycaemia.class, Diet.class}, version = 2, exportSchema = false)
 @TypeConverters(DateConverters.class)
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -52,6 +52,6 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public abstract GlycaemiaDao glycemiaDao();
 
-    public abstract LunchDao lunchDao();
+    public abstract MealDao mealDao();
 
 }

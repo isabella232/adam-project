@@ -22,24 +22,24 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @RunWith(ZohhakRunner.class)
-public class DietLoaderTest {
+public class MealLoaderTest {
     private static final String SEPARATOR = ";";
 
-    private DietLoader dietLoader;
+    private MealLoader mealLoader;
 
     @Before
     public void buildDietLoader() {
         Context context = mock(Context.class);
         Preferences_ preferences = new Preferences_(context);
-        dietLoader = new DietLoader();
-        dietLoader.preferences = preferences;
+        mealLoader = new MealLoader();
+        mealLoader.preferences = preferences;
         when(context.getString(anyInt())).thenReturn(SEPARATOR);
     }
 
     @TestWith({"000:00", "00:000", ":00", "00:", "0000", ":", "0A:00", "00:A0"})
     public void time_should_not_been_read(final String badTimeFormat) {
         try {
-            dietLoader.parseTimeOfDay(badTimeFormat);
+            mealLoader.parseTimeOfDay(badTimeFormat);
             fail("Should not happen");
         } catch (IOException io) {
             assertThat(io.getMessage())
@@ -51,7 +51,7 @@ public class DietLoaderTest {
         separator = ";")
     public void time_should_be_successfully_read(String timeOfDay, int expected)
         throws IOException {
-        assertThat(dietLoader.parseTimeOfDay(timeOfDay)).isEqualTo(expected);
+        assertThat(mealLoader.parseTimeOfDay(timeOfDay)).isEqualTo(expected);
     }
 
     @Test

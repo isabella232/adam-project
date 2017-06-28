@@ -4,7 +4,7 @@ package org.project.adam.util;
 import org.project.adam.AppDatabase;
 import org.project.adam.persistence.Diet;
 import org.project.adam.persistence.Glycaemia;
-import org.project.adam.persistence.Lunch;
+import org.project.adam.persistence.Meal;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -26,43 +26,43 @@ public class DatabasePopulator {
                 .id(dietId)
                 .name(menuName)
                 .build(),
-            Lunch.builder()
+            Meal.builder()
                 .id(baseLunchId + 1)
                 .dietId(dietId)
                 .content("Oeufs")
                 .timeOfDay(525)
                 .build(),
-            Lunch.builder()
+            Meal.builder()
                 .id(baseLunchId + 2)
                 .dietId(dietId)
                 .content("Maizena")
                 .timeOfDay(645)
                 .build(),
-            Lunch.builder()
+            Meal.builder()
                 .id(baseLunchId + 3)
                 .dietId(dietId)
                 .content("Riz & Poisson")
                 .timeOfDay(765)
                 .build(),
-            Lunch.builder()
+            Meal.builder()
                 .id(baseLunchId + 4)
                 .dietId(dietId)
                 .content("Maizena")
                 .timeOfDay(885)
                 .build(),
-            Lunch.builder()
+            Meal.builder()
                 .id(baseLunchId + 5)
                 .dietId(dietId)
                 .content("Maizena")
                 .timeOfDay(1025)
                 .build(),
-            Lunch.builder()
+            Meal.builder()
                 .id(baseLunchId + 6)
                 .dietId(dietId)
                 .content("Pate")
                 .timeOfDay(1200)
                 .build(),
-            Lunch.builder()
+            Meal.builder()
                 .id(baseLunchId + 7)
                 .dietId(dietId)
                 .content("Tete de veau")
@@ -71,11 +71,11 @@ public class DatabasePopulator {
 
     }
 
-    private static void createDiet(AppDatabase db, Diet diet, Lunch... lunches) {
+    private static void createDiet(AppDatabase db, Diet diet, Meal... meals) {
         db.beginTransaction();
         try {
             db.dietDao().insert(diet);
-            db.lunchDao().insert(lunches);
+            db.mealDao().insert(meals);
             db.setTransactionSuccessful();
         } finally {
             db.endTransaction();

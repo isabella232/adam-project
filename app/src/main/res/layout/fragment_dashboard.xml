@@ -24,7 +24,7 @@
 
             <fragment
                 android:id="@+id/meals_of_the_day"
-                android:name="org.project.adam.ui.dashboard.lunch.LunchesOfTheDayFragment_"
+                android:name="org.project.adam.ui.dashboard.meal.MealsOfTheDayFragment_"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_collapseMode="parallax"

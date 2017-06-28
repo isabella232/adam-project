@@ -59,14 +59,6 @@
                 android:value=".MainActivity_" />
         </activity>
 
-        <activity android:name=".ui.util.DatePickerActivity_"
-            android:parentActivityName=".MainActivity_" >
-
-            <!-- Parent activity meta-data to support 4.0 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity_" />
-        </activity>
 
         <receiver android:name=".alert.AlertReceiver_">RECEIVER_ACTION
             <intent-filter>

@@ -19,7 +19,7 @@ import org.androidannotations.annotations.ViewById;
 import org.project.adam.BaseActivity;
 import org.project.adam.R;
 import org.project.adam.persistence.Diet;
-import org.project.adam.persistence.Lunch;
+import org.project.adam.persistence.Meal;
 
 import java.util.List;
 
@@ -71,10 +71,10 @@ public class DietDetailActivity extends BaseActivity {
         });
 
         dietDetailViewModel.getLunches()
-            .observe(this, new Observer<List<Lunch>>() {
+            .observe(this, new Observer<List<Meal>>() {
                 @Override
-                public void onChanged(@Nullable List<Lunch> lunches) {
-                    lunchListAdapter.update(lunches);
+                public void onChanged(@Nullable List<Meal> meals) {
+                    lunchListAdapter.update(meals);
                 }
             });
     }

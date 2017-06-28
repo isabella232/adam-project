@@ -17,7 +17,7 @@ import android.view.View;
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.EView;
 import org.project.adam.R;
-import org.project.adam.persistence.Lunch;
+import org.project.adam.persistence.Meal;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -141,13 +141,13 @@ public class IndicatorCircleView extends View implements ViewPager.OnPageChangeL
      * TODO move somewhere else
      * must be ordered, otherwise order later
      */
-    public void setMeals(List<Lunch> meals) {
+    public void setMeals(List<Meal> meals) {
         indicators.clear();
         int minTime = Integer.MAX_VALUE;
         int maxTime = 0;
 
-        for (Lunch lunch : meals) {
-            int time = lunch.getTimeOfDay();
+        for (Meal meal : meals) {
+            int time = meal.getTimeOfDay();
             if (time > maxTime) {
                 maxTime = time;
             }
@@ -156,8 +156,8 @@ public class IndicatorCircleView extends View implements ViewPager.OnPageChangeL
             }
         }
 
-        for (Lunch lunch : meals) {
-            float progress = (float) (lunch.getTimeOfDay() - minTime) / (float) (maxTime - minTime);
+        for (Meal meal : meals) {
+            float progress = (float) (meal.getTimeOfDay() - minTime) / (float) (maxTime - minTime);
             Timber.d("computed progress %f", progress);
             indicators.add(progress);
         }

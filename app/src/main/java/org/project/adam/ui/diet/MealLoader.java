@@ -3,7 +3,7 @@ package org.project.adam.ui.diet;
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 import org.project.adam.Preferences_;
-import org.project.adam.persistence.Lunch;
+import org.project.adam.persistence.Meal;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
 import timber.log.Timber;
 
 @EBean
-public class DietLoader {
+public class MealLoader {
 
     public static final String CSV_DEFAULT_SEPARATOR  =";";
 
@@ -27,11 +27,11 @@ public class DietLoader {
     protected Preferences_ preferences;
 
 
-    public  List<Lunch> parseLunchesFromCsv(InputStream csvFile) throws IOException {
-        Timber.d("parseLunchesFromCsv - start");
+    public  List<Meal> parseMealsFromCsv(InputStream csvFile) throws IOException {
+        Timber.d("parseMealsFromCsv - start");
         List<String> lines = readFileContent(csvFile);
         String separator = preferences.fieldSeparatorsForImport().getOr(CSV_DEFAULT_SEPARATOR);
-        List<Lunch> result = new ArrayList<>();
+        List<Meal> result = new ArrayList<>();
         Map<String,String> mealMap = new HashMap<>();
 
         for(String line : lines){
@@ -50,7 +50,7 @@ public class DietLoader {
         }
 
         for (Map.Entry<String, String> entry : mealMap.entrySet()) {
-            result.add(Lunch.builder()
+            result.add(Meal.builder()
                 .timeOfDay(parseTimeOfDay(entry.getKey()))
                 .content(entry.getValue())
                 .build());

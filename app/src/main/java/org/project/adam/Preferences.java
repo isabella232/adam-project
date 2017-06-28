@@ -5,7 +5,7 @@ import org.androidannotations.annotations.sharedpreferences.DefaultInt;
 import org.androidannotations.annotations.sharedpreferences.DefaultString;
 import org.androidannotations.annotations.sharedpreferences.SharedPref;
 import org.project.adam.ui.dashboard.glycaemia.InputGlycaemiaActivity;
-import org.project.adam.ui.diet.DietLoader;
+import org.project.adam.ui.diet.MealLoader;
 
 import static org.project.adam.alert.AlertScheduler.DEFAULT_TIME_IN_MN;
 
@@ -19,7 +19,7 @@ public interface Preferences {
     @DefaultInt(MainActivity.DEFAULT_DIET_ID)
     int currentDietId();
 
-    @DefaultString(DietLoader.CSV_DEFAULT_SEPARATOR)
+    @DefaultString(MealLoader.CSV_DEFAULT_SEPARATOR)
     String fieldSeparatorsForImport();
 
     String recipientsEmails();

@@ -1,4 +1,4 @@
-package org.project.adam.ui.dashboard.lunch;
+package org.project.adam.ui.dashboard.meal;
 
 import android.widget.TextView;
 
@@ -7,22 +7,22 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 import org.project.adam.BaseFragment;
 import org.project.adam.R;
-import org.project.adam.persistence.Lunch;
+import org.project.adam.persistence.Meal;
 
-@EFragment(R.layout.fragment_lunch)
-public class LunchDetailFragment extends BaseFragment {
+@EFragment(R.layout.fragment_meal)
+public class MealDetailFragment extends BaseFragment {
 
     @ViewById(R.id.content)
     TextView content;
 
-    private Lunch lunch;
+    private Meal meal;
 
-    public void bind(Lunch lunch) {
-        this.lunch = lunch;
+    public void bind(Meal meal) {
+        this.meal = meal;
     }
 
     @AfterViews
     void init() {
-        content.setText(lunch.getContent());
+        content.setText(meal.getContent());
     }
 }
