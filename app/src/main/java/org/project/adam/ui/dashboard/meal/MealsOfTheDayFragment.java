@@ -1,4 +1,4 @@
-package org.project.adam.ui.dashboard.lunch;
+package org.project.adam.ui.dashboard.meal;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;

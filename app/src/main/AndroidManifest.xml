@@ -58,7 +58,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity_" />
         </activity>
-        
+
 
         <receiver android:name=".alert.AlertReceiver_">RECEIVER_ACTION
             <intent-filter>
