@@ -6,7 +6,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 
 import org.project.adam.AppDatabase;
-import org.project.adam.persistence.Lunch;
+import org.project.adam.persistence.Meal;
 
 import java.util.List;
 
@@ -14,19 +14,19 @@ import java.util.List;
  * Created by bastien on 22/06/2017.
  */
 
-public class LunchListViewModel extends AndroidViewModel {
+public class MealListViewModel extends AndroidViewModel {
 
     final AppDatabase appDatabase;
 
-    private LiveData<List<Lunch>> lunches = new MutableLiveData<>();
+    private LiveData<List<Meal>> meals = new MutableLiveData<>();
 
-    public LunchListViewModel(Application application) {
+    public MealListViewModel(Application application) {
         super(application);
         appDatabase = AppDatabase.getDatabase(application);
     }
 
-    public LiveData<List<Lunch>> findFromDiet(int dietId) {
-        lunches = appDatabase.lunchDao().findFromDiet(dietId);
-        return lunches;
+    public LiveData<List<Meal>> findFromDiet(int dietId) {
+        meals = appDatabase.mealDao().findFromDiet(dietId);
+        return meals;
     }
 }

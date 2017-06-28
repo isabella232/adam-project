@@ -14,7 +14,7 @@ import org.androidannotations.annotations.SystemService;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 import org.project.adam.AppDatabase;
 import org.project.adam.Preferences_;
-import org.project.adam.persistence.Lunch;
+import org.project.adam.persistence.Meal;
 import org.project.adam.util.DateFormatters;
 
 import java.util.Calendar;
@@ -63,19 +63,19 @@ public class AlertScheduler {
 
         Timber.d("Setting up alarms");
 
-        List<Lunch> lunches = appDatabase.lunchDao().findFromDietSync(dietId);
-        if (lunches == null) {
+        List<Meal> meals = appDatabase.mealDao().findFromDietSync(dietId);
+        if (meals == null) {
             return;
         }
 
-        Timber.d("hello, iterating on %d lunches ", lunches.size());
+        Timber.d("hello, iterating on %d meals ", meals.size());
 
         int i = 0;
-        for (Lunch lunch : lunches) {
-            Intent intent = getBroadcastIntent(lunch);
+        for (Meal meal : meals) {
+            Intent intent = getBroadcastIntent(meal);
 
             //check if need to add 24h
-            Calendar calendar = DateFormatters.getCalendarFromMinutesOfDay(lunch.getTimeOfDay()-preferences.reminderTimeInMinutes().getOr(DEFAULT_TIME_IN_MN));
+            Calendar calendar = DateFormatters.getCalendarFromMinutesOfDay(meal.getTimeOfDay()-preferences.reminderTimeInMinutes().getOr(DEFAULT_TIME_IN_MN));
 
             long time = calendar.getTimeInMillis();
             if (time < System.currentTimeMillis()) {
@@ -84,7 +84,7 @@ public class AlertScheduler {
                 time += AlarmManager.INTERVAL_DAY;
             }
 
-            Timber.d ("alarm scheduled for lunch %s at %d", lunch, time);
+            Timber.d ("alarm scheduled for meal %s at %d", meal, time);
 
             PendingIntent  alarmIntent = PendingIntent.getBroadcast(context, i, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, time, AlarmManager.INTERVAL_DAY, alarmIntent);
@@ -93,10 +93,10 @@ public class AlertScheduler {
     }
 
     @NonNull
-    private Intent getBroadcastIntent(Lunch lunch) {
+    private Intent getBroadcastIntent(Meal meal) {
         Intent intent = getStandardIntent();
-        intent.putExtra(AlertReceiver_.TIME_EXTRA, DateFormatters.formatMinutesOfDay(lunch.getTimeOfDay()));
-        intent.putExtra(AlertReceiver_.CONTENT_EXTRA, lunch.getContent());
+        intent.putExtra(AlertReceiver_.TIME_EXTRA, DateFormatters.formatMinutesOfDay(meal.getTimeOfDay()));
+        intent.putExtra(AlertReceiver_.CONTENT_EXTRA, meal.getContent());
         return intent;
     }
 

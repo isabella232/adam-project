@@ -7,7 +7,7 @@ import android.os.AsyncTask;
 
 import org.project.adam.AppDatabase;
 import org.project.adam.persistence.Diet;
-import org.project.adam.persistence.Lunch;
+import org.project.adam.persistence.Meal;
 
 import java.util.List;
 
@@ -28,7 +28,7 @@ public class DietListViewModel extends AndroidViewModel {
         diets = appDatabase.dietDao().findAll();
     }
 
-    public void createDiet(final Diet diet, final Lunch ... lunches){
+    public void createDiet(final Diet diet, final Meal... meals){
         new AsyncTask<Void, Void, Void>(){
             @Override
             protected Void doInBackground(Void... voids) {
@@ -36,10 +36,10 @@ public class DietListViewModel extends AndroidViewModel {
                 Timber.w("Diet %d", generatedIds.size());
                 if(generatedIds.size() == 1
                     && generatedIds.get(0) != null && generatedIds.get(0) != 0){
-                    for(Lunch lunch : lunches){
-                        lunch.setDietId(generatedIds.get(0).intValue());
+                    for(Meal meal : meals){
+                        meal.setDietId(generatedIds.get(0).intValue());
                     }
-                    appDatabase.lunchDao().insert(lunches);
+                    appDatabase.mealDao().insert(meals);
                 }
                 return null;
             }

@@ -26,7 +26,7 @@ import org.androidannotations.annotations.res.StringRes;
 import org.project.adam.BaseFragment;
 import org.project.adam.R;
 import org.project.adam.persistence.Diet;
-import org.project.adam.persistence.Lunch;
+import org.project.adam.persistence.Meal;
 
 import java.io.IOException;
 import java.util.List;
@@ -49,7 +49,7 @@ public class DietListFragment extends BaseFragment implements DietListAdapter.Di
     @Bean
     DietUtils dietUtils;
     @Bean
-    DietLoader dietLoader;
+    MealLoader mealLoader;
 
     @ViewById(R.id.item_list)
     RecyclerView items;
@@ -104,9 +104,9 @@ public class DietListFragment extends BaseFragment implements DietListAdapter.Di
         if (resultCode == Activity.RESULT_OK) {
             try {
                 Context context = getContext();
-                List<Lunch> lunches = dietLoader.parseLunchesFromCsv(context.getContentResolver()
+                List<Meal> meals = mealLoader.parseMealsFromCsv(context.getContentResolver()
                     .openInputStream(data.getData()));
-                createDiet(context, lunches);
+                createDiet(context, meals);
             } catch (IOException f) {
                 Timber.w(f, "Error while reading file");
             }
@@ -129,7 +129,7 @@ public class DietListFragment extends BaseFragment implements DietListAdapter.Di
     }
 
 
-    private void createDiet(final Context context, final List<Lunch> lunches) {
+    private void createDiet(final Context context, final List<Meal> meals) {
         AlertDialog.Builder alert = new AlertDialog.Builder(context);
         alert.setTitle(enterDietNameTitle);
         alert.setMessage(enterDietNameContent);
@@ -153,7 +153,7 @@ public class DietListFragment extends BaseFragment implements DietListAdapter.Di
                             dietListViewModel.createDiet(Diet.builder()
                                     .name(dietName)
                                     .build(),
-                                lunches.toArray(new Lunch[lunches.size()]));
+                                meals.toArray(new Meal[meals.size()]));
                         }
                     }
                 });
