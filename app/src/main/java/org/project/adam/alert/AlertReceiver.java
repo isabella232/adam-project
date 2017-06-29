@@ -72,6 +72,8 @@ public class AlertReceiver extends AbstractBroadcastReceiver {
 
         Random r = new Random();
         notificationManager.notify(r.nextInt(), mBuilder.build());
+
+        alertScheduler.schedule();
     }
 
     private Uri notificationSoundUri() {
