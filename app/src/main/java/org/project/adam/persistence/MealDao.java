@@ -11,13 +11,13 @@ import java.util.List;
 @Dao
 public interface MealDao {
 
-    @Query("SELECT * from lunches")
+    @Query("SELECT * from meals")
     LiveData<List<Meal>> findAll();
 
-    @Query("SELECT * from lunches where diet_id = :dietId order by time_of_day")
+    @Query("SELECT * from meals where diet_id = :dietId order by time_of_day")
     LiveData<List<Meal>> findFromDiet(int dietId);
 
-    @Query("SELECT * from lunches where diet_id = :dietId order by time_of_day")
+    @Query("SELECT * from meals where diet_id = :dietId order by time_of_day")
     List<Meal> findFromDietSync(int dietId);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
