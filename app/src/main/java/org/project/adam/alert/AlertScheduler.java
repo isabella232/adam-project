@@ -87,7 +87,13 @@ public class AlertScheduler {
             Timber.d ("alarm scheduled for meal %s at %d", meal, time);
 
             PendingIntent  alarmIntent = PendingIntent.getBroadcast(context, i, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, time, AlarmManager.INTERVAL_DAY, alarmIntent);
+
+            //   if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            if (android.os.Build.VERSION.SDK_INT >= 23){
+                alarmMgr.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, time, alarmIntent);
+            } else{
+                alarmMgr.setExact(AlarmManager.RTC_WAKEUP, time, alarmIntent);
+            }
             i++;
         }
     }
