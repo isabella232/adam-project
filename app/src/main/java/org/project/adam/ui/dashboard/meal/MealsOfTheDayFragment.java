@@ -63,34 +63,24 @@ public class MealsOfTheDayFragment extends BaseFragment {
                 public void onChanged(@Nullable List<Meal> meals) {
                     mealDetailAdapter.update(meals);
                     circleView.setMeals(meals);
-                    setNextMeal(meals);
+                    displayNextMealOfDay();
                 }
             });
-    }
-
-    void setNextMeal(List<Meal> meals) {
-        if (meals.isEmpty()) {
-            return;
-        }
-        Calendar currentTime = Calendar.getInstance();
-        int currentTimeInMinutes = currentTime.get(Calendar.MINUTE) + currentTime.get(Calendar.HOUR_OF_DAY) * 60;
-        int nextMealPage = meals.size() - 1;
-
-        for (int i = meals.size() - 1; i >= 0; --i) {
-            if (meals.get(i).getTimeOfDay() + 15 > currentTimeInMinutes) {
-                nextMealPage = i;
-            }
-        }
-
-        circleView.setNextMealPosition(nextMealPage);
-        mealDetailViewPager.setCurrentItem(nextMealPage);
-
     }
 
     @Override
     public void onResume() {
         super.onResume();
         displayCurrentTime();
+        displayNextMealOfDay();
+    }
+
+    private void displayNextMealOfDay() {
+        int indexOfNextMeal = mealDetailAdapter.getNextMealIndex();
+        if(indexOfNextMeal >= 0){
+            circleView.setNextMealPosition(indexOfNextMeal);
+            mealDetailViewPager.setCurrentItem(indexOfNextMeal);
+        }
     }
 
     private void displayCurrentTime() {
@@ -115,6 +105,7 @@ public class MealsOfTheDayFragment extends BaseFragment {
     private class MealDetailAdapter extends FragmentPagerAdapter {
 
         List<MealDetailFragment> mealFragments = new ArrayList<>();
+
         private List<Meal> meals;
 
         public MealDetailAdapter() {
@@ -145,8 +136,24 @@ public class MealsOfTheDayFragment extends BaseFragment {
             }
         }
 
-        public Meal getCurrentMeal() {
+        Meal getCurrentMeal() {
             return meals.get(mealDetailViewPager.getCurrentItem());
+        }
+
+        public int getNextMealIndex() {
+            if (meals == null || meals.isEmpty()) {
+                return -1;
+            }
+            Calendar currentTime = Calendar.getInstance();
+            int currentTimeInMinutes = currentTime.get(Calendar.MINUTE) + currentTime.get(Calendar.HOUR_OF_DAY) * 60;
+            int nextMealIndex = meals.size() - 1;
+
+            for (int i = meals.size() - 1; i >= 0; --i) {
+                if (meals.get(i).getTimeOfDay() + 15 > currentTimeInMinutes) {
+                    nextMealIndex = i;
+                }
+            }
+            return nextMealIndex;
         }
     }
 }
