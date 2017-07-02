@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.support.annotation.NonNull;
 
 import org.androidannotations.annotations.AfterInject;
@@ -89,7 +90,7 @@ public class AlertScheduler {
             PendingIntent  alarmIntent = PendingIntent.getBroadcast(context, i, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
             //   if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
-            if (android.os.Build.VERSION.SDK_INT >= 23){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
                 alarmMgr.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, time, alarmIntent);
             } else{
                 alarmMgr.setExact(AlarmManager.RTC_WAKEUP, time, alarmIntent);
