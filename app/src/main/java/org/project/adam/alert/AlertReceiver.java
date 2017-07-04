@@ -1,5 +1,6 @@
 package org.project.adam.alert;
 
+import android.app.KeyguardManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -13,6 +14,7 @@ import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EReceiver;
 import org.androidannotations.annotations.ReceiverAction;
 import org.androidannotations.annotations.SystemService;
+import org.androidannotations.annotations.WakeLock;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 import org.androidannotations.api.support.content.AbstractBroadcastReceiver;
 import org.project.adam.MainActivity_;
@@ -47,9 +49,24 @@ public class AlertReceiver extends AbstractBroadcastReceiver {
     }
 
     @ReceiverAction(actions = RECEIVER_ACTION)
-    void myAction(Intent intent, @ReceiverAction.Extra String time, @ReceiverAction.Extra String content, Context context) {
+    void wakeUpAlert(Intent intent, @ReceiverAction.Extra String time, @ReceiverAction.Extra String content, Context context) {
         Timber.i("ALARME RECEIVED for meal %s", time);
 
+    //    showNotification(time, content, context);
+        showAlertActivity(context);
+
+        alertScheduler.schedule();
+    }
+    @SystemService
+    protected KeyguardManager keyguardManager;
+    @WakeLock(tag = "MyTag", level = WakeLock.Level.FULL_WAKE_LOCK, flags = WakeLock.Flag.ACQUIRE_CAUSES_WAKEUP)
+    protected void showAlertActivity(Context context){
+        KeyguardManager.KeyguardLock keyguardLock = keyguardManager.newKeyguardLock("TAG");
+        keyguardLock.disableKeyguard();
+        AlertActivity_.intent(context).start();
+    }
+
+    private void showNotification( String time, String content, Context context) {
         PendingIntent pi = PendingIntent.getActivity(context, 0, MainActivity_.intent(context).get(), PendingIntent.FLAG_UPDATE_CURRENT);
 
         String body = String.format(context.getResources().getString(R.string.notif_content), time);
@@ -72,8 +89,6 @@ public class AlertReceiver extends AbstractBroadcastReceiver {
 
         Random r = new Random();
         notificationManager.notify(r.nextInt(), mBuilder.build());
-
-        alertScheduler.schedule();
     }
 
     private Uri notificationSoundUri() {
