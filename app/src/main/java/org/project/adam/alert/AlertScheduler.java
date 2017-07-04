@@ -75,29 +75,37 @@ public class AlertScheduler {
         for (Meal meal : meals) {
             Intent intent = getBroadcastIntent(meal);
 
-            //check if need to add 24h
-            Calendar calendar = DateFormatters.getCalendarFromMinutesOfDay(meal.getTimeOfDay()-preferences.reminderTimeInMinutes().getOr(DEFAULT_TIME_IN_MN));
-
+            Calendar calendar = DateFormatters.getCalendarFromMinutesOfDay(meal.getTimeOfDay() - preferences.reminderTimeInMinutes().getOr(DEFAULT_TIME_IN_MN));
             long time = calendar.getTimeInMillis();
+
+            //check if need to add 24h
             if (time < System.currentTimeMillis()) {
 
                 Timber.d("Plus one day!");
                 time += AlarmManager.INTERVAL_DAY;
             }
 
-            Timber.d ("alarm scheduled for meal %s at %d", meal, time);
-
-            PendingIntent  alarmIntent = PendingIntent.getBroadcast(context, i, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-            //   if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-                alarmMgr.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, time, alarmIntent);
-            } else{
-                alarmMgr.setExact(AlarmManager.RTC_WAKEUP, time, alarmIntent);
-            }
+            Timber.d("alarm scheduled for meal %s at %d", meal, time);
+            PendingIntent alarmIntent = PendingIntent.getBroadcast(context, i, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            setupAlarm(time, alarmIntent);
             i++;
         }
     }
+
+    public void setupFakeAlarm() {
+        long inAFewSeconds = Calendar.getInstance().getTimeInMillis() + 15 * 1000;
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 99, getStandardIntent(), PendingIntent.FLAG_UPDATE_CURRENT);
+        setupAlarm(inAFewSeconds, alarmIntent);
+    }
+
+    private void setupAlarm(long time, PendingIntent alarmIntent) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            alarmMgr.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, time, alarmIntent);
+        } else {
+            alarmMgr.setExact(AlarmManager.RTC_WAKEUP, time, alarmIntent);
+        }
+    }
+
 
     @NonNull
     private Intent getBroadcastIntent(Meal meal) {

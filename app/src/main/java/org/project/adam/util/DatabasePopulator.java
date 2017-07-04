@@ -11,66 +11,6 @@ import java.util.Date;
 
 public class DatabasePopulator {
 
-    public static void initializeDb(AppDatabase db) {
-        insertDiet(db, 1, 0, "Premier régime");
-        // Dirty
-        insertDiet(db, 2, 7, "Second régime");
-        // Dirty
-        insertDiet(db, 3, 12, "Third menu");
-        insertManyGlycaemia(db);
-        insertDiet(db, 3, 14, "Third régime");
-    }
-
-    private static void insertDiet(AppDatabase db, int dietId, int baseLunchId, String menuName) {
-        createDiet(db, Diet.builder()
-                .id(dietId)
-                .name(menuName)
-                .build(),
-            Meal.builder()
-                .id(baseLunchId + 1)
-                .dietId(dietId)
-                .content("Oeufs")
-                .timeOfDay(525)
-                .build(),
-            Meal.builder()
-                .id(baseLunchId + 2)
-                .dietId(dietId)
-                .content("Maizena")
-                .timeOfDay(645)
-                .build(),
-            Meal.builder()
-                .id(baseLunchId + 3)
-                .dietId(dietId)
-                .content("Riz & Poisson")
-                .timeOfDay(765)
-                .build(),
-            Meal.builder()
-                .id(baseLunchId + 4)
-                .dietId(dietId)
-                .content("Maizena")
-                .timeOfDay(885)
-                .build(),
-            Meal.builder()
-                .id(baseLunchId + 5)
-                .dietId(dietId)
-                .content("Maizena")
-                .timeOfDay(1025)
-                .build(),
-            Meal.builder()
-                .id(baseLunchId + 6)
-                .dietId(dietId)
-                .content("Pate")
-                .timeOfDay(1200)
-                .build(),
-            Meal.builder()
-                .id(baseLunchId + 7)
-                .dietId(dietId)
-                .content("Tete de veau")
-                .timeOfDay(1310)
-                .build());
-
-    }
-
     private static void createDiet(AppDatabase db, Diet diet, Meal... meals) {
         db.beginTransaction();
         try {
@@ -82,7 +22,34 @@ public class DatabasePopulator {
         }
     }
 
-    private static void insertManyGlycaemia(AppDatabase db) {
+    private static void insertGlycaemia(AppDatabase db,
+                                        int glyceariaId,
+                                        int lunchId,
+                                        float value,
+                                        Date date,
+                                        String context,
+                                        String comment) {
+        createGlycaemia(db, Glycaemia.builder()
+            .id(glyceariaId)
+            .value(value)
+            .date(date)
+            .context(context)
+            .comment(comment)
+            .build());
+
+    }
+
+    private static void createGlycaemia(AppDatabase db, Glycaemia glycaemia) {
+        db.beginTransaction();
+        try {
+            db.glycemiaDao().insert(glycaemia);
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
+    }
+
+    public static void insertSampleGlycaemia(AppDatabase db) {
         int id = 0;
         float value = 40f;
 
@@ -107,31 +74,104 @@ public class DatabasePopulator {
         }
     }
 
-    private static void insertGlycaemia(AppDatabase db,
-                                        int glyceariaId,
-                                        int lunchId,
-                                        float value,
-                                        Date date,
-                                        String context,
-                                        String comment
-    ) {
-        createGlycaemia(db, Glycaemia.builder()
-            .id(glyceariaId)
-            .value(value)
-            .date(date)
-            .context(context)
-            .comment(comment)
-            .build());
+    public static void insertSampleDiets(AppDatabase db) {
+        int baseLunchId = 0;
+        int dietId = 1;
+        createDiet(db, Diet.builder()
+                .id(dietId)
+                .name("Régime 1")
+                .build(),
+            Meal.builder()
+                .id(baseLunchId++)
+                .dietId(dietId)
+                .content("Oeufs")
+                .timeOfDay(525)
+                .build(),
+            Meal.builder()
+                .id(baseLunchId++)
+                .dietId(dietId)
+                .content("Maizena")
+                .timeOfDay(645)
+                .build(),
+            Meal.builder()
+                .id(baseLunchId++)
+                .dietId(dietId)
+                .content("Riz & Poisson")
+                .timeOfDay(765)
+                .build(),
+            Meal.builder()
+                .id(baseLunchId++)
+                .dietId(dietId)
+                .content("Maizena")
+                .timeOfDay(885)
+                .build(),
+            Meal.builder()
+                .id(baseLunchId++)
+                .dietId(dietId)
+                .content("Maizena")
+                .timeOfDay(1025)
+                .build(),
+            Meal.builder()
+                .id(baseLunchId++)
+                .dietId(dietId)
+                .content("Pate")
+                .timeOfDay(1200)
+                .build(),
+            Meal.builder()
+                .id(baseLunchId++)
+                .dietId(dietId)
+                .content("Tete de veau")
+                .timeOfDay(1310)
+                .build());
 
+        dietId = 2;
+        createDiet(db, Diet.builder()
+                .id(dietId)
+                .name("Régime 2")
+                .build(),
+            Meal.builder()
+                .id(baseLunchId++)
+                .dietId(dietId)
+                .content("Oeufs")
+                .timeOfDay(0)
+                .build(),
+            Meal.builder()
+                .id(baseLunchId++)
+                .dietId(dietId)
+                .content("Maizena")
+                .timeOfDay(645)
+                .build(),
+            Meal.builder()
+                .id(baseLunchId++)
+                .dietId(dietId)
+                .content("Riz & Poisson")
+                .timeOfDay(765)
+                .build(),
+            Meal.builder()
+                .id(baseLunchId++)
+                .dietId(dietId)
+                .content("Maizena")
+                .timeOfDay(885)
+                .build(),
+            Meal.builder()
+                .id(baseLunchId++)
+                .dietId(dietId)
+                .content("Maizena")
+                .timeOfDay(1025)
+                .build(),
+            Meal.builder()
+                .id(baseLunchId++)
+                .dietId(dietId)
+                .content("Pate")
+                .timeOfDay(1200)
+                .build(),
+            Meal.builder()
+                .id(baseLunchId++)
+                .dietId(dietId)
+                .content("Tete de veau")
+                .timeOfDay(1310)
+                .build());
     }
 
-    private static void createGlycaemia(AppDatabase db, Glycaemia glycaemia) {
-        db.beginTransaction();
-        try {
-            db.glycemiaDao().insert(glycaemia);
-            db.setTransactionSuccessful();
-        } finally {
-            db.endTransaction();
-        }
-    }
+
 }
