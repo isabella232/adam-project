@@ -221,12 +221,12 @@ public class DataFragment extends BaseFragment {
             lineData.addDataSet(dangerValuesSet);
         }
 
-        lineData.setDrawValues(true);
+        lineData.setDrawValues(false);
 
         chart.getAxisLeft().setAxisMinimum(0);
         chart.getAxisRight().setAxisMinimum(0);
-        chart.getAxisLeft().setEnabled(false);
-        chart.getAxisRight().setEnabled(false);
+        chart.getAxisLeft().setEnabled(true);
+        chart.getAxisRight().setEnabled(true);
         IAxisValueFormatter xAxisFormatter = new DateAxisValueFormatter();
         XAxis xAxis = chart.getXAxis();
         xAxis.setValueFormatter(xAxisFormatter);
