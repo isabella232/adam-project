@@ -29,7 +29,7 @@
 
         </activity>
 
-        <activity android:name=".alert.AlertActivity_"/>
+        <activity android:showOnLockScreen="true" android:name=".alert.AlertActivity_"/>
 
         <activity
             android:name=".ui.dashboard.glycaemia.InputGlycaemiaActivity_"

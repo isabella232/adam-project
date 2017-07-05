@@ -32,11 +32,15 @@ public class AlertActivity extends BaseActivity {
         KeyguardManager.KeyguardLock keyguardLock = keyguardManager.newKeyguardLock("TAG");
         keyguardLock.disableKeyguard();*/
 
+    /*    getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
+            WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
+            WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+            WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);*/
         super.onCreate(savedInstanceState, persistentState);
     }
 
     @Click(R.id.alert_stop_button)
-    public void goToMain(){
+    public void goToMain() {
         MainActivity_.intent(this).start();
         finish();
     }
