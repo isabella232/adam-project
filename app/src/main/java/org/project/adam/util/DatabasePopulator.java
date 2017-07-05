@@ -22,15 +22,10 @@ public class DatabasePopulator {
         }
     }
 
-    private static void insertGlycaemia(AppDatabase db,
-                                        int glyceariaId,
-                                        int lunchId,
-                                        float value,
-                                        Date date,
-                                        String context,
-                                        String comment) {
+    private static void insertGlycaemia(AppDatabase db, int glycaemia, float value, Date date,
+                                        String context, String comment) {
         createGlycaemia(db, Glycaemia.builder()
-            .id(glyceariaId)
+            .id(glycaemia)
             .value(value)
             .date(date)
             .context(context)
@@ -59,19 +54,12 @@ public class DatabasePopulator {
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.HOUR_OF_DAY, 0);
 
-        for (int i = 0; i < 5; ++i) {
+        for (int i = 0; i < 24; i++) {
             calendar.set(Calendar.HOUR_OF_DAY, i);
-            insertGlycaemia(db, id++, 1, value, calendar.getTime(), "context " + id, "comment " + id);
-            value += 10;
+            insertGlycaemia(db, id++, value, calendar.getTime(), "context " + id, "comment " + id);
+            value = i < 12 ? value + 5 : value - 5;
         }
 
-        calendar.set(Calendar.DAY_OF_MONTH, 1);
-
-        for (int i = 5; i < 12; ++i) {
-            calendar.set(Calendar.HOUR_OF_DAY, i);
-            insertGlycaemia(db, id++, 1, value, calendar.getTime(), "context " + id, "comment " + id);
-            value += 10;
-        }
     }
 
     public static void insertSampleDiets(AppDatabase db) {
@@ -79,7 +67,7 @@ public class DatabasePopulator {
         int dietId = 1;
         createDiet(db, Diet.builder()
                 .id(dietId)
-                .name("Régime 1")
+                .name("Monoligne")
                 .build(),
             Meal.builder()
                 .id(baseLunchId++)
@@ -127,50 +115,64 @@ public class DatabasePopulator {
         dietId = 2;
         createDiet(db, Diet.builder()
                 .id(dietId)
-                .name("Régime 2")
+                .name("Multilignes")
                 .build(),
             Meal.builder()
                 .id(baseLunchId++)
                 .dietId(dietId)
-                .content("Oeufs")
-                .timeOfDay(0)
+                .content("30g de pain complet\n" +
+                    "huile d'olive")
+                .timeOfDay(8 * 60 + 45)
                 .build(),
             Meal.builder()
                 .id(baseLunchId++)
                 .dietId(dietId)
-                .content("Maizena")
-                .timeOfDay(645)
+                .content("35g de Maizena\n" +
+                    "10 g de Maxijul OU maltodextridine")
+                .timeOfDay(10 * 60 + 30)
                 .build(),
             Meal.builder()
                 .id(baseLunchId++)
                 .dietId(dietId)
-                .content("Riz & Poisson")
-                .timeOfDay(765)
+                .content("130 g de féculents (pâtes cuites ou riz cuit)\n" +
+                    "40 g de légumes mixes à l'eau\n" +
+                    "50g de viande ou poisson par jour\n" +
+                    "beurre ou huile +/- épices\n" +
+                    "+/- Yaourt au soja")
+                .timeOfDay(12 * 60)
                 .build(),
             Meal.builder()
                 .id(baseLunchId++)
                 .dietId(dietId)
-                .content("Maizena")
-                .timeOfDay(885)
+                .content("Compléter par une prise de Maizena\n" +
+                    "25g de Maizena\n" +
+                    "5 g de Maltodextridine OU Maxijul")
+                .timeOfDay(13 * 60 + 30)
                 .build(),
             Meal.builder()
                 .id(baseLunchId++)
                 .dietId(dietId)
-                .content("Maizena")
-                .timeOfDay(1025)
+                .content("35g de Maizena\n" +
+                    "10 g de Maltodextridine OU Maxijul")
+                .timeOfDay(15 * 60)
                 .build(),
             Meal.builder()
                 .id(baseLunchId++)
                 .dietId(dietId)
-                .content("Pate")
-                .timeOfDay(1200)
+                .content("130 g de féculents (pâtes cuites ou riz cuit)\n" +
+                    "40 g de légumes mixés à l'eau\n" +
+                    "beurre ou huile +/- épices\n" +
+                    "+/- Yaourt au soja")
+                .timeOfDay(18 * 60)
                 .build(),
             Meal.builder()
                 .id(baseLunchId++)
                 .dietId(dietId)
-                .content("Tete de veau")
-                .timeOfDay(1310)
-                .build());
+                .content("35g de Maizena\n" +
+                    "10 g de Maltodextridine OU Maxijul")
+                .timeOfDay(20 * 60)
+                .build()
+        );
     }
 
 
