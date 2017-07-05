@@ -25,8 +25,17 @@ import java.util.Random;
 
 import timber.log.Timber;
 
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+
 @EReceiver
 public class AlertReceiver extends AbstractBroadcastReceiver {
+
+    private static final String GROUP = "Reminder";
+
+    public static final String RECEIVER_ACTION = "org.project.adam.ALARM";
+
+    public static final int ALERTE_TYPE_NOTIFICATION=1;
+    public static final int ALERTE_TYPE_ALARME=2;
 
     @SystemService
     protected NotificationManager notificationManager;
@@ -36,11 +45,6 @@ public class AlertReceiver extends AbstractBroadcastReceiver {
 
     @Pref
     protected Preferences_ prefs;
-
-
-    private static final String GROUP = "Reminder";
-
-    public static final String RECEIVER_ACTION = "org.project.adam.ALARM";
 
     @ReceiverAction(actions = Intent.ACTION_BOOT_COMPLETED)
     public void resetAlarms() {
@@ -52,8 +56,16 @@ public class AlertReceiver extends AbstractBroadcastReceiver {
     void wakeUpAlert(Intent intent, @ReceiverAction.Extra String time, @ReceiverAction.Extra String content, Context context) {
         Timber.i("ALARME RECEIVED for meal %s", time);
 
-    //    showNotification(time, content, context);
-        showAlertActivity(context);
+        switch(prefs.alertType().get()){
+            case ALERTE_TYPE_NOTIFICATION:
+                showNotification(time,content,context);
+                break;
+            case ALERTE_TYPE_ALARME:
+                showAlertActivity(context);
+                break;
+            default:
+                Timber.d("How did we ended up here? alert type = %d",prefs.alertType().get());
+        }
 
         alertScheduler.schedule();
     }
@@ -63,7 +75,7 @@ public class AlertReceiver extends AbstractBroadcastReceiver {
     protected void showAlertActivity(Context context){
         KeyguardManager.KeyguardLock keyguardLock = keyguardManager.newKeyguardLock("TAG");
         keyguardLock.disableKeyguard();
-        AlertActivity_.intent(context).start();
+        AlertActivity_.intent(context).flags(FLAG_ACTIVITY_NEW_TASK).start();
     }
 
     private void showNotification( String time, String content, Context context) {
