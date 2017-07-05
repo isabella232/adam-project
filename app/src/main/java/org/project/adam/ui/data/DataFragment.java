@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.ScatterChart;
 import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.ScatterData;
@@ -221,12 +222,12 @@ public class DataFragment extends BaseFragment {
             lineData.addDataSet(dangerValuesSet);
         }
 
-        lineData.setDrawValues(true);
+        lineData.setDrawValues(false);
 
         chart.getAxisLeft().setAxisMinimum(0);
         chart.getAxisRight().setAxisMinimum(0);
-        chart.getAxisLeft().setEnabled(false);
-        chart.getAxisRight().setEnabled(false);
+        chart.getAxisLeft().setEnabled(true);
+        chart.getAxisRight().setEnabled(true);
         IAxisValueFormatter xAxisFormatter = new DateAxisValueFormatter();
         XAxis xAxis = chart.getXAxis();
         xAxis.setValueFormatter(xAxisFormatter);
@@ -236,7 +237,9 @@ public class DataFragment extends BaseFragment {
         chart.invalidate();
         chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         chart.getLegend().setEnabled(false);
-
+        Description description = new Description();
+        description.setText("");
+        chart.setDescription(description);
         chart.getXAxis().setAxisMinimum(min.getTime());
         chart.getXAxis().setAxisMaximum(max.getTime());
     }
