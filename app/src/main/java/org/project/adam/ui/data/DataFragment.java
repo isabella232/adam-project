@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.ScatterChart;
 import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.ScatterData;
@@ -236,7 +237,9 @@ public class DataFragment extends BaseFragment {
         chart.invalidate();
         chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         chart.getLegend().setEnabled(false);
-
+        Description description = new Description();
+        description.setText("");
+        chart.setDescription(description);
         chart.getXAxis().setAxisMinimum(min.getTime());
         chart.getXAxis().setAxisMaximum(max.getTime());
     }
