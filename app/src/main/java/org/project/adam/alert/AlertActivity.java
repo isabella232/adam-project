@@ -34,6 +34,7 @@ import static android.view.WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY;
 //TODO audio stream : use alarm?
 //TODO test not full on not pin
 //TODO Handle Sound selection
+//TODO drag to stop
 @EActivity(R.layout.activity_alert)
 @Fullscreen
 @WindowFeature({TYPE_SYSTEM_OVERLAY,
@@ -93,7 +94,7 @@ public class AlertActivity extends BaseActivity {
     }
 
     @AfterViews
-    public void updateViews(){
+    public void updateViews() {
         nextMealDetail.setText(mealContent);
         nextMealTime.setText(mealTime);
     }
@@ -122,7 +123,7 @@ public class AlertActivity extends BaseActivity {
     }
 
 
-    @Click({R.id.bell_icon,R.id.imageView})
+    @Click({R.id.bell_icon, R.id.imageView})
     @Receiver(actions = "org.project.adam.STOP_RINGING_ALARM")
     protected void stopAndExit() {
         shutUp();
@@ -152,6 +153,7 @@ public class AlertActivity extends BaseActivity {
 
 
     private void showNotif() {
+        PendingIntent gotoActivityIntent = PendingIntent.getBroadcast(this, 0, AlertActivity_.intent(this).get(), 0);
         PendingIntent stopAlarmPendingIntent = PendingIntent.getBroadcast(this, 0, new Intent(ACTION), 0);
         String body = String.format(getResources().getString(R.string.notif_content), mealTime);
         NotificationCompat.Builder mBuilder =
@@ -160,19 +162,19 @@ public class AlertActivity extends BaseActivity {
                 .setContentTitle(getString(R.string.notif_title))
                 .setAutoCancel(true)
                 .setPriority(NotificationCompat.PRIORITY_MAX)
-                .setContentIntent(stopAlarmPendingIntent)
-                .addAction(R.drawable.ic_notifications_off_white,"Stop alarm",stopAlarmPendingIntent);
+                .setContentIntent(gotoActivityIntent)
+                .addAction(R.drawable.ic_notifications_off_white, "Stop alarm", stopAlarmPendingIntent);
         notificationManager.notify(ALARM_RINGING_NOTIFICATION, mBuilder.build());
     }
 
-    private void dismissNotification(){
+    private void dismissNotification() {
         Timber.d("Cancelling the notification");
         notificationManager.cancel(ALARM_RINGING_NOTIFICATION);
     }
 
-    private void startVibrating(){
+    private void startVibrating() {
         //vibrator.vibrate(1000,new AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ALARM).setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build());
-        vibrator.vibrate(new long[]{700,700},0);
+        vibrator.vibrate(new long[]{700, 700}, 0);
     }
 
 
