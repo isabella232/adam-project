@@ -61,7 +61,7 @@ public class AlertReceiver extends AbstractBroadcastReceiver {
                 showNotification(time,content,context);
                 break;
             case ALERTE_TYPE_ALARME:
-                showAlertActivity(context);
+                showAlertActivity(time,content,context);
                 break;
             default:
                 Timber.d("How did we ended up here? alert type = %d",prefs.alertType().get());
@@ -72,10 +72,10 @@ public class AlertReceiver extends AbstractBroadcastReceiver {
     @SystemService
     protected KeyguardManager keyguardManager;
     @WakeLock(tag = "MyTag", level = WakeLock.Level.FULL_WAKE_LOCK, flags = WakeLock.Flag.ACQUIRE_CAUSES_WAKEUP)
-    protected void showAlertActivity(Context context){
+    protected void showAlertActivity(String time, String content, Context context){
         KeyguardManager.KeyguardLock keyguardLock = keyguardManager.newKeyguardLock("TAG");
         keyguardLock.disableKeyguard();
-        AlertActivity_.intent(context).flags(FLAG_ACTIVITY_NEW_TASK).start();
+        AlertActivity_.intent(context).mealContent(content).mealTime(time).flags(FLAG_ACTIVITY_NEW_TASK).start();
     }
 
     private void showNotification( String time, String content, Context context) {
@@ -92,8 +92,7 @@ public class AlertReceiver extends AbstractBroadcastReceiver {
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setContentText(body)
                 .setGroup(GROUP)
-                .setContentIntent(pi)
-                .setGroup("group");
+                .setContentIntent(pi);
 
         if (!TextUtils.isEmpty(content)) {
             mBuilder = mBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(String.format("%s\n%s", body, content)));

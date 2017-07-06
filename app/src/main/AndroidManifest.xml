@@ -8,6 +8,8 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:name=".App_"
@@ -29,7 +31,6 @@
 
         </activity>
 
-        <activity android:showOnLockScreen="true" android:name=".alert.AlertActivity_"/>
 
         <activity
             android:name=".ui.dashboard.glycaemia.InputGlycaemiaActivity_"
@@ -63,13 +64,14 @@
                 android:value=".MainActivity_" />
         </activity>
 
+        <activity android:showOnLockScreen="true" android:noHistory="true" android:name=".alert.AlertActivity_"/>
 
         <receiver android:name=".alert.AlertReceiver_">RECEIVER_ACTION
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"></action>
                 <action android:name="org.project.adam.ALARM"></action>
             </intent-filter>
-            </receiver>
+        </receiver>
 
         <meta-data
             android:name="io.fabric.ApiKey"
