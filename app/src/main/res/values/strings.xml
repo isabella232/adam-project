@@ -68,4 +68,7 @@
 
     <string name="notif_title">Bientôt l\'heure du repas!</string>
     <string name="notif_content">Prochain repas à %1$s</string>
+
+    <string name="alert_slide_hint">glissez pour arrêter</string>
+    <string name="alert_next_meal_at">Prochain repas à </string>
 </resources>

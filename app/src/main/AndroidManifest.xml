@@ -64,7 +64,15 @@
                 android:value=".MainActivity_" />
         </activity>
 
-        <activity android:showOnLockScreen="true" android:noHistory="true" android:name=".alert.AlertActivity_"/>
+        <activity android:showOnLockScreen="true"
+            android:parentActivityName=".MainActivity_"
+            android:noHistory="true" android:name=".alert.AlertActivity_"
+            android:screenOrientation="portrait">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity_" />
+        </activity>
 
         <receiver android:name=".alert.AlertReceiver_">RECEIVER_ACTION
             <intent-filter>

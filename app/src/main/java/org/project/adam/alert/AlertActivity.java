@@ -3,20 +3,22 @@ package org.project.adam.alert;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.graphics.Color;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
-import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
-import org.androidannotations.annotations.Fullscreen;
 import org.androidannotations.annotations.Receiver;
 import org.androidannotations.annotations.SystemService;
 import org.androidannotations.annotations.ViewById;
@@ -25,18 +27,16 @@ import org.project.adam.BaseActivity;
 import org.project.adam.MainActivity_;
 import org.project.adam.R;
 
+import java.io.IOException;
+
 import timber.log.Timber;
 
 import static android.view.WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD;
 import static android.view.WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED;
 import static android.view.WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY;
 
-//TODO audio stream : use alarm?
-//TODO test not full on not pin
 //TODO Handle Sound selection
-//TODO drag to stop
 @EActivity(R.layout.activity_alert)
-@Fullscreen
 @WindowFeature({TYPE_SYSTEM_OVERLAY,
     FLAG_DISMISS_KEYGUARD,
     FLAG_SHOW_WHEN_LOCKED})
@@ -57,6 +57,9 @@ public class AlertActivity extends BaseActivity {
 
     @ViewById(R.id.next_meal_time)
     protected TextView nextMealTime;
+
+    @ViewById(R.id.slide_to_unlock)
+    protected SeekBar seekBar;
 
     @Extra
     protected String mealContent;
@@ -88,7 +91,18 @@ public class AlertActivity extends BaseActivity {
     @AfterInject
     public void init() {
         Timber.d("OnInit");
-        alarmPlayer = MediaPlayer.create(this, Settings.System.DEFAULT_ALARM_ALERT_URI);
+        //alarmPlayer = MediaPlayer.create(this, Settings.System.DEFAULT_ALARM_ALERT_URI); // this will not work as setting audio stream after datasource doesn't work...
+        if(alarmPlayer == null){
+            alarmPlayer = new MediaPlayer();
+            alarmPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
+            try {
+                alarmPlayer.setDataSource(this, Settings.System.DEFAULT_ALARM_ALERT_URI);
+                alarmPlayer.prepare();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         showNotif();
 
     }
@@ -97,6 +111,35 @@ public class AlertActivity extends BaseActivity {
     public void updateViews() {
         nextMealDetail.setText(mealContent);
         nextMealTime.setText(mealTime);
+
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+                if (seekBar.getProgress() > 95) {
+                    stopAndExit();
+                } else {
+                   //bring it back to the start
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        seekBar.setProgress(0,true);
+                    } else {
+                        seekBar.setProgress(0);
+                    }
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress,
+                                          boolean fromUser) {
+
+            }
+        });
     }
 
 
@@ -123,7 +166,6 @@ public class AlertActivity extends BaseActivity {
     }
 
 
-    @Click({R.id.bell_icon, R.id.imageView})
     @Receiver(actions = "org.project.adam.STOP_RINGING_ALARM")
     protected void stopAndExit() {
         shutUp();
@@ -163,6 +205,7 @@ public class AlertActivity extends BaseActivity {
                 .setAutoCancel(true)
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setContentIntent(gotoActivityIntent)
+                .setLights(Color.RED,800,200)
                 .addAction(R.drawable.ic_notifications_off_white, "Stop alarm", stopAlarmPendingIntent);
         notificationManager.notify(ALARM_RINGING_NOTIFICATION, mBuilder.build());
     }
@@ -173,7 +216,6 @@ public class AlertActivity extends BaseActivity {
     }
 
     private void startVibrating() {
-        //vibrator.vibrate(1000,new AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ALARM).setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build());
         vibrator.vibrate(new long[]{700, 700}, 0);
     }
 

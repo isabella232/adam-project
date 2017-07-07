@@ -67,4 +67,7 @@
 
     <string name="notif_title">Time to prepare for meal!</string>
     <string name="notif_content">Next meal at %1$s</string>
+
+    <string name="alert_slide_hint">slide to stop</string>
+    <string name="alert_next_meal_at">Next meal at </string>
 </resources>
