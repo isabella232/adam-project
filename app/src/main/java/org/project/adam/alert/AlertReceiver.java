@@ -15,6 +15,7 @@ import org.androidannotations.annotations.EReceiver;
 import org.androidannotations.annotations.ReceiverAction;
 import org.androidannotations.annotations.SystemService;
 import org.androidannotations.annotations.WakeLock;
+import org.androidannotations.annotations.res.StringRes;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 import org.androidannotations.api.support.content.AbstractBroadcastReceiver;
 import org.project.adam.MainActivity_;
@@ -34,8 +35,14 @@ public class AlertReceiver extends AbstractBroadcastReceiver {
 
     public static final String RECEIVER_ACTION = "org.project.adam.ALARM";
 
-    public static final int ALERTE_TYPE_NOTIFICATION=1;
-    public static final int ALERTE_TYPE_ALARME=2;
+    @StringRes(R.string.pref_alert_type_value_none)
+    protected String alertTypeNone;
+
+    @StringRes(R.string.pref_alert_type_value_notif)
+    protected String alertTypeNotif;
+
+    @StringRes(R.string.pref_alert_type_value_alarm)
+    protected String alertTypeAlarm;
 
     @SystemService
     protected NotificationManager notificationManager;
@@ -54,31 +61,32 @@ public class AlertReceiver extends AbstractBroadcastReceiver {
 
     @ReceiverAction(actions = RECEIVER_ACTION)
     void wakeUpAlert(Intent intent, @ReceiverAction.Extra String time, @ReceiverAction.Extra String content, Context context) {
-        Timber.i("ALARME RECEIVED for meal %s", time);
-
-        switch(prefs.alertType().get()){
-            case ALERTE_TYPE_NOTIFICATION:
-                showNotification(time,content,context);
-                break;
-            case ALERTE_TYPE_ALARME:
-                showAlertActivity(time,content,context);
-                break;
-            default:
-                Timber.d("How did we ended up here? alert type = %d",prefs.alertType().get());
+        Timber.i("ALARM RECEIVED for meal %s", time);
+        String selectedAlertType = prefs.alertType().getOr(alertTypeAlarm);
+        if (alertTypeNone.equals(selectedAlertType)) {
+            Timber.d("There is an alert, but apparently no one cares");
+        } else if (alertTypeNotif.equals(selectedAlertType)) {
+            showNotification(time, content, context);
+        } else if (alertTypeAlarm.equals(selectedAlertType)) {
+            showAlertActivity(time, content, context);
+        } else {
+            Timber.w("How did we ended up here? alert type = %d", prefs.alertType().get());
         }
 
         alertScheduler.schedule();
     }
+
     @SystemService
     protected KeyguardManager keyguardManager;
+
     @WakeLock(tag = "MyTag", level = WakeLock.Level.FULL_WAKE_LOCK, flags = WakeLock.Flag.ACQUIRE_CAUSES_WAKEUP)
-    protected void showAlertActivity(String time, String content, Context context){
+    protected void showAlertActivity(String time, String content, Context context) {
         KeyguardManager.KeyguardLock keyguardLock = keyguardManager.newKeyguardLock("TAG");
         keyguardLock.disableKeyguard();
         AlertActivity_.intent(context).mealContent(content).mealTime(time).flags(FLAG_ACTIVITY_NEW_TASK).start();
     }
 
-    private void showNotification( String time, String content, Context context) {
+    private void showNotification(String time, String content, Context context) {
         PendingIntent pi = PendingIntent.getActivity(context, 0, MainActivity_.intent(context).get(), PendingIntent.FLAG_UPDATE_CURRENT);
 
         String body = String.format(context.getResources().getString(R.string.notif_content), time);
@@ -103,7 +111,7 @@ public class AlertReceiver extends AbstractBroadcastReceiver {
     }
 
     private Uri notificationSoundUri() {
-        String ringtoneUri = prefs.alertRingtone().getOr(null);
+        String ringtoneUri = prefs.notifRingtone().getOr(null);
 
         if (ringtoneUri != null) {
             return Uri.parse(ringtoneUri);

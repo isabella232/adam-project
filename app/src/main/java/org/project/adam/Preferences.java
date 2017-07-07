@@ -4,7 +4,6 @@ import org.androidannotations.annotations.sharedpreferences.DefaultFloat;
 import org.androidannotations.annotations.sharedpreferences.DefaultInt;
 import org.androidannotations.annotations.sharedpreferences.DefaultString;
 import org.androidannotations.annotations.sharedpreferences.SharedPref;
-import org.project.adam.alert.AlertReceiver;
 import org.project.adam.ui.dashboard.glycaemia.InputGlycaemiaActivity;
 import org.project.adam.ui.diet.MealLoader;
 
@@ -25,8 +24,9 @@ public interface Preferences {
 
     String recipientsEmails();
 
-    String alertRingtone();
+    String notifRingtone();
 
+    String alarmRingtone();
 
     @DefaultInt(20)
     int minGly();
@@ -40,7 +40,6 @@ public interface Preferences {
     @DefaultFloat(InputGlycaemiaActivity.DEFAULT_GLYCAEMIA)
     float lastGlycaemiaSet();
 
-    @DefaultInt(AlertReceiver.ALERTE_TYPE_ALARME)
-    int alertType();
+    String alertType();
 
 }

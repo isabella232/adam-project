@@ -3,9 +3,9 @@ package org.project.adam.alert;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
-import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Build;
 import android.os.CountDownTimer;
 import android.os.Vibrator;
@@ -23,8 +23,10 @@ import org.androidannotations.annotations.Receiver;
 import org.androidannotations.annotations.SystemService;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.WindowFeature;
+import org.androidannotations.annotations.sharedpreferences.Pref;
 import org.project.adam.BaseActivity;
 import org.project.adam.MainActivity_;
+import org.project.adam.Preferences_;
 import org.project.adam.R;
 
 import java.io.IOException;
@@ -43,7 +45,7 @@ import static android.view.WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY;
 public class AlertActivity extends BaseActivity {
 
     private static final int ALARM_DURATION_IN_S = 60;
-    public static final String ACTION = "org.project.adam.STOP_RINGING_ALARM";
+    public static final String ACTION_STOP_ALARM = "org.project.adam.STOP_RINGING_ALARM";
     public static final int ALARM_RINGING_NOTIFICATION = 777;
 
     @SystemService
@@ -66,6 +68,9 @@ public class AlertActivity extends BaseActivity {
 
     @Extra
     protected String mealTime;
+
+    @Pref
+    protected Preferences_ prefs;
 
     protected MediaPlayer alarmPlayer;
 
@@ -92,11 +97,11 @@ public class AlertActivity extends BaseActivity {
     public void init() {
         Timber.d("OnInit");
         //alarmPlayer = MediaPlayer.create(this, Settings.System.DEFAULT_ALARM_ALERT_URI); // this will not work as setting audio stream after datasource doesn't work...
-        if(alarmPlayer == null){
+        if (alarmPlayer == null) {
             alarmPlayer = new MediaPlayer();
             alarmPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
             try {
-                alarmPlayer.setDataSource(this, Settings.System.DEFAULT_ALARM_ALERT_URI);
+                alarmPlayer.setDataSource(this, alarmSoundUri());
                 alarmPlayer.prepare();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -120,9 +125,9 @@ public class AlertActivity extends BaseActivity {
                 if (seekBar.getProgress() > 95) {
                     stopAndExit();
                 } else {
-                   //bring it back to the start
+                    //bring it back to the start
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        seekBar.setProgress(0,true);
+                        seekBar.setProgress(0, true);
                     } else {
                         seekBar.setProgress(0);
                     }
@@ -141,7 +146,6 @@ public class AlertActivity extends BaseActivity {
             }
         });
     }
-
 
     @Override
     protected void onStart() {
@@ -196,7 +200,7 @@ public class AlertActivity extends BaseActivity {
 
     private void showNotif() {
         PendingIntent gotoActivityIntent = PendingIntent.getBroadcast(this, 0, AlertActivity_.intent(this).get(), 0);
-        PendingIntent stopAlarmPendingIntent = PendingIntent.getBroadcast(this, 0, new Intent(ACTION), 0);
+        PendingIntent stopAlarmPendingIntent = PendingIntent.getBroadcast(this, 0, new Intent(ACTION_STOP_ALARM), 0);
         String body = String.format(getResources().getString(R.string.notif_content), mealTime);
         NotificationCompat.Builder mBuilder =
             new NotificationCompat.Builder(this)
@@ -205,7 +209,6 @@ public class AlertActivity extends BaseActivity {
                 .setAutoCancel(true)
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setContentIntent(gotoActivityIntent)
-                .setLights(Color.RED,800,200)
                 .addAction(R.drawable.ic_notifications_off_white, "Stop alarm", stopAlarmPendingIntent);
         notificationManager.notify(ALARM_RINGING_NOTIFICATION, mBuilder.build());
     }
@@ -219,5 +222,13 @@ public class AlertActivity extends BaseActivity {
         vibrator.vibrate(new long[]{700, 700}, 0);
     }
 
+
+    private Uri alarmSoundUri() {
+        String ringtoneUri = prefs.alarmRingtone().getOr(null);
+        if (ringtoneUri != null) {
+            return Uri.parse(ringtoneUri);
+        }
+        return Settings.System.DEFAULT_ALARM_ALERT_URI;
+    }
 
 }
