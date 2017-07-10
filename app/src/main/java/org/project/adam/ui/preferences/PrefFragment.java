@@ -55,8 +55,7 @@ public class PrefFragment extends PreferenceFragment {
     protected String defaultTime;
 
     @Bean
-    AlertScheduler alertScheduler;
-
+    protected AlertScheduler alertScheduler;
 
     @AfterPreferences
     void initPrefs() {

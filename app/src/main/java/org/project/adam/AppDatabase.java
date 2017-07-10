@@ -1,6 +1,5 @@
 package org.project.adam;
 
-import android.annotation.SuppressLint;
 import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
@@ -43,26 +42,48 @@ public abstract class AppDatabase extends RoomDatabase {
             INSTANCE = Room.databaseBuilder(context.getApplicationContext(), AppDatabase.class, DATABASE_NAME)
                 .addMigrations(RENAME_LUNCH_TABLE_TO_MEAL)
                 .build();
-            if (BuildConfig.DEBUG) {
-                mockData(context, INSTANCE);
-            }
         }
         return INSTANCE;
     }
 
-    @SuppressLint("StaticFieldLeak")
-    private static void mockData(Context context, final AppDatabase db) {
+    public void mockDiet(Context context) {
         new AsyncTask<Context, Void, Void>() {
 
             @Override
             protected Void doInBackground(Context... params) {
 
                 // Add some data to the database
-                DatabasePopulator.initializeDb(db);
+                DatabasePopulator.insertSampleDiets(AppDatabase.this);
                 return null;
             }
         }.execute(context.getApplicationContext());
     }
+
+    public void mockGlycaemia(Context context) {
+        new AsyncTask<Context, Void, Void>() {
+
+            @Override
+            protected Void doInBackground(Context... params) {
+
+                // Add some data to the database
+                DatabasePopulator.insertSampleGlycaemia(AppDatabase.this);
+                return null;
+            }
+        }.execute(context.getApplicationContext());
+    }
+
+    public void delete(Context context) {
+        new AsyncTask<Context, Void, Void>() {
+            @Override
+            protected Void doInBackground(Context... params) {
+                Context context = params[0].getApplicationContext();
+                // Reset the database to have new data on every run.
+                context.deleteDatabase(DATABASE_NAME);
+                return null;
+            }
+        }.execute(context.getApplicationContext());
+    }
+
 
     public abstract DietDao dietDao();
 
