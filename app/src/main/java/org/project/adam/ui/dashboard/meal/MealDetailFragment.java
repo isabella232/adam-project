@@ -23,6 +23,8 @@ public class MealDetailFragment extends BaseFragment {
 
     @AfterViews
     void init() {
-        content.setText(meal.getContent());
+        if(meal!=null){
+            content.setText(meal.getContent());
+        }
     }
 }

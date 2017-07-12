@@ -26,6 +26,7 @@ import java.util.Random;
 
 import timber.log.Timber;
 
+import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK;
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 @EReceiver
@@ -83,7 +84,7 @@ public class AlertReceiver extends AbstractBroadcastReceiver {
     protected void showAlertActivity(String time, String content, Context context) {
         KeyguardManager.KeyguardLock keyguardLock = keyguardManager.newKeyguardLock("TAG");
         keyguardLock.disableKeyguard();
-        AlertActivity_.intent(context).mealContent(content).mealTime(time).flags(FLAG_ACTIVITY_NEW_TASK).start();
+        AlertActivity_.intent(context).mealContent(content).mealTime(time).flags(FLAG_ACTIVITY_NEW_TASK|FLAG_ACTIVITY_CLEAR_TASK).start();
     }
 
     private void showNotification(String time, String content, Context context) {
