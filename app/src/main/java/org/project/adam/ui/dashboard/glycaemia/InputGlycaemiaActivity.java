@@ -20,7 +20,7 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.res.ColorRes;
 import org.androidannotations.annotations.sharedpreferences.Pref;
-import org.joda.time.LocalTime;
+import org.joda.time.LocalDateTime;
 import org.project.adam.AppDatabase;
 import org.project.adam.BaseActivity;
 import org.project.adam.Preferences_;
@@ -32,7 +32,6 @@ import org.project.adam.util.DateFormatters;
 import java.util.Calendar;
 import java.util.Date;
 
-import lombok.RequiredArgsConstructor;
 import timber.log.Timber;
 
 @SuppressLint("Registered")
@@ -70,7 +69,7 @@ public class InputGlycaemiaActivity extends BaseActivity {
     @Pref
     protected Preferences_ preferences;
 
-    private LocalTime time;
+    private LocalDateTime time;
 
     @ColorRes(R.color.sunflower_yellow)
     int colorRisk;
@@ -80,11 +79,9 @@ public class InputGlycaemiaActivity extends BaseActivity {
 
     @AfterViews
     void fillDateAndHour() {
-        Date date = new Date();
-
-        glycaemiaDate.setText(DateFormatters.formatDay(date));
-
-        glycaemiaHour.setText(DateFormatters.formatMinutesOfDay(date));
+        time = LocalDateTime.now();
+        glycaemiaDate.setText(DateFormatters.formatDay(time));
+        glycaemiaHour.setText(DateFormatters.formatMinutesOfDay(time));
     }
 
     @AfterViews
@@ -132,7 +129,7 @@ public class InputGlycaemiaActivity extends BaseActivity {
 
     public void showTimePickerDialog(View v) {
         DialogFragment newFragment = new TimePickerFragment()
-            .setInitTime(time)
+            .setInitTime(time.toLocalTime())
             .setListener(new TimePickerDialog.OnTimeSetListener() {
                 @Override
                 public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -143,8 +140,8 @@ public class InputGlycaemiaActivity extends BaseActivity {
     }
 
     void updateTime(int hourOfDay, int minute) {
-        time = new LocalTime(hourOfDay, minute);
-        glycaemiaHour.setText(String.format("%02d:%02d",hourOfDay,minute));
+        time = time.withHourOfDay(hourOfDay).withMinuteOfHour(minute);
+        glycaemiaHour.setText(DateFormatters.formatMinutesOfDay(time));
     }
 
     @Click(R.id.glycaemia_validate)
@@ -165,17 +162,8 @@ public class InputGlycaemiaActivity extends BaseActivity {
 
     private Glycaemia buildGlycaemia() {
         float value = Float.parseFloat(glycaemiaValueMgDl.getText().toString());
-        Date date = new Date();
-        if (time != null) {
-            Calendar cal = Calendar.getInstance();
-            cal.set(Calendar.HOUR_OF_DAY, time.getHourOfDay());
-            cal.set(Calendar.MINUTE, time.getMinuteOfHour());
-            cal.set(Calendar.SECOND, 0);
-            date = cal.getTime();
-        }
-
         Glycaemia glycaemia = Glycaemia.builder()
-            .date(date)
+            .date(time.toDate())
             .value(value)
             .build();
 

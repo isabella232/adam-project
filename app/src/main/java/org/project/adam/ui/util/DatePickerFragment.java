@@ -44,7 +44,7 @@ public class DatePickerFragment extends DialogFragment {
         }
         return new DatePickerDialog(getActivity(), listener,
             initDate.getYear(),
-            initDate.getMonthOfYear(),
+            initDate.getMonthOfYear()-1,
             initDate.getDayOfMonth());
     }
 }

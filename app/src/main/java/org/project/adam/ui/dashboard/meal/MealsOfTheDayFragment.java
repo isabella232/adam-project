@@ -14,6 +14,8 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.PageSelected;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.sharedpreferences.Pref;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
 import org.project.adam.BaseFragment;
 import org.project.adam.Preferences_;
 import org.project.adam.R;
@@ -84,12 +86,13 @@ public class MealsOfTheDayFragment extends BaseFragment {
     }
 
     private void displayCurrentTime() {
-        date.setText(DateFormatters.formatDay(new Date()));
+        date.setText(DateFormatters.formatDay(LocalDate.now()));
     }
 
     @PageSelected(R.id.meal_detail)
     void displayCurrentMealTime() {
-        selectedMealTimeOfDay.setText(DateFormatters.formatMinutesOfDay(mealDetailAdapter.getCurrentMeal().getTimeOfDay()));
+        selectedMealTimeOfDay.setText(DateFormatters.formatMinutesOfDay(
+            LocalTime.MIDNIGHT.plusMinutes(mealDetailAdapter.getCurrentMeal().getTimeOfDay())));
     }
 
     @Click(R.id.next_meal)

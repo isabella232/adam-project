@@ -157,7 +157,7 @@ public class DataFragment extends BaseFragment {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 DataFragment dataFragment = DataFragment.this;
-                LocalDate date = new LocalDate(year, month, dayOfMonth);
+                LocalDate date = new LocalDate(year, month+1, dayOfMonth);
                 dataFragment.beginDate = beginningOfDay(date);
                 dataFragment.refreshDatesDisplayAndData();
             }
@@ -170,7 +170,7 @@ public class DataFragment extends BaseFragment {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 DataFragment dataFragment = DataFragment.this;
-                LocalDate date = new LocalDate(year, month, dayOfMonth);
+                LocalDate date = new LocalDate(year, month+1, dayOfMonth);
                 dataFragment.endDate = endOfDay(date);
                 dataFragment.refreshDatesDisplayAndData();
             }

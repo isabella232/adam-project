@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import org.androidannotations.annotations.EViewGroup;
 import org.androidannotations.annotations.ViewById;
+import org.joda.time.LocalTime;
 import org.project.adam.R;
 import org.project.adam.persistence.Meal;
 import org.project.adam.util.DateFormatters;
@@ -24,7 +25,8 @@ public class MealItemView extends RelativeLayout {
 
     public void bind(final Meal meal) {
         this.content.setText(meal.getContent());
-        this.hourOfDay.setText(DateFormatters.formatMinutesOfDay(meal.getTimeOfDay()));
+        this.hourOfDay.setText(DateFormatters
+            .formatMinutesOfDay(LocalTime.MIDNIGHT.plusMinutes(meal.getTimeOfDay())));
     }
 
 

@@ -1,40 +1,21 @@
 package org.project.adam.util;
 
-import android.support.annotation.NonNull;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import org.joda.time.ReadablePartial;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 public class DateFormatters {
 
-    private static final SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat("EEEE dd MMMM");
-    private static final SimpleDateFormat HOUR_FORMATTER = new SimpleDateFormat("HH:mm");
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormat.forPattern("EEEE dd MMMM");
 
-    @NonNull
-    public static Calendar getCalendarFromMinutesOfDay(int minutesOfDay) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new Date());
-        calendar.set(Calendar.MILLISECOND, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.add(Calendar.MINUTE, minutesOfDay);
-        return calendar;
+    private static final DateTimeFormatter HOUR_FORMATTER = DateTimeFormat.forPattern("HH:mm");
+
+
+    public static final String formatDay(ReadablePartial date) {
+        return DATE_FORMATTER.print(date);
     }
 
-    public static final String formatMinutesOfDay(int minutesOfDay) {
-        Calendar calendar = getCalendarFromMinutesOfDay(minutesOfDay);
-        return HOUR_FORMATTER.format(calendar.getTime());
-    }
-
-    public static final String formatDay(Date date) {
-        return DATE_FORMATTER.format(date);
-    }
-
-    public static final String formatMinutesOfDay(Date date) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        return HOUR_FORMATTER.format(calendar.getTime());
+    public static final String formatMinutesOfDay(ReadablePartial date) {
+        return HOUR_FORMATTER.print(date);
     }
 }

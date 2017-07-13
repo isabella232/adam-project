@@ -9,6 +9,7 @@ import android.widget.TextView;
 import org.androidannotations.annotations.EViewGroup;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.sharedpreferences.Pref;
+import org.joda.time.LocalTime;
 import org.project.adam.Preferences;
 import org.project.adam.Preferences_;
 import org.project.adam.R;
@@ -48,7 +49,7 @@ public class GlycaemiaItemView extends RelativeLayout {
 
     public void bind(Glycaemia glycaemia) {
         glycaemiaValue.setText(getResources().getString(R.string.glycaemia_value_format, glycaemia.getValue()));
-        glycaemiaDate.setText(DateFormatters.formatMinutesOfDay(glycaemia.getDate()));
+        glycaemiaDate.setText(DateFormatters.formatMinutesOfDay(LocalTime.fromDateFields(glycaemia.getDate())));
         glycaemiaComment.setText(glycaemia.getComment());
         int color = glycaemia.getValue() < preferences.riskGly().get() ?
             getResources().getColor(R.color.sunflower_yellow) :
