@@ -26,6 +26,8 @@ import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.res.ColorRes;
 import org.androidannotations.annotations.res.StringRes;
 import org.androidannotations.annotations.sharedpreferences.Pref;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
 import org.project.adam.BaseFragment;
 import org.project.adam.Preferences_;
 import org.project.adam.R;
@@ -77,45 +79,40 @@ public class DataFragment extends BaseFragment {
 
     String mailContent;
 
-    private Date beginDate;
+    private LocalDateTime beginDate;
 
-    private Date endDate;
+    private LocalDateTime endDate;
 
 
     @AfterViews
     public void init() {
         glycaemiaViewModel = ViewModelProviders.of(this).get(GlycaemiaViewModel.class);
-        beginDate = beginningOfDay(Calendar.getInstance());
-        endDate = endOfDay(Calendar.getInstance());
+        LocalDate date = LocalDate.now();
+        beginDate = beginningOfDay(date);
+        endDate = endOfDay(date);
         refreshDatesDisplayAndData();
     }
 
     public void refreshDatesDisplayAndData() {
         Timber.d("refreshDatesDisplayAndData - %s - %s", this.beginDate, this.endDate);
-        fromDateLabel.setText(DISPLAY_DATE_FORMAT.format(this.beginDate));
-        toDateLabel.setText(DISPLAY_DATE_FORMAT.format(this.endDate));
+        fromDateLabel.setText(DISPLAY_DATE_FORMAT.format(this.beginDate.toDate()));
+        toDateLabel.setText(DISPLAY_DATE_FORMAT.format(this.endDate.toDate()));
         refreshData();
     }
 
-    private Date beginningOfDay(Calendar calendar) {
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-        return calendar.getTime();
+    private LocalDateTime beginningOfDay(LocalDate date) {
+        return new LocalDateTime(date.getYear(), date.getMonthOfYear(), date.getDayOfMonth(),
+            0, 0, 0);
     }
 
-    private Date endOfDay(Calendar calendar) {
-        calendar.set(Calendar.HOUR_OF_DAY, 23);
-        calendar.set(Calendar.MINUTE, 59);
-        calendar.set(Calendar.SECOND, 59);
-        calendar.set(Calendar.MILLISECOND, 999);
-        return calendar.getTime();
+    private LocalDateTime endOfDay(LocalDate date) {
+        return new LocalDateTime(date.getYear(), date.getMonthOfYear(), date.getDayOfMonth(),
+            23, 59, 59);
     }
 
     protected void refreshData() {
-        final Date min = this.beginDate;
-        final Date max = this.endDate;
+        final Date min = this.beginDate.toDate();
+        final Date max = this.endDate.toDate();
         glycaemiaViewModel.findGlycaemiaBetween(min, max)
             .observe(this, new Observer<List<Glycaemia>>() {
                 @Override
@@ -156,15 +153,12 @@ public class DataFragment extends BaseFragment {
 
     @Click(R.id.data_from_date_container)
     protected void openFromDatePicker() {
-        openDatePicker(this.beginDate, new DatePickerDialog.OnDateSetListener() {
+        openDatePicker(this.beginDate.toLocalDate(), new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                Calendar calendar = Calendar.getInstance();
-                calendar.set(Calendar.YEAR, year);
-                calendar.set(Calendar.MONTH, month);
-                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                 DataFragment dataFragment = DataFragment.this;
-                dataFragment.beginDate = beginningOfDay(calendar);
+                LocalDate date = new LocalDate(year, month, dayOfMonth);
+                dataFragment.beginDate = beginningOfDay(date);
                 dataFragment.refreshDatesDisplayAndData();
             }
         });
@@ -172,21 +166,18 @@ public class DataFragment extends BaseFragment {
 
     @Click(R.id.data_to_date_container)
     protected void openToDatePicker() {
-        openDatePicker(this.endDate, new DatePickerDialog.OnDateSetListener() {
+        openDatePicker(this.endDate.toLocalDate(), new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                Calendar calendar = Calendar.getInstance();
-                calendar.set(Calendar.YEAR, year);
-                calendar.set(Calendar.MONTH, month);
-                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                 DataFragment dataFragment = DataFragment.this;
-                dataFragment.endDate = endOfDay(calendar);
+                LocalDate date = new LocalDate(year, month, dayOfMonth);
+                dataFragment.endDate = endOfDay(date);
                 dataFragment.refreshDatesDisplayAndData();
             }
         });
     }
 
-    private void openDatePicker(Date initDate, DatePickerDialog.OnDateSetListener listener) {
+    private void openDatePicker(LocalDate initDate, DatePickerDialog.OnDateSetListener listener) {
         DatePickerFragment fragment = new DatePickerFragment()
             .setInitDate(initDate)
             .setListener(listener);
