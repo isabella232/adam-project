@@ -29,9 +29,6 @@ import org.project.adam.persistence.Glycaemia;
 import org.project.adam.ui.util.TimePickerFragment;
 import org.project.adam.util.DateFormatters;
 
-import java.util.Calendar;
-import java.util.Date;
-
 import timber.log.Timber;
 
 @SuppressLint("Registered")

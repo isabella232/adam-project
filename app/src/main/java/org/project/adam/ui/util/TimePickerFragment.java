@@ -5,17 +5,10 @@ import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.text.format.DateFormat;
-import android.widget.TimePicker;
-
 
 import org.joda.time.LocalTime;
-import org.project.adam.ui.dashboard.glycaemia.InputGlycaemiaActivity;
 
-import java.util.Calendar;
-
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import lombok.Value;
 import lombok.experimental.Accessors;
 
 @Setter

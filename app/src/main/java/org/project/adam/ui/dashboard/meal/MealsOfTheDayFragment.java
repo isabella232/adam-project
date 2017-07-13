@@ -24,8 +24,6 @@ import org.project.adam.ui.IndicatorCircleView_;
 import org.project.adam.util.DateFormatters;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 @EFragment(R.layout.fragment_meals_of_the_day)

@@ -9,7 +9,6 @@ import org.joda.time.LocalDateTime;
 import org.project.adam.AppDatabase;
 import org.project.adam.persistence.Glycaemia;
 
-import java.util.Date;
 import java.util.List;
 
 public class GlycaemiaViewModel extends AndroidViewModel {
