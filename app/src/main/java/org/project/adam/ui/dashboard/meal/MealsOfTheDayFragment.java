@@ -88,12 +88,12 @@ public class MealsOfTheDayFragment extends BaseFragment {
     }
 
     private void displayCurrentTime() {
-        date.setText(dateFormatter.longFormatDay(LocalDate.now()));
+        date.setText(dateFormatter.longDayFormat(LocalDate.now()));
     }
 
     @PageSelected(R.id.meal_detail)
     void displayCurrentMealTime() {
-        selectedMealTimeOfDay.setText(dateFormatter.formatMinutesOfDay(
+        selectedMealTimeOfDay.setText(dateFormatter.hourOfDayFormat(
             mealDetailAdapter.getCurrentMeal().getTimeOfDay()));
     }
 

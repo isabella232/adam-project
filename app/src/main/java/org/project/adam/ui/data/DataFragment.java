@@ -96,8 +96,8 @@ public class DataFragment extends BaseFragment {
 
     public void refreshDatesDisplayAndData() {
         Timber.d("refreshDatesDisplayAndData - %s - %s", this.beginDate, this.endDate);
-        fromDateLabel.setText(dateFormatter.shortFormatDay(this.beginDate));
-        toDateLabel.setText(dateFormatter.shortFormatDay(this.endDate));
+        fromDateLabel.setText(dateFormatter.shortDayFormat(this.beginDate));
+        toDateLabel.setText(dateFormatter.shortDayFormat(this.endDate));
         refreshData();
     }
 
@@ -128,12 +128,12 @@ public class DataFragment extends BaseFragment {
         mailContent = mailHeader + " \n";
         String previousDate = "";
         for (Glycaemia glycaemia : glycaemias) {
-            String date = dateFormatter.shortFormatDay(glycaemia.getDate());
+            String date = dateFormatter.shortDayFormat(glycaemia.getDate());
             if (!date.equals(previousDate)) {
-                mailContent += "\n" + dateFormatter.shortFormatDay(glycaemia.getDate()) + ":\n";
+                mailContent += "\n" + dateFormatter.shortDayFormat(glycaemia.getDate()) + ":\n";
                 previousDate = date;
             }
-            mailContent += "- " + dateFormatter.formatMinutesOfDay(glycaemia.getDate()) + "\t   " + glycaemia.getValue() + " " + unit + " \n";
+            mailContent += "- " + dateFormatter.hourOfDayFormat(glycaemia.getDate()) + "\t   " + glycaemia.getValue() + " " + unit + " \n";
         }
         Timber.d("Mail content %s", mailContent);
 
