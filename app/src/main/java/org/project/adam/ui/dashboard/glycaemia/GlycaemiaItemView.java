@@ -49,7 +49,7 @@ public class GlycaemiaItemView extends RelativeLayout {
 
     public void bind(Glycaemia glycaemia) {
         glycaemiaValue.setText(getResources().getString(R.string.glycaemia_value_format, glycaemia.getValue()));
-        glycaemiaDate.setText(DateFormatters.formatMinutesOfDay(LocalTime.fromDateFields(glycaemia.getDate())));
+        glycaemiaDate.setText(DateFormatters.formatMinutesOfDay(glycaemia.getDate()));
         glycaemiaComment.setText(glycaemia.getComment());
         int color = glycaemia.getValue() < preferences.riskGly().get() ?
             getResources().getColor(R.color.sunflower_yellow) :

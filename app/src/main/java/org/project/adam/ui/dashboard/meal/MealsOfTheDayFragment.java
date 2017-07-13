@@ -92,7 +92,7 @@ public class MealsOfTheDayFragment extends BaseFragment {
     @PageSelected(R.id.meal_detail)
     void displayCurrentMealTime() {
         selectedMealTimeOfDay.setText(DateFormatters.formatMinutesOfDay(
-            LocalTime.MIDNIGHT.plusMinutes(mealDetailAdapter.getCurrentMeal().getTimeOfDay())));
+            mealDetailAdapter.getCurrentMeal().getTimeOfDay()));
     }
 
     @Click(R.id.next_meal)
@@ -147,12 +147,12 @@ public class MealsOfTheDayFragment extends BaseFragment {
             if (meals == null || meals.isEmpty()) {
                 return -1;
             }
-            Calendar currentTime = Calendar.getInstance();
-            int currentTimeInMinutes = currentTime.get(Calendar.MINUTE) + currentTime.get(Calendar.HOUR_OF_DAY) * 60;
+            LocalTime currentTime= LocalTime.now();
+            int currentTimeInMiliseconds = currentTime.getMillisOfDay();
             int nextMealIndex = meals.size() - 1;
 
             for (int i = meals.size() - 1; i >= 0; --i) {
-                if (meals.get(i).getTimeOfDay() + 15 > currentTimeInMinutes) {
+                if ((meals.get(i).getTimeOfDay().getMillisOfDay() + 15*60*1000) > currentTimeInMiliseconds) {
                     nextMealIndex = i;
                 }
             }
