@@ -6,7 +6,6 @@ import android.widget.TextView;
 
 import org.androidannotations.annotations.EViewGroup;
 import org.androidannotations.annotations.ViewById;
-import org.joda.time.LocalTime;
 import org.project.adam.R;
 import org.project.adam.persistence.Meal;
 import org.project.adam.util.DateFormatters;

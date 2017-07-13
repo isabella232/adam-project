@@ -8,9 +8,6 @@ import org.project.adam.persistence.Diet;
 import org.project.adam.persistence.Glycaemia;
 import org.project.adam.persistence.Meal;
 
-import java.util.Calendar;
-import java.util.Date;
-
 public class DatabasePopulator {
 
     private static void createDiet(AppDatabase db, Diet diet, Meal... meals) {

@@ -6,8 +6,6 @@ import android.arch.persistence.room.PrimaryKey;
 
 import org.joda.time.LocalDateTime;
 
-import java.util.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
