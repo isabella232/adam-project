@@ -107,7 +107,7 @@ public class AlertScheduler {
     @NonNull
     private Intent getBroadcastIntent(LocalDateTime mealTime, String content) {
         Intent intent = getStandardIntent();
-        intent.putExtra(AlertReceiver_.TIME_EXTRA, dateFormatter.formatMinutesOfDay(mealTime));
+        intent.putExtra(AlertReceiver_.TIME_EXTRA, dateFormatter.hourOfDayFormat(mealTime));
         intent.putExtra(AlertReceiver_.CONTENT_EXTRA, content);
         return intent;
     }

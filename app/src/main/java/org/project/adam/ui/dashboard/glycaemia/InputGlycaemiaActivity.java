@@ -81,8 +81,8 @@ public class InputGlycaemiaActivity extends BaseActivity {
     @AfterViews
     void fillDateAndHour() {
         time = LocalDateTime.now();
-        glycaemiaDate.setText(dateFormatter.longFormatDay(time));
-        glycaemiaHour.setText(dateFormatter.formatMinutesOfDay(time));
+        glycaemiaDate.setText(dateFormatter.longDayFormat(time));
+        glycaemiaHour.setText(dateFormatter.hourOfDayFormat(time));
     }
 
     @AfterViews
@@ -142,7 +142,7 @@ public class InputGlycaemiaActivity extends BaseActivity {
 
     void updateTime(int hourOfDay, int minute) {
         time = time.withHourOfDay(hourOfDay).withMinuteOfHour(minute);
-        glycaemiaHour.setText(dateFormatter.formatMinutesOfDay(time));
+        glycaemiaHour.setText(dateFormatter.hourOfDayFormat(time));
     }
 
     @Click(R.id.glycaemia_validate)

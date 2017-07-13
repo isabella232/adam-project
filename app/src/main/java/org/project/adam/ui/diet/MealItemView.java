@@ -29,7 +29,7 @@ public class MealItemView extends RelativeLayout {
 
     public void bind(final Meal meal) {
         this.content.setText(meal.getContent());
-        this.hourOfDay.setText(dateFormatter.formatMinutesOfDay(meal.getTimeOfDay()));
+        this.hourOfDay.setText(dateFormatter.hourOfDayFormat(meal.getTimeOfDay()));
     }
 
 
