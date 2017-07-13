@@ -73,7 +73,7 @@ public class AlertScheduler {
         LocalDateTime initDayTime = now.withTime(0,0,0,0);
         Integer reminderDelay = preferences.reminderTimeInMinutes().getOr(DEFAULT_TIME_IN_MN);
         for (Meal meal : meals) {
-            LocalDateTime mealTime = initDayTime.plusMinutes(meal.getTimeOfDay() - reminderDelay);
+            LocalDateTime mealTime = initDayTime.plusMinutes(meal.getTimeOfDay().getMillisOfDay()/1000 - reminderDelay);
             Intent intent = getBroadcastIntent(mealTime, meal.getContent());
             if(mealTime.isBefore(now)){
                 mealTime = mealTime.plusDays(1);

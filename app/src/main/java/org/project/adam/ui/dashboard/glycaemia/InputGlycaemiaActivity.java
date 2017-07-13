@@ -163,7 +163,7 @@ public class InputGlycaemiaActivity extends BaseActivity {
     private Glycaemia buildGlycaemia() {
         float value = Float.parseFloat(glycaemiaValueMgDl.getText().toString());
         Glycaemia glycaemia = Glycaemia.builder()
-            .date(time.toDate())
+            .date(time)
             .value(value)
             .build();
 

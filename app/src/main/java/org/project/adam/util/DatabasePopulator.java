@@ -1,6 +1,8 @@
 package org.project.adam.util;
 
 
+import org.joda.time.LocalDateTime;
+import org.joda.time.LocalTime;
 import org.project.adam.AppDatabase;
 import org.project.adam.persistence.Diet;
 import org.project.adam.persistence.Glycaemia;
@@ -22,7 +24,7 @@ public class DatabasePopulator {
         }
     }
 
-    private static void insertGlycaemia(AppDatabase db, int glycaemia, float value, Date date,
+    private static void insertGlycaemia(AppDatabase db, int glycaemia, float value, LocalDateTime date,
                                         String context, String comment) {
         createGlycaemia(db, Glycaemia.builder()
             .id(glycaemia)
@@ -48,15 +50,11 @@ public class DatabasePopulator {
         int id = 0;
         float value = 40f;
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.MILLISECOND, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        LocalDateTime today = LocalDateTime.now()
+            .withTime(0,0,0,0);
 
         for (int i = 0; i < 24; i++) {
-            calendar.set(Calendar.HOUR_OF_DAY, i);
-            insertGlycaemia(db, id++, value, calendar.getTime(), "context " + id, "comment " + id);
+            insertGlycaemia(db, id++, value, today.plusHours(i), "context " + id, "comment " + id);
             value = i < 12 ? value + 5 : value - 5;
         }
 
@@ -73,43 +71,43 @@ public class DatabasePopulator {
                 .id(baseLunchId++)
                 .dietId(dietId)
                 .content("Oeufs")
-                .timeOfDay(525)
+                .timeOfDay(new LocalTime(8,45))
                 .build(),
             Meal.builder()
                 .id(baseLunchId++)
                 .dietId(dietId)
                 .content("Maizena")
-                .timeOfDay(645)
+                .timeOfDay(new LocalTime(10,45))
                 .build(),
             Meal.builder()
                 .id(baseLunchId++)
                 .dietId(dietId)
                 .content("Riz & Poisson")
-                .timeOfDay(765)
+                .timeOfDay(new LocalTime(12,45))
                 .build(),
             Meal.builder()
                 .id(baseLunchId++)
                 .dietId(dietId)
                 .content("Maizena")
-                .timeOfDay(885)
+                .timeOfDay(new LocalTime(14,45))
                 .build(),
             Meal.builder()
                 .id(baseLunchId++)
                 .dietId(dietId)
                 .content("Maizena")
-                .timeOfDay(1025)
+                .timeOfDay(new LocalTime(17,05))
                 .build(),
             Meal.builder()
                 .id(baseLunchId++)
                 .dietId(dietId)
                 .content("Pate")
-                .timeOfDay(1200)
+                .timeOfDay(new LocalTime(20,0))
                 .build(),
             Meal.builder()
                 .id(baseLunchId++)
                 .dietId(dietId)
                 .content("Tete de veau")
-                .timeOfDay(1310)
+                .timeOfDay(new LocalTime(21,50))
                 .build());
 
         dietId = 2;
@@ -122,14 +120,14 @@ public class DatabasePopulator {
                 .dietId(dietId)
                 .content("30g de pain complet\n" +
                     "huile d'olive")
-                .timeOfDay(8 * 60 + 45)
+                .timeOfDay(new LocalTime(8,45))
                 .build(),
             Meal.builder()
                 .id(baseLunchId++)
                 .dietId(dietId)
                 .content("35g de Maizena\n" +
                     "10 g de Maxijul OU maltodextridine")
-                .timeOfDay(10 * 60 + 30)
+                .timeOfDay(new LocalTime(10,30))
                 .build(),
             Meal.builder()
                 .id(baseLunchId++)
@@ -139,7 +137,7 @@ public class DatabasePopulator {
                     "50g de viande ou poisson par jour\n" +
                     "beurre ou huile +/- épices\n" +
                     "+/- Yaourt au soja")
-                .timeOfDay(12 * 60)
+                .timeOfDay(new LocalTime(12,0))
                 .build(),
             Meal.builder()
                 .id(baseLunchId++)
@@ -147,14 +145,14 @@ public class DatabasePopulator {
                 .content("Compléter par une prise de Maizena\n" +
                     "25g de Maizena\n" +
                     "5 g de Maltodextridine OU Maxijul")
-                .timeOfDay(13 * 60 + 30)
+                .timeOfDay(new LocalTime(13,30))
                 .build(),
             Meal.builder()
                 .id(baseLunchId++)
                 .dietId(dietId)
                 .content("35g de Maizena\n" +
                     "10 g de Maltodextridine OU Maxijul")
-                .timeOfDay(15 * 60)
+                .timeOfDay(new LocalTime(15,0))
                 .build(),
             Meal.builder()
                 .id(baseLunchId++)
@@ -163,14 +161,14 @@ public class DatabasePopulator {
                     "40 g de légumes mixés à l'eau\n" +
                     "beurre ou huile +/- épices\n" +
                     "+/- Yaourt au soja")
-                .timeOfDay(18 * 60)
+                .timeOfDay(new LocalTime(18,0))
                 .build(),
             Meal.builder()
                 .id(baseLunchId++)
                 .dietId(dietId)
                 .content("35g de Maizena\n" +
                     "10 g de Maltodextridine OU Maxijul")
-                .timeOfDay(20 * 60)
+                .timeOfDay(new LocalTime(20,0))
                 .build()
         );
     }

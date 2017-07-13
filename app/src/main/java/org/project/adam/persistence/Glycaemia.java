@@ -4,6 +4,8 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
+import org.joda.time.LocalDateTime;
+
 import java.util.Date;
 
 import lombok.AllArgsConstructor;
@@ -22,7 +24,7 @@ public class Glycaemia {
     @PrimaryKey(autoGenerate = true)
     int id;
 
-    Date date;
+    LocalDateTime date;
 
     String context;
 

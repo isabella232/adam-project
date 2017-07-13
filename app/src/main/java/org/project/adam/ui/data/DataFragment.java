@@ -28,12 +28,15 @@ import org.androidannotations.annotations.res.StringRes;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.project.adam.BaseFragment;
 import org.project.adam.Preferences_;
 import org.project.adam.R;
 import org.project.adam.persistence.Glycaemia;
 import org.project.adam.ui.dashboard.glycaemia.GlycaemiaViewModel;
 import org.project.adam.ui.util.DatePickerFragment;
+import org.project.adam.util.DateFormatters;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -47,9 +50,8 @@ import timber.log.Timber;
 @SuppressLint("Registered")
 @EFragment(R.layout.fragment_data)
 public class DataFragment extends BaseFragment {
-    public static final SimpleDateFormat DISPLAY_DATE_FORMAT = new SimpleDateFormat("EEE d MMM");
+    public static final DateTimeFormatter DISPLAY_DATE_FORMAT = DateTimeFormat.forPattern("EEE dd MMM");
 
-    public static final SimpleDateFormat MAIL_DATE_FORMAT = new SimpleDateFormat("HH:mm");
 
     private GlycaemiaViewModel glycaemiaViewModel;
 
@@ -95,8 +97,8 @@ public class DataFragment extends BaseFragment {
 
     public void refreshDatesDisplayAndData() {
         Timber.d("refreshDatesDisplayAndData - %s - %s", this.beginDate, this.endDate);
-        fromDateLabel.setText(DISPLAY_DATE_FORMAT.format(this.beginDate.toDate()));
-        toDateLabel.setText(DISPLAY_DATE_FORMAT.format(this.endDate.toDate()));
+        fromDateLabel.setText(DISPLAY_DATE_FORMAT.print(this.beginDate));
+        toDateLabel.setText(DISPLAY_DATE_FORMAT.print(this.endDate));
         refreshData();
     }
 
@@ -111,8 +113,8 @@ public class DataFragment extends BaseFragment {
     }
 
     protected void refreshData() {
-        final Date min = this.beginDate.toDate();
-        final Date max = this.endDate.toDate();
+        final LocalDateTime min = this.beginDate;
+        final LocalDateTime max = this.endDate;
         glycaemiaViewModel.findGlycaemiaBetween(min, max)
             .observe(this, new Observer<List<Glycaemia>>() {
                 @Override
@@ -127,12 +129,12 @@ public class DataFragment extends BaseFragment {
         mailContent = mailHeader + " \n";
         String previousDate = "";
         for (Glycaemia glycaemia : glycaemias) {
-            String date = DISPLAY_DATE_FORMAT.format(glycaemia.getDate());
+            String date = DISPLAY_DATE_FORMAT.print(glycaemia.getDate());
             if (!date.equals(previousDate)) {
-                mailContent += "\n" + DISPLAY_DATE_FORMAT.format(glycaemia.getDate()) + ":\n";
+                mailContent += "\n" + DISPLAY_DATE_FORMAT.print(glycaemia.getDate()) + ":\n";
                 previousDate = date;
             }
-            mailContent += "- " + MAIL_DATE_FORMAT.format(glycaemia.getDate()) + "\t   " + glycaemia.getValue() + " " + unit + " \n";
+            mailContent += "- " + DateFormatters.formatMinutesOfDay(glycaemia.getDate()) + "\t   " + glycaemia.getValue() + " " + unit + " \n";
         }
         Timber.d("Mail content %s", mailContent);
 
@@ -184,16 +186,16 @@ public class DataFragment extends BaseFragment {
         fragment.show(getActivity().getSupportFragmentManager(), "timePicker");
     }
 
-    public void refreshGraph(List<Glycaemia> glycaemias, Date min, Date max) {
+    public void refreshGraph(List<Glycaemia> glycaemias, LocalDateTime min, LocalDateTime max) {
         List<Entry> normalEntries = new ArrayList<>();
         List<Entry> dangerEntries = new ArrayList<>();
         for (final Glycaemia glycaemia : glycaemias) {
 
             float value = glycaemia.getValue();
             if (value <= prefs.riskGly().get()) {
-                dangerEntries.add(new Entry(glycaemia.getDate().getTime(), value));
+                dangerEntries.add(new Entry(glycaemia.getDate().toDate().getTime(), value));
             } else {
-                normalEntries.add(new Entry(glycaemia.getDate().getTime(), value));
+                normalEntries.add(new Entry(glycaemia.getDate().toDate().getTime(), value));
             }
 
         }
@@ -231,8 +233,8 @@ public class DataFragment extends BaseFragment {
         Description description = new Description();
         description.setText("");
         chart.setDescription(description);
-        chart.getXAxis().setAxisMinimum(min.getTime());
-        chart.getXAxis().setAxisMaximum(max.getTime());
+        chart.getXAxis().setAxisMinimum(min.toDate().getTime());
+        chart.getXAxis().setAxisMaximum(max.toDate().getTime());
     }
 
     private void setScatteredDataStyle(ScatterDataSet set) {

@@ -6,6 +6,8 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
+import org.joda.time.LocalDateTime;
+
 import java.util.Date;
 import java.util.List;
 
@@ -16,7 +18,7 @@ public interface GlycaemiaDao {
     LiveData<List<Glycaemia>> findAll();
 
     @Query("SELECT * from glycaemias where date > :min and date < :max order by date")
-    LiveData<List<Glycaemia>> findGlycaemiaBetween(Date min, Date max);
+    LiveData<List<Glycaemia>> findGlycaemiaBetween(LocalDateTime min, LocalDateTime max);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Glycaemia... glycaemias);

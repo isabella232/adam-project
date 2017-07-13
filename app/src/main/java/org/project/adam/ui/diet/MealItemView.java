@@ -26,7 +26,7 @@ public class MealItemView extends RelativeLayout {
     public void bind(final Meal meal) {
         this.content.setText(meal.getContent());
         this.hourOfDay.setText(DateFormatters
-            .formatMinutesOfDay(LocalTime.MIDNIGHT.plusMinutes(meal.getTimeOfDay())));
+            .formatMinutesOfDay(meal.getTimeOfDay()));
     }
 
 
