@@ -77,7 +77,7 @@ public class InputGlycaemiaActivity extends BaseActivity {
     @AfterViews
     void fillDateAndHour() {
         time = LocalDateTime.now();
-        glycaemiaDate.setText(DateFormatters.formatDay(time));
+        glycaemiaDate.setText(DateFormatters.longFormatDay(time));
         glycaemiaHour.setText(DateFormatters.formatMinutesOfDay(time));
     }
 
