@@ -13,12 +13,12 @@ import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
 import org.androidannotations.annotations.SystemService;
 import org.androidannotations.annotations.sharedpreferences.Pref;
+import org.joda.time.LocalDateTime;
 import org.project.adam.AppDatabase;
 import org.project.adam.Preferences_;
 import org.project.adam.persistence.Meal;
 import org.project.adam.util.DateFormatters;
 
-import java.util.Calendar;
 import java.util.List;
 
 import timber.log.Timber;
@@ -48,19 +48,16 @@ public class AlertScheduler {
     }
 
     public void schedule() {
-
         cancelAllAlarms();
-
         int dietId = preferences.currentDietId().getOr(-1);
         if (dietId == -1) {
             return;
         }
-
-        setupAlarms(dietId);
+        setUpAlarms(dietId);
     }
 
     @Background
-    void setupAlarms(int dietId) {
+    protected void setUpAlarms(int dietId) {
 
         Timber.d("Setting up alarms");
 
@@ -72,46 +69,42 @@ public class AlertScheduler {
         Timber.d("hello, iterating on %d meals ", meals.size());
 
         int i = 0;
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime initDayTime = now.withTime(0,0,0,0);
+        Integer reminderDelay = preferences.reminderTimeInMinutes().getOr(DEFAULT_TIME_IN_MN);
         for (Meal meal : meals) {
-            Intent intent = getBroadcastIntent(meal);
-
-            Calendar calendar = DateFormatters.getCalendarFromMinutesOfDay(meal.getTimeOfDay() - preferences.reminderTimeInMinutes().getOr(DEFAULT_TIME_IN_MN));
-            long time = calendar.getTimeInMillis();
-
-            //check if need to add 24h
-            if (time < System.currentTimeMillis()) {
-
-                Timber.d("Plus one day!");
-                time += AlarmManager.INTERVAL_DAY;
+            LocalDateTime mealTime = initDayTime.plusMinutes(meal.getTimeOfDay() - reminderDelay);
+            Intent intent = getBroadcastIntent(mealTime, meal.getContent());
+            if(mealTime.isBefore(now)){
+                mealTime = mealTime.plusDays(1);
             }
-
-            Timber.d("alarm scheduled for meal %s at %d", meal, time);
+            Timber.d("alarm scheduled for meal %s at %s", meal, mealTime);
             PendingIntent alarmIntent = PendingIntent.getBroadcast(context, i, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            setupAlarm(time, alarmIntent);
+            setUpAlarm(mealTime, alarmIntent);
             i++;
         }
     }
 
-    public void setupFakeAlarm() {
-        long inAFewSeconds = Calendar.getInstance().getTimeInMillis() + 15 * 1000;
+    public void setUpFakeAlarm() {
         PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 99, getStandardIntent(), PendingIntent.FLAG_UPDATE_CURRENT);
-        setupAlarm(inAFewSeconds, alarmIntent);
+        setUpAlarm(LocalDateTime.now().plusSeconds(15), alarmIntent);
     }
 
-    private void setupAlarm(long time, PendingIntent alarmIntent) {
+    private void setUpAlarm(LocalDateTime time, PendingIntent alarmIntent) {
+        long timeInMilliseconds = time.toDate().getTime();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            alarmMgr.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, time, alarmIntent);
+            alarmMgr.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, timeInMilliseconds, alarmIntent);
         } else {
-            alarmMgr.setExact(AlarmManager.RTC_WAKEUP, time, alarmIntent);
+            alarmMgr.setExact(AlarmManager.RTC_WAKEUP, timeInMilliseconds, alarmIntent);
         }
     }
 
 
     @NonNull
-    private Intent getBroadcastIntent(Meal meal) {
+    private Intent getBroadcastIntent(LocalDateTime mealTime, String content) {
         Intent intent = getStandardIntent();
-        intent.putExtra(AlertReceiver_.TIME_EXTRA, DateFormatters.formatMinutesOfDay(meal.getTimeOfDay()));
-        intent.putExtra(AlertReceiver_.CONTENT_EXTRA, meal.getContent());
+        intent.putExtra(AlertReceiver_.TIME_EXTRA, DateFormatters.formatMinutesOfDay(mealTime));
+        intent.putExtra(AlertReceiver_.CONTENT_EXTRA, content);
         return intent;
     }
 
@@ -121,7 +114,7 @@ public class AlertScheduler {
         return intent;
     }
 
-    public void cancelAllAlarms() {
+    private void cancelAllAlarms() {
         Intent intent = getStandardIntent();
         PendingIntent alarmIntent;
         for (int i = 0; i < 99; i++) {
