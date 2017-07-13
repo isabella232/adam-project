@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.widget.TextView;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.PageSelected;
@@ -21,7 +22,7 @@ import org.project.adam.Preferences_;
 import org.project.adam.R;
 import org.project.adam.persistence.Meal;
 import org.project.adam.ui.IndicatorCircleView_;
-import org.project.adam.util.DateFormatters;
+import org.project.adam.util.DateFormatter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,19 +31,22 @@ import java.util.List;
 public class MealsOfTheDayFragment extends BaseFragment {
 
     @ViewById(R.id.date)
-    TextView date;
+    protected TextView date;
 
     @ViewById(R.id.selected_meal_time_of_day)
-    TextView selectedMealTimeOfDay;
+    protected TextView selectedMealTimeOfDay;
 
     @ViewById(R.id.meal_detail)
-    ViewPager mealDetailViewPager;
+    protected ViewPager mealDetailViewPager;
 
     @ViewById(R.id.circleIndicator)
-    IndicatorCircleView_ circleView;
+    protected IndicatorCircleView_ circleView;
 
     @Pref
-    Preferences_ preferences;
+    protected Preferences_ preferences;
+
+    @Bean
+    protected DateFormatter dateFormatter;
 
     private MealListViewModel mealListViewModel;
 
@@ -84,12 +88,12 @@ public class MealsOfTheDayFragment extends BaseFragment {
     }
 
     private void displayCurrentTime() {
-        date.setText(DateFormatters.longFormatDay(LocalDate.now()));
+        date.setText(dateFormatter.longFormatDay(LocalDate.now()));
     }
 
     @PageSelected(R.id.meal_detail)
     void displayCurrentMealTime() {
-        selectedMealTimeOfDay.setText(DateFormatters.formatMinutesOfDay(
+        selectedMealTimeOfDay.setText(dateFormatter.formatMinutesOfDay(
             mealDetailAdapter.getCurrentMeal().getTimeOfDay()));
     }
 

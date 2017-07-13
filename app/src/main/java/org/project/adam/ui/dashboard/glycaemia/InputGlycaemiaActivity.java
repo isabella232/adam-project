@@ -15,6 +15,7 @@ import com.tistory.dwfox.dwrulerviewlibrary.view.ObservableHorizontalScrollView;
 import com.tistory.dwfox.dwrulerviewlibrary.view.ScrollingValuePicker;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
@@ -27,7 +28,7 @@ import org.project.adam.Preferences_;
 import org.project.adam.R;
 import org.project.adam.persistence.Glycaemia;
 import org.project.adam.ui.util.TimePickerFragment;
-import org.project.adam.util.DateFormatters;
+import org.project.adam.util.DateFormatter;
 
 import timber.log.Timber;
 
@@ -69,16 +70,19 @@ public class InputGlycaemiaActivity extends BaseActivity {
     private LocalDateTime time;
 
     @ColorRes(R.color.sunflower_yellow)
-    int colorRisk;
+    protected int colorRisk;
 
     @ColorRes(R.color.glycaemia_green)
-    int colorOK;
+    protected int colorOK;
+
+    @Bean
+    protected DateFormatter dateFormatter;
 
     @AfterViews
     void fillDateAndHour() {
         time = LocalDateTime.now();
-        glycaemiaDate.setText(DateFormatters.longFormatDay(time));
-        glycaemiaHour.setText(DateFormatters.formatMinutesOfDay(time));
+        glycaemiaDate.setText(dateFormatter.longFormatDay(time));
+        glycaemiaHour.setText(dateFormatter.formatMinutesOfDay(time));
     }
 
     @AfterViews
@@ -138,7 +142,7 @@ public class InputGlycaemiaActivity extends BaseActivity {
 
     void updateTime(int hourOfDay, int minute) {
         time = time.withHourOfDay(hourOfDay).withMinuteOfHour(minute);
-        glycaemiaHour.setText(DateFormatters.formatMinutesOfDay(time));
+        glycaemiaHour.setText(dateFormatter.formatMinutesOfDay(time));
     }
 
     @Click(R.id.glycaemia_validate)

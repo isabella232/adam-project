@@ -20,6 +20,7 @@ import com.github.mikephil.charting.data.ScatterDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
@@ -28,15 +29,13 @@ import org.androidannotations.annotations.res.StringRes;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.project.adam.BaseFragment;
 import org.project.adam.Preferences_;
 import org.project.adam.R;
 import org.project.adam.persistence.Glycaemia;
 import org.project.adam.ui.dashboard.glycaemia.GlycaemiaViewModel;
 import org.project.adam.ui.util.DatePickerFragment;
-import org.project.adam.util.DateFormatters;
+import org.project.adam.util.DateFormatter;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -62,21 +61,24 @@ public class DataFragment extends BaseFragment {
     protected String mailHeader;
 
     @ColorRes(R.color.sunflower_yellow)
-    int colorRisk;
+    protected int colorRisk;
 
     @ColorRes(R.color.glycaemia_green)
-    int colorOK;
+    protected int colorOK;
 
     @ViewById(R.id.chart)
-    ScatterChart chart;
+    protected ScatterChart chart;
 
     @ViewById(R.id.data_from_date_label)
-    TextView fromDateLabel;
+    protected TextView fromDateLabel;
 
     @ViewById(R.id.data_to_date_label)
-    TextView toDateLabel;
+    protected TextView toDateLabel;
 
-    String mailContent;
+    @Bean
+    protected DateFormatter dateFormatter;
+
+    private String mailContent;
 
     private LocalDateTime beginDate;
 
@@ -94,8 +96,8 @@ public class DataFragment extends BaseFragment {
 
     public void refreshDatesDisplayAndData() {
         Timber.d("refreshDatesDisplayAndData - %s - %s", this.beginDate, this.endDate);
-        fromDateLabel.setText(DateFormatters.shortFormatDay(this.beginDate));
-        toDateLabel.setText(DateFormatters.shortFormatDay(this.endDate));
+        fromDateLabel.setText(dateFormatter.shortFormatDay(this.beginDate));
+        toDateLabel.setText(dateFormatter.shortFormatDay(this.endDate));
         refreshData();
     }
 
@@ -126,12 +128,12 @@ public class DataFragment extends BaseFragment {
         mailContent = mailHeader + " \n";
         String previousDate = "";
         for (Glycaemia glycaemia : glycaemias) {
-            String date = DateFormatters.shortFormatDay(glycaemia.getDate());
+            String date = dateFormatter.shortFormatDay(glycaemia.getDate());
             if (!date.equals(previousDate)) {
-                mailContent += "\n" + DateFormatters.shortFormatDay(glycaemia.getDate()) + ":\n";
+                mailContent += "\n" + dateFormatter.shortFormatDay(glycaemia.getDate()) + ":\n";
                 previousDate = date;
             }
-            mailContent += "- " + DateFormatters.formatMinutesOfDay(glycaemia.getDate()) + "\t   " + glycaemia.getValue() + " " + unit + " \n";
+            mailContent += "- " + dateFormatter.formatMinutesOfDay(glycaemia.getDate()) + "\t   " + glycaemia.getValue() + " " + unit + " \n";
         }
         Timber.d("Mail content %s", mailContent);
 
