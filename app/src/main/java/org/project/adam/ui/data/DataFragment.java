@@ -49,8 +49,6 @@ import timber.log.Timber;
 @SuppressLint("Registered")
 @EFragment(R.layout.fragment_data)
 public class DataFragment extends BaseFragment {
-    public static final DateTimeFormatter DISPLAY_DATE_FORMAT = DateTimeFormat.forPattern("EEE dd MMM");
-
 
     private GlycaemiaViewModel glycaemiaViewModel;
 
@@ -96,8 +94,8 @@ public class DataFragment extends BaseFragment {
 
     public void refreshDatesDisplayAndData() {
         Timber.d("refreshDatesDisplayAndData - %s - %s", this.beginDate, this.endDate);
-        fromDateLabel.setText(DISPLAY_DATE_FORMAT.print(this.beginDate));
-        toDateLabel.setText(DISPLAY_DATE_FORMAT.print(this.endDate));
+        fromDateLabel.setText(DateFormatters.shortFormatDay(this.beginDate));
+        toDateLabel.setText(DateFormatters.shortFormatDay(this.endDate));
         refreshData();
     }
 
@@ -128,9 +126,9 @@ public class DataFragment extends BaseFragment {
         mailContent = mailHeader + " \n";
         String previousDate = "";
         for (Glycaemia glycaemia : glycaemias) {
-            String date = DISPLAY_DATE_FORMAT.print(glycaemia.getDate());
+            String date = DateFormatters.shortFormatDay(glycaemia.getDate());
             if (!date.equals(previousDate)) {
-                mailContent += "\n" + DISPLAY_DATE_FORMAT.print(glycaemia.getDate()) + ":\n";
+                mailContent += "\n" + DateFormatters.shortFormatDay(glycaemia.getDate()) + ":\n";
                 previousDate = date;
             }
             mailContent += "- " + DateFormatters.formatMinutesOfDay(glycaemia.getDate()) + "\t   " + glycaemia.getValue() + " " + unit + " \n";
