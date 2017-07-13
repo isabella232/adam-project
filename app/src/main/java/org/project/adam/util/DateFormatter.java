@@ -1,10 +1,12 @@
 package org.project.adam.util;
 
+import org.androidannotations.annotations.EBean;
 import org.joda.time.ReadablePartial;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-public class DateFormatters {
+@EBean
+public class DateFormatter {
 
     private static final DateTimeFormatter DISPLAY_DATE_FORMAT = DateTimeFormat.forPattern("EEE dd MMM");
 
@@ -12,15 +14,15 @@ public class DateFormatters {
 
     private static final DateTimeFormatter HOUR_FORMATTER = DateTimeFormat.forPattern("HH:mm");
 
-    public static String shortFormatDay(ReadablePartial date) {
+    public String shortFormatDay(ReadablePartial date) {
         return DISPLAY_DATE_FORMAT.print(date);
     }
 
-    public static String longFormatDay(ReadablePartial date) {
+    public String longFormatDay(ReadablePartial date) {
         return LONG_DATE_FORMATTER.print(date);
     }
 
-    public static String formatMinutesOfDay(ReadablePartial date) {
+    public String formatMinutesOfDay(ReadablePartial date) {
         return HOUR_FORMATTER.print(date);
     }
 }

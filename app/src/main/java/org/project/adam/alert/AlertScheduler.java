@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.Background;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
 import org.androidannotations.annotations.SystemService;
@@ -17,7 +18,7 @@ import org.joda.time.LocalDateTime;
 import org.project.adam.AppDatabase;
 import org.project.adam.Preferences_;
 import org.project.adam.persistence.Meal;
-import org.project.adam.util.DateFormatters;
+import org.project.adam.util.DateFormatter;
 
 import java.util.List;
 
@@ -39,6 +40,9 @@ public class AlertScheduler {
 
     @Pref
     Preferences_ preferences;
+
+    @Bean
+    protected DateFormatter dateFormatter;
 
     AppDatabase appDatabase;
 
@@ -103,7 +107,7 @@ public class AlertScheduler {
     @NonNull
     private Intent getBroadcastIntent(LocalDateTime mealTime, String content) {
         Intent intent = getStandardIntent();
-        intent.putExtra(AlertReceiver_.TIME_EXTRA, DateFormatters.formatMinutesOfDay(mealTime));
+        intent.putExtra(AlertReceiver_.TIME_EXTRA, dateFormatter.formatMinutesOfDay(mealTime));
         intent.putExtra(AlertReceiver_.CONTENT_EXTRA, content);
         return intent;
     }
