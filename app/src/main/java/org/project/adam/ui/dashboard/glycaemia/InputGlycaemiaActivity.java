@@ -20,6 +20,7 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.res.ColorRes;
 import org.androidannotations.annotations.sharedpreferences.Pref;
+import org.joda.time.LocalTime;
 import org.project.adam.AppDatabase;
 import org.project.adam.BaseActivity;
 import org.project.adam.Preferences_;
@@ -69,7 +70,7 @@ public class InputGlycaemiaActivity extends BaseActivity {
     @Pref
     protected Preferences_ preferences;
 
-    TimePickerFragment.Hour hour;
+    private LocalTime time;
 
     @ColorRes(R.color.sunflower_yellow)
     int colorRisk;
@@ -131,7 +132,7 @@ public class InputGlycaemiaActivity extends BaseActivity {
 
     public void showTimePickerDialog(View v) {
         DialogFragment newFragment = new TimePickerFragment()
-            .setHour(hour)
+            .setInitTime(time)
             .setListener(new TimePickerDialog.OnTimeSetListener() {
                 @Override
                 public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -142,7 +143,7 @@ public class InputGlycaemiaActivity extends BaseActivity {
     }
 
     void updateTime(int hourOfDay, int minute) {
-        hour = new TimePickerFragment.Hour(hourOfDay, minute);
+        time = new LocalTime(hourOfDay, minute);
         glycaemiaHour.setText(String.format("%02d:%02d",hourOfDay,minute));
     }
 
@@ -165,10 +166,10 @@ public class InputGlycaemiaActivity extends BaseActivity {
     private Glycaemia buildGlycaemia() {
         float value = Float.parseFloat(glycaemiaValueMgDl.getText().toString());
         Date date = new Date();
-        if (hour != null) {
+        if (time != null) {
             Calendar cal = Calendar.getInstance();
-            cal.set(Calendar.HOUR_OF_DAY, hour.getHourOfDay());
-            cal.set(Calendar.MINUTE, hour.getMinute());
+            cal.set(Calendar.HOUR_OF_DAY, time.getHourOfDay());
+            cal.set(Calendar.MINUTE, time.getMinuteOfHour());
             cal.set(Calendar.SECOND, 0);
             date = cal.getTime();
         }
