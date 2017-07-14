@@ -14,6 +14,7 @@ import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
 import org.androidannotations.annotations.SystemService;
 import org.androidannotations.annotations.sharedpreferences.Pref;
+import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.project.adam.AppDatabase;
 import org.project.adam.Preferences_;
@@ -74,17 +75,17 @@ public class AlertScheduler {
 
         int i = 0;
         LocalDateTime now = LocalDateTime.now();
-        LocalDateTime initDayTime = now.withTime(0,0,0,0);
+        LocalDate today  = LocalDate.now();
         Integer reminderDelay = preferences.reminderTimeInMinutes().getOr(DEFAULT_TIME_IN_MN);
         for (Meal meal : meals) {
-            LocalDateTime mealTime = initDayTime.plusMinutes(meal.getTimeOfDay().getMillisOfDay()/1000 - reminderDelay);
-            Intent intent = getBroadcastIntent(mealTime, meal.getContent());
-            if(mealTime.isBefore(now)){
-                mealTime = mealTime.plusDays(1);
+            Intent intent = getBroadcastIntent(meal);
+            LocalDateTime alarmTime = today.toLocalDateTime(meal.getTimeOfDay().minusMinutes(reminderDelay));
+            if(alarmTime.isBefore(now)){
+                alarmTime = alarmTime.plusDays(1);
             }
-            Timber.d("alarm scheduled for meal %s at %s", meal, mealTime);
+            Timber.d("alarm scheduled for meal %s at %s", meal, alarmTime);
             PendingIntent alarmIntent = PendingIntent.getBroadcast(context, i, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            setUpAlarm(mealTime, alarmIntent);
+            setUpAlarm(alarmTime, alarmIntent);
             i++;
         }
     }
@@ -105,10 +106,10 @@ public class AlertScheduler {
 
 
     @NonNull
-    private Intent getBroadcastIntent(LocalDateTime mealTime, String content) {
+    private Intent getBroadcastIntent(Meal meal) {
         Intent intent = getStandardIntent();
-        intent.putExtra(AlertReceiver_.TIME_EXTRA, dateFormatter.hourOfDayFormat(mealTime));
-        intent.putExtra(AlertReceiver_.CONTENT_EXTRA, content);
+        intent.putExtra(AlertReceiver_.TIME_EXTRA, dateFormatter.hourOfDayFormat(meal.getTimeOfDay()));
+        intent.putExtra(AlertReceiver_.CONTENT_EXTRA, meal.getTimeOfDay());
         return intent;
     }
 
