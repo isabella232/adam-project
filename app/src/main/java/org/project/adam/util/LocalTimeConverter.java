@@ -8,11 +8,11 @@ public class LocalTimeConverter {
 
     @TypeConverter
     public LocalTime fromMinutes(Integer value){
-        return value == null ? null : LocalTime.fromMillisOfDay(value*1000*60);
+        return value == null ? null : new LocalTime(value / 60, value % 60);
     }
 
     @TypeConverter
     public Integer toMinutes(LocalTime time){
-        return time == null ? null : time.getMillisOfDay() / (60 * 1000);
+        return time == null ? null : time.getHourOfDay() * 60 + time.getMinuteOfHour();
     }
 }

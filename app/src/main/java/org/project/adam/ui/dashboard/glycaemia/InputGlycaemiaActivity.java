@@ -141,7 +141,7 @@ public class InputGlycaemiaActivity extends BaseActivity {
     }
 
     void updateTime(int hourOfDay, int minute) {
-        time = time.withHourOfDay(hourOfDay).withMinuteOfHour(minute);
+        time = time.withTime(hourOfDay, minute, 0, 0);
         glycaemiaHour.setText(dateFormatter.hourOfDayFormat(time));
     }
 
