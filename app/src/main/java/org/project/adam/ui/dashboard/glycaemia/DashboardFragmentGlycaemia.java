@@ -14,6 +14,7 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
+import org.joda.time.LocalTime;
 import org.project.adam.BaseFragment;
 import org.project.adam.R;
 import org.project.adam.persistence.Glycaemia;
@@ -37,9 +38,7 @@ public class DashboardFragmentGlycaemia extends BaseFragment {
         glycaemiaListAdapter = new GlycaemiaListAdapter(getActivity());
         glycaemiaItemsView.setAdapter(glycaemiaListAdapter);
         glycaemiaViewModel = ViewModelProviders.of(this).get(GlycaemiaViewModel.class);
-        LocalDate now = LocalDate.now();
-        LocalDateTime currentDate = new LocalDateTime(now.getYear(), now.getMonthOfYear(), now.getDayOfMonth(),
-                0,0 ,0 ,0);
+        LocalDateTime currentDate = LocalDate.now().toLocalDateTime(LocalTime.MIDNIGHT);
         glycaemiaViewModel.findGlycaemiaBetween(currentDate, currentDate.plusDays(1))
             .observe(this, new Observer<List<Glycaemia>>() {
                 @Override
