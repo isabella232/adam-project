@@ -150,11 +150,10 @@ public class MealsOfTheDayFragment extends BaseFragment {
                 return -1;
             }
             LocalTime currentTime= LocalTime.now();
-            int currentTimeInMiliseconds = currentTime.getMillisOfDay();
             int nextMealIndex = meals.size() - 1;
 
             for (int i = meals.size() - 1; i >= 0; --i) {
-                if ((meals.get(i).getTimeOfDay().getMillisOfDay() + 15*60*1000) > currentTimeInMiliseconds) {
+                if((meals.get(i).getTimeOfDay().plusMinutes(15)).isAfter(currentTime)){
                     nextMealIndex = i;
                 }
             }

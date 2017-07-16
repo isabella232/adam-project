@@ -29,6 +29,7 @@ import org.androidannotations.annotations.res.StringRes;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
+import org.joda.time.LocalTime;
 import org.project.adam.BaseFragment;
 import org.project.adam.Preferences_;
 import org.project.adam.R;
@@ -102,13 +103,11 @@ public class DataFragment extends BaseFragment {
     }
 
     private LocalDateTime beginningOfDay(LocalDate date) {
-        return new LocalDateTime(date.getYear(), date.getMonthOfYear(), date.getDayOfMonth(),
-            0, 0, 0);
+        return date.toLocalDateTime(LocalTime.MIDNIGHT);
     }
 
     private LocalDateTime endOfDay(LocalDate date) {
-        return new LocalDateTime(date.getYear(), date.getMonthOfYear(), date.getDayOfMonth(),
-            23, 59, 59);
+        return date.toLocalDateTime(LocalTime.MIDNIGHT.minusMillis(1));
     }
 
     protected void refreshData() {

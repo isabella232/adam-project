@@ -144,8 +144,8 @@ public class IndicatorCircleView extends View implements ViewPager.OnPageChangeL
      */
     public void setMeals(List<Meal> meals) {
         indicators.clear();
-        LocalTime minTime =  new LocalTime(23,59, 59, 999);
-        LocalTime maxTime =LocalTime.MIDNIGHT;
+        LocalTime minTime =  LocalTime.MIDNIGHT.minusMillis(1);
+        LocalTime maxTime = LocalTime.MIDNIGHT;
 
         for (Meal meal : meals) {
             LocalTime time = meal.getTimeOfDay();
