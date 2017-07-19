@@ -37,7 +37,6 @@ import static android.view.WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD;
 import static android.view.WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED;
 import static android.view.WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY;
 
-//TODO Handle Sound selection
 @EActivity(R.layout.activity_alert)
 @WindowFeature({TYPE_SYSTEM_OVERLAY,
     FLAG_DISMISS_KEYGUARD,
