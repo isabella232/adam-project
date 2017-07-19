@@ -3,7 +3,7 @@ image: registry.gitlab.com/showcheap/android-ci:T25-B25.0.3
 variables:
   ANDROID_SUPPORT_VERSION: "25.4.0"
   GRADLE_USER_HOME: $CI_PROJECT_DIR/.gradle
-  JAVA_OPTS: "-Dhttp.proxyHost=proxy.rd.francetelecom.fr -Dhttp.proxyPort=8080 -Dhttps.proxyHost=proxy.rd.francetelecom.fr -Dhttps.proxyPort=8080"
+  JAVA_OPTS: "-Dhttp.proxyHost=proxy -Dhttp.proxyPort=8080 -Dhttps.proxyHost=proxy -Dhttps.proxyPort=8080"
 
 before_script:
   - source scripts/accept_android_license.sh
@@ -19,7 +19,7 @@ cache:
   tags:
       - docker
       - shared
-      - innovation
+      - forge
 
 stages:
   - build
