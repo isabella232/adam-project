@@ -2,6 +2,7 @@ package org.project.adam.ui.diet;
 
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.sharedpreferences.Pref;
+import org.joda.time.LocalTime;
 import org.project.adam.Preferences_;
 import org.project.adam.persistence.Meal;
 
@@ -59,11 +60,11 @@ public class MealLoader {
         return result;
     }
 
-    int parseTimeOfDay(String timeOfDay)throws IOException {
+    LocalTime parseTimeOfDay(String timeOfDay)throws IOException {
         Pattern pattern = Pattern.compile("^(\\d{1,2}?):(\\d{1,2}?)$");
         Matcher matcher = pattern.matcher(timeOfDay);
         if(matcher.find()){
-            return Integer.parseInt(matcher.group(1)) *  60 + Integer.parseInt(matcher.group(2));
+            return new LocalTime(Integer.parseInt(matcher.group(1)), Integer.parseInt(matcher.group(2))) ;
         } else {
             throw new IOException("Invalid time description: "+timeOfDay);
         }

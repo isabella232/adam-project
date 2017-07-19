@@ -16,12 +16,13 @@ import org.project.adam.persistence.GlycaemiaDao;
 import org.project.adam.persistence.Meal;
 import org.project.adam.persistence.MealDao;
 import org.project.adam.util.DatabasePopulator;
-import org.project.adam.util.DateConverters;
+import org.project.adam.util.LocalDateTimeConverter;
+import org.project.adam.util.LocalTimeConverter;
 
 @Database(entities = {Meal.class, Glycaemia.class, Diet.class},
     version = AppDatabase.DATABASE_VERSION,
     exportSchema = false)
-@TypeConverters(DateConverters.class)
+@TypeConverters({LocalDateTimeConverter.class, LocalTimeConverter.class})
 public abstract class AppDatabase extends RoomDatabase {
 
     static final int DATABASE_VERSION = 3;

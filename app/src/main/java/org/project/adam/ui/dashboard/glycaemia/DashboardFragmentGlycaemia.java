@@ -12,15 +12,16 @@ import android.view.ViewGroup;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
+import org.joda.time.LocalTime;
 import org.project.adam.BaseFragment;
 import org.project.adam.R;
 import org.project.adam.persistence.Glycaemia;
 import org.project.adam.ui.util.RecyclerViewAdapterBase;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 @SuppressLint("Registered")
@@ -37,15 +38,8 @@ public class DashboardFragmentGlycaemia extends BaseFragment {
         glycaemiaListAdapter = new GlycaemiaListAdapter(getActivity());
         glycaemiaItemsView.setAdapter(glycaemiaListAdapter);
         glycaemiaViewModel = ViewModelProviders.of(this).get(GlycaemiaViewModel.class);
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.MILLISECOND, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        Date todayBegin = calendar.getTime();
-        calendar.add(Calendar.DAY_OF_YEAR, 1);
-        Date tomorrowBegin = calendar.getTime();
-        glycaemiaViewModel.findGlycaemiaBetween(todayBegin, tomorrowBegin)
+        LocalDateTime currentDate = LocalDate.now().toLocalDateTime(LocalTime.MIDNIGHT);
+        glycaemiaViewModel.findGlycaemiaBetween(currentDate, currentDate.plusDays(1))
             .observe(this, new Observer<List<Glycaemia>>() {
                 @Override
                 public void onChanged(@Nullable List<Glycaemia> glycaemias) {

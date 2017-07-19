@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">Adam-Project</string>
 
+    <string name="long_day_format">EEEE dd MMMM</string>
+    <string name="short_day_format">EEE dd MMM</string>
+    <string name="hour_of_day_format">HH:mm</string>
+
     <!-- glycaemia screen -->
     <string name="glycaemia_date">Date</string>
     <string name="glycaemia_date_placeholder">input date</string>

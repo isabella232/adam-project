@@ -6,6 +6,8 @@ import android.content.Context;
 import com.googlecode.zohhak.api.TestWith;
 import com.googlecode.zohhak.api.runners.ZohhakRunner;
 
+import org.assertj.core.internal.cglib.core.Local;
+import org.joda.time.LocalTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -47,11 +49,12 @@ public class MealLoaderTest {
         }
     }
 
-    @TestWith(value = {"00:00;0", "01:01;61", "1:01;61", "1:1;61", "01:1;61", "11:6;666"},
+    @TestWith(value = {"00:00;0;0", "01:01;1;1", "1:01;1;1", "1:1;1;1", "01:1;1;1", "11:6;11;6"},
         separator = ";")
-    public void time_should_be_successfully_read(String timeOfDay, int expected)
+    public void time_should_be_successfully_read(String timeOfDay, int hourExpected, int minuteExpected)
         throws IOException {
-        assertThat(mealLoader.parseTimeOfDay(timeOfDay)).isEqualTo(expected);
+        assertThat(mealLoader.parseTimeOfDay(timeOfDay))
+            .isEqualTo(new LocalTime(hourExpected, minuteExpected));
     }
 
     @Test

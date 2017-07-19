@@ -15,23 +15,21 @@ import com.tistory.dwfox.dwrulerviewlibrary.view.ObservableHorizontalScrollView;
 import com.tistory.dwfox.dwrulerviewlibrary.view.ScrollingValuePicker;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.res.ColorRes;
 import org.androidannotations.annotations.sharedpreferences.Pref;
+import org.joda.time.LocalDateTime;
 import org.project.adam.AppDatabase;
 import org.project.adam.BaseActivity;
 import org.project.adam.Preferences_;
 import org.project.adam.R;
 import org.project.adam.persistence.Glycaemia;
 import org.project.adam.ui.util.TimePickerFragment;
-import org.project.adam.util.DateFormatters;
+import org.project.adam.util.DateFormatter;
 
-import java.util.Calendar;
-import java.util.Date;
-
-import lombok.RequiredArgsConstructor;
 import timber.log.Timber;
 
 @SuppressLint("Registered")
@@ -69,21 +67,22 @@ public class InputGlycaemiaActivity extends BaseActivity {
     @Pref
     protected Preferences_ preferences;
 
-    TimePickerFragment.Hour hour;
+    private LocalDateTime time;
 
     @ColorRes(R.color.sunflower_yellow)
-    int colorRisk;
+    protected int colorRisk;
 
     @ColorRes(R.color.glycaemia_green)
-    int colorOK;
+    protected int colorOK;
+
+    @Bean
+    protected DateFormatter dateFormatter;
 
     @AfterViews
     void fillDateAndHour() {
-        Date date = new Date();
-
-        glycaemiaDate.setText(DateFormatters.formatDay(date));
-
-        glycaemiaHour.setText(DateFormatters.formatMinutesOfDay(date));
+        time = LocalDateTime.now();
+        glycaemiaDate.setText(dateFormatter.longDayFormat(time));
+        glycaemiaHour.setText(dateFormatter.hourOfDayFormat(time));
     }
 
     @AfterViews
@@ -131,7 +130,7 @@ public class InputGlycaemiaActivity extends BaseActivity {
 
     public void showTimePickerDialog(View v) {
         DialogFragment newFragment = new TimePickerFragment()
-            .setHour(hour)
+            .setInitTime(time.toLocalTime())
             .setListener(new TimePickerDialog.OnTimeSetListener() {
                 @Override
                 public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -142,8 +141,8 @@ public class InputGlycaemiaActivity extends BaseActivity {
     }
 
     void updateTime(int hourOfDay, int minute) {
-        hour = new TimePickerFragment.Hour(hourOfDay, minute);
-        glycaemiaHour.setText(String.format("%02d:%02d",hourOfDay,minute));
+        time = time.withTime(hourOfDay, minute, 0, 0);
+        glycaemiaHour.setText(dateFormatter.hourOfDayFormat(time));
     }
 
     @Click(R.id.glycaemia_validate)
@@ -164,17 +163,8 @@ public class InputGlycaemiaActivity extends BaseActivity {
 
     private Glycaemia buildGlycaemia() {
         float value = Float.parseFloat(glycaemiaValueMgDl.getText().toString());
-        Date date = new Date();
-        if (hour != null) {
-            Calendar cal = Calendar.getInstance();
-            cal.set(Calendar.HOUR_OF_DAY, hour.getHourOfDay());
-            cal.set(Calendar.MINUTE, hour.getMinute());
-            cal.set(Calendar.SECOND, 0);
-            date = cal.getTime();
-        }
-
         Glycaemia glycaemia = Glycaemia.builder()
-            .date(date)
+            .date(time)
             .value(value)
             .build();
 

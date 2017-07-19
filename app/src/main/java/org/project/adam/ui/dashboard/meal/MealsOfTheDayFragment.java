@@ -9,40 +9,44 @@ import android.support.v4.view.ViewPager;
 import android.widget.TextView;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.PageSelected;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.sharedpreferences.Pref;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
 import org.project.adam.BaseFragment;
 import org.project.adam.Preferences_;
 import org.project.adam.R;
 import org.project.adam.persistence.Meal;
 import org.project.adam.ui.IndicatorCircleView_;
-import org.project.adam.util.DateFormatters;
+import org.project.adam.util.DateFormatter;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 @EFragment(R.layout.fragment_meals_of_the_day)
 public class MealsOfTheDayFragment extends BaseFragment {
 
     @ViewById(R.id.date)
-    TextView date;
+    protected TextView date;
 
     @ViewById(R.id.selected_meal_time_of_day)
-    TextView selectedMealTimeOfDay;
+    protected TextView selectedMealTimeOfDay;
 
     @ViewById(R.id.meal_detail)
-    ViewPager mealDetailViewPager;
+    protected ViewPager mealDetailViewPager;
 
     @ViewById(R.id.circleIndicator)
-    IndicatorCircleView_ circleView;
+    protected IndicatorCircleView_ circleView;
 
     @Pref
-    Preferences_ preferences;
+    protected Preferences_ preferences;
+
+    @Bean
+    protected DateFormatter dateFormatter;
 
     private MealListViewModel mealListViewModel;
 
@@ -84,12 +88,13 @@ public class MealsOfTheDayFragment extends BaseFragment {
     }
 
     private void displayCurrentTime() {
-        date.setText(DateFormatters.formatDay(new Date()));
+        date.setText(dateFormatter.longDayFormat(LocalDate.now()));
     }
 
     @PageSelected(R.id.meal_detail)
     void displayCurrentMealTime() {
-        selectedMealTimeOfDay.setText(DateFormatters.formatMinutesOfDay(mealDetailAdapter.getCurrentMeal().getTimeOfDay()));
+        selectedMealTimeOfDay.setText(dateFormatter.hourOfDayFormat(
+            mealDetailAdapter.getCurrentMeal().getTimeOfDay()));
     }
 
     @Click(R.id.next_meal)
@@ -144,12 +149,11 @@ public class MealsOfTheDayFragment extends BaseFragment {
             if (meals == null || meals.isEmpty()) {
                 return -1;
             }
-            Calendar currentTime = Calendar.getInstance();
-            int currentTimeInMinutes = currentTime.get(Calendar.MINUTE) + currentTime.get(Calendar.HOUR_OF_DAY) * 60;
+            LocalTime currentTime= LocalTime.now();
             int nextMealIndex = meals.size() - 1;
 
             for (int i = meals.size() - 1; i >= 0; --i) {
-                if (meals.get(i).getTimeOfDay() + 15 > currentTimeInMinutes) {
+                if((meals.get(i).getTimeOfDay().plusMinutes(15)).isAfter(currentTime)){
                     nextMealIndex = i;
                 }
             }

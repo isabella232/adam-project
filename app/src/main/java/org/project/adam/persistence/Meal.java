@@ -6,6 +6,8 @@ import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
+import org.joda.time.LocalTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,7 +29,7 @@ public class Meal {
 
     // Minutes in a day
     @ColumnInfo(name = "time_of_day")
-    int timeOfDay;
+    LocalTime timeOfDay;
 
     String content;
 }

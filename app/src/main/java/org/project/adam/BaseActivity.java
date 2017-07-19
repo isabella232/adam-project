@@ -71,7 +71,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Lifecycl
                                 break;
                             case 3:
                                 Timber.d("Scheduling fake alert");
-                                alertScheduler.setupFakeAlarm();
+                                alertScheduler.setUpFakeAlarm();
                                 break;
                             default:
                                 break;

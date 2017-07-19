@@ -20,23 +20,27 @@ import com.github.mikephil.charting.data.ScatterDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.res.ColorRes;
 import org.androidannotations.annotations.res.StringRes;
 import org.androidannotations.annotations.sharedpreferences.Pref;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
+import org.joda.time.LocalTime;
 import org.project.adam.BaseFragment;
 import org.project.adam.Preferences_;
 import org.project.adam.R;
 import org.project.adam.persistence.Glycaemia;
 import org.project.adam.ui.dashboard.glycaemia.GlycaemiaViewModel;
 import org.project.adam.ui.util.DatePickerFragment;
+import org.project.adam.util.DateFormatter;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -45,9 +49,6 @@ import timber.log.Timber;
 @SuppressLint("Registered")
 @EFragment(R.layout.fragment_data)
 public class DataFragment extends BaseFragment {
-    public static final SimpleDateFormat DISPLAY_DATE_FORMAT = new SimpleDateFormat("EEE d MMM");
-
-    public static final SimpleDateFormat MAIL_DATE_FORMAT = new SimpleDateFormat("HH:mm");
 
     private GlycaemiaViewModel glycaemiaViewModel;
 
@@ -61,61 +62,57 @@ public class DataFragment extends BaseFragment {
     protected String mailHeader;
 
     @ColorRes(R.color.sunflower_yellow)
-    int colorRisk;
+    protected int colorRisk;
 
     @ColorRes(R.color.glycaemia_green)
-    int colorOK;
+    protected int colorOK;
 
     @ViewById(R.id.chart)
-    ScatterChart chart;
+    protected ScatterChart chart;
 
     @ViewById(R.id.data_from_date_label)
-    TextView fromDateLabel;
+    protected TextView fromDateLabel;
 
     @ViewById(R.id.data_to_date_label)
-    TextView toDateLabel;
+    protected TextView toDateLabel;
 
-    String mailContent;
+    @Bean
+    protected DateFormatter dateFormatter;
 
-    private Date beginDate;
+    private String mailContent;
 
-    private Date endDate;
+    private LocalDateTime beginDate;
+
+    private LocalDateTime endDate;
 
 
     @AfterViews
     public void init() {
         glycaemiaViewModel = ViewModelProviders.of(this).get(GlycaemiaViewModel.class);
-        beginDate = beginningOfDay(Calendar.getInstance());
-        endDate = endOfDay(Calendar.getInstance());
+        LocalDate date = LocalDate.now();
+        beginDate = beginningOfDay(date);
+        endDate = endOfDay(date);
         refreshDatesDisplayAndData();
     }
 
     public void refreshDatesDisplayAndData() {
         Timber.d("refreshDatesDisplayAndData - %s - %s", this.beginDate, this.endDate);
-        fromDateLabel.setText(DISPLAY_DATE_FORMAT.format(this.beginDate));
-        toDateLabel.setText(DISPLAY_DATE_FORMAT.format(this.endDate));
+        fromDateLabel.setText(dateFormatter.shortDayFormat(this.beginDate));
+        toDateLabel.setText(dateFormatter.shortDayFormat(this.endDate));
         refreshData();
     }
 
-    private Date beginningOfDay(Calendar calendar) {
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-        return calendar.getTime();
+    private LocalDateTime beginningOfDay(LocalDate date) {
+        return date.toLocalDateTime(LocalTime.MIDNIGHT);
     }
 
-    private Date endOfDay(Calendar calendar) {
-        calendar.set(Calendar.HOUR_OF_DAY, 23);
-        calendar.set(Calendar.MINUTE, 59);
-        calendar.set(Calendar.SECOND, 59);
-        calendar.set(Calendar.MILLISECOND, 999);
-        return calendar.getTime();
+    private LocalDateTime endOfDay(LocalDate date) {
+        return date.toLocalDateTime(LocalTime.MIDNIGHT.minusMillis(1));
     }
 
     protected void refreshData() {
-        final Date min = this.beginDate;
-        final Date max = this.endDate;
+        final LocalDateTime min = this.beginDate;
+        final LocalDateTime max = this.endDate;
         glycaemiaViewModel.findGlycaemiaBetween(min, max)
             .observe(this, new Observer<List<Glycaemia>>() {
                 @Override
@@ -130,12 +127,12 @@ public class DataFragment extends BaseFragment {
         mailContent = mailHeader + " \n";
         String previousDate = "";
         for (Glycaemia glycaemia : glycaemias) {
-            String date = DISPLAY_DATE_FORMAT.format(glycaemia.getDate());
+            String date = dateFormatter.shortDayFormat(glycaemia.getDate());
             if (!date.equals(previousDate)) {
-                mailContent += "\n" + DISPLAY_DATE_FORMAT.format(glycaemia.getDate()) + ":\n";
+                mailContent += "\n" + dateFormatter.shortDayFormat(glycaemia.getDate()) + ":\n";
                 previousDate = date;
             }
-            mailContent += "- " + MAIL_DATE_FORMAT.format(glycaemia.getDate()) + "\t   " + glycaemia.getValue() + " " + unit + " \n";
+            mailContent += "- " + dateFormatter.hourOfDayFormat(glycaemia.getDate()) + "\t   " + glycaemia.getValue() + " " + unit + " \n";
         }
         Timber.d("Mail content %s", mailContent);
 
@@ -156,15 +153,12 @@ public class DataFragment extends BaseFragment {
 
     @Click(R.id.data_from_date_container)
     protected void openFromDatePicker() {
-        openDatePicker(this.beginDate, new DatePickerDialog.OnDateSetListener() {
+        openDatePicker(this.beginDate.toLocalDate(), new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                Calendar calendar = Calendar.getInstance();
-                calendar.set(Calendar.YEAR, year);
-                calendar.set(Calendar.MONTH, month);
-                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                 DataFragment dataFragment = DataFragment.this;
-                dataFragment.beginDate = beginningOfDay(calendar);
+                LocalDate date = new LocalDate(year, month+1, dayOfMonth);
+                dataFragment.beginDate = beginningOfDay(date);
                 dataFragment.refreshDatesDisplayAndData();
             }
         });
@@ -172,37 +166,34 @@ public class DataFragment extends BaseFragment {
 
     @Click(R.id.data_to_date_container)
     protected void openToDatePicker() {
-        openDatePicker(this.endDate, new DatePickerDialog.OnDateSetListener() {
+        openDatePicker(this.endDate.toLocalDate(), new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                Calendar calendar = Calendar.getInstance();
-                calendar.set(Calendar.YEAR, year);
-                calendar.set(Calendar.MONTH, month);
-                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                 DataFragment dataFragment = DataFragment.this;
-                dataFragment.endDate = endOfDay(calendar);
+                LocalDate date = new LocalDate(year, month+1, dayOfMonth);
+                dataFragment.endDate = endOfDay(date);
                 dataFragment.refreshDatesDisplayAndData();
             }
         });
     }
 
-    private void openDatePicker(Date initDate, DatePickerDialog.OnDateSetListener listener) {
+    private void openDatePicker(LocalDate initDate, DatePickerDialog.OnDateSetListener listener) {
         DatePickerFragment fragment = new DatePickerFragment()
             .setInitDate(initDate)
             .setListener(listener);
         fragment.show(getActivity().getSupportFragmentManager(), "timePicker");
     }
 
-    public void refreshGraph(List<Glycaemia> glycaemias, Date min, Date max) {
+    public void refreshGraph(List<Glycaemia> glycaemias, LocalDateTime min, LocalDateTime max) {
         List<Entry> normalEntries = new ArrayList<>();
         List<Entry> dangerEntries = new ArrayList<>();
         for (final Glycaemia glycaemia : glycaemias) {
 
             float value = glycaemia.getValue();
             if (value <= prefs.riskGly().get()) {
-                dangerEntries.add(new Entry(glycaemia.getDate().getTime(), value));
+                dangerEntries.add(new Entry(glycaemia.getDate().toDate().getTime(), value));
             } else {
-                normalEntries.add(new Entry(glycaemia.getDate().getTime(), value));
+                normalEntries.add(new Entry(glycaemia.getDate().toDate().getTime(), value));
             }
 
         }
@@ -240,8 +231,8 @@ public class DataFragment extends BaseFragment {
         Description description = new Description();
         description.setText("");
         chart.setDescription(description);
-        chart.getXAxis().setAxisMinimum(min.getTime());
-        chart.getXAxis().setAxisMaximum(max.getTime());
+        chart.getXAxis().setAxisMinimum(min.toDate().getTime());
+        chart.getXAxis().setAxisMaximum(max.toDate().getTime());
     }
 
     private void setScatteredDataStyle(ScatterDataSet set) {

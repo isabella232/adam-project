@@ -16,6 +16,7 @@ import android.view.View;
 
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.EView;
+import org.joda.time.LocalTime;
 import org.project.adam.R;
 import org.project.adam.persistence.Meal;
 
@@ -143,21 +144,21 @@ public class IndicatorCircleView extends View implements ViewPager.OnPageChangeL
      */
     public void setMeals(List<Meal> meals) {
         indicators.clear();
-        int minTime = Integer.MAX_VALUE;
-        int maxTime = 0;
+        LocalTime minTime =  LocalTime.MIDNIGHT.minusMillis(1);
+        LocalTime maxTime = LocalTime.MIDNIGHT;
 
         for (Meal meal : meals) {
-            int time = meal.getTimeOfDay();
-            if (time > maxTime) {
+            LocalTime time = meal.getTimeOfDay();
+            if (time.isAfter(maxTime)) {
                 maxTime = time;
             }
-            if (time < minTime) {
+            if (time.isBefore(minTime)) {
                 minTime = time;
             }
         }
-
+        float maxAmplitude = maxTime.getMillisOfDay() - minTime.getMillisOfDay();
         for (Meal meal : meals) {
-            float progress = (float) (meal.getTimeOfDay() - minTime) / (float) (maxTime - minTime);
+            float progress = ((float) (meal.getTimeOfDay().getMillisOfDay() - minTime.getMillisOfDay())) / maxAmplitude;
             Timber.d("computed progress %f", progress);
             indicators.add(progress);
         }
