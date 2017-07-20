@@ -16,6 +16,7 @@ import org.androidannotations.annotations.SystemService;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
+import org.joda.time.LocalTime;
 import org.project.adam.AppDatabase;
 import org.project.adam.Preferences_;
 import org.project.adam.persistence.Meal;
@@ -91,7 +92,12 @@ public class AlertScheduler {
     }
 
     public void setUpFakeAlarm() {
-        PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 99, getStandardIntent(), PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 99, getBroadcastIntent(
+            Meal.builder()
+            .content("This are the ingredients\nblabla")
+            .timeOfDay(new LocalTime(14, 10))
+            .build()),
+            PendingIntent.FLAG_UPDATE_CURRENT);
         setUpAlarm(LocalDateTime.now().plusSeconds(15), alarmIntent);
     }
 

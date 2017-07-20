@@ -24,8 +24,9 @@ public interface Preferences {
 
     String recipientsEmails();
 
-    String alertRingtone();
+    String notifRingtone();
 
+    String alarmRingtone();
 
     @DefaultInt(20)
     int minGly();
@@ -38,5 +39,7 @@ public interface Preferences {
 
     @DefaultFloat(InputGlycaemiaActivity.DEFAULT_GLYCAEMIA)
     float lastGlycaemiaSet();
+
+    String alertType();
 
 }

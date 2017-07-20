@@ -6,6 +6,10 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:name=".App_"
@@ -19,12 +23,11 @@
         <activity
             android:name=".MainActivity_"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar" android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
 
         <activity
@@ -59,13 +62,22 @@
                 android:value=".MainActivity_" />
         </activity>
 
+        <activity android:showOnLockScreen="true"
+            android:parentActivityName=".MainActivity_"
+            android:noHistory="true" android:name=".alert.AlertActivity_"
+            android:screenOrientation="portrait">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity_" />
+        </activity>
 
         <receiver android:name=".alert.AlertReceiver_">RECEIVER_ACTION
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"></action>
                 <action android:name="org.project.adam.ALARM"></action>
             </intent-filter>
-            </receiver>
+        </receiver>
 
         <meta-data
             android:name="io.fabric.ApiKey"

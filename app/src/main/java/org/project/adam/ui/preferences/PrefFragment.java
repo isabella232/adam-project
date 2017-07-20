@@ -7,6 +7,7 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceGroup;
+import android.preference.RingtonePreference;
 import android.text.InputType;
 
 import org.androidannotations.annotations.AfterPreferences;
@@ -24,11 +25,20 @@ import org.project.adam.alert.AlertScheduler;
 
 import java.util.Locale;
 
+import timber.log.Timber;
+
 @SuppressLint("Registered")
 @PreferenceScreen(R.xml.settings)
 @OptionsMenu(R.menu.main)
 @EFragment
 public class PrefFragment extends PreferenceFragment {
+
+    @StringRes(R.string.pref_alert_type_value_notif)
+    protected String alertTypeNotif;
+
+    @StringRes(R.string.pref_alert_type_value_alarm)
+    protected String alertTypeAlarm;
+
 
     @PreferenceByKey(R.string.pref_time_before_alert)
     EditTextPreference timeAlertPreference;
@@ -47,6 +57,15 @@ public class PrefFragment extends PreferenceFragment {
 
     @PreferenceByKey(R.string.pref_risk_glycaemia)
     EditTextPreference riskGlycaemiaPreference;
+
+    @PreferenceByKey(R.string.pref_alert_type)
+    ListPreference alertType;
+
+    @PreferenceByKey(R.string.pref_alarm_sound)
+    RingtonePreference alarmRingtonePref;
+
+    @PreferenceByKey(R.string.pref_notif)
+    RingtonePreference notifRingtonePref;
 
     @Pref
     protected Preferences_ prefs;
@@ -73,48 +92,66 @@ public class PrefFragment extends PreferenceFragment {
         recipientsPreference.setText(prefs.recipientsEmails().getOr(""));
         recipientsPreference.getEditText().setSingleLine(false);
         recipientsPreference.setSummary(prefs.recipientsEmails().getOr(""));
+
+        //alertType.setValueIndex(alertType.findfindIndexOfValue(prefs.alertType().get()));
+        updateVisibilityAccordingToAlertType(prefs.alertType().get());
+
         initSummary(getPreferenceScreen());
 
         if (ActivityManager.isUserAMonkey()) {
             getActivity().finish();
         }
+
+
     }
 
     @PreferenceChange(R.string.pref_time_before_alert)
     void timeBeforeAlertChanged(Preference preference, String newValue) {
         prefs.reminderTimeInMinutes().put(Integer.valueOf(newValue));
-        setEditTextSummary(preference,newValue);
-
+        setEditTextSummary(preference, newValue);
         alertScheduler.schedule();
     }
 
     @PreferenceChange(R.string.pref_recipients)
     void recipientsChanged(Preference preference, String newValue) {
         prefs.recipientsEmails().put(newValue);
-        setEditTextSummary(preference,newValue);
+        setEditTextSummary(preference, newValue);
     }
 
     @PreferenceChange(R.string.pref_min_glycaemia)
     void minGlycaemiaChanged(Preference preference, String newValue) {
         prefs.minGly().put(Integer.valueOf(newValue));
-        setEditTextSummary(preference,newValue);
+        setEditTextSummary(preference, newValue);
     }
 
     @PreferenceChange(R.string.pref_max_glycaemia)
     void maxGlycaemiaChanged(Preference preference, String newValue) {
         prefs.maxGly().put(Integer.valueOf(newValue));
-        setEditTextSummary(preference,newValue);
+        setEditTextSummary(preference, newValue);
     }
 
     @PreferenceChange(R.string.pref_risk_glycaemia)
     void riskGlycaemiaChanged(Preference preference, String newValue) {
         prefs.riskGly().put(Integer.valueOf(newValue));
-        setEditTextSummary(preference,newValue);
+        setEditTextSummary(preference, newValue);
     }
 
     @PreferenceChange(R.string.pref_notif)
     void notifSoundChanged(Preference preference, String newValue) {
-        prefs.alertRingtone().put(newValue);
+        prefs.notifRingtone().put(newValue);
+    }
+
+    @PreferenceChange(R.string.pref_alarm_sound)
+    void alarmSoundChanged(Preference preference, String newValue) {
+        prefs.alarmRingtone().put(newValue);
+    }
+
+    @PreferenceChange(R.string.pref_alert_type)
+    void alertTypeChanged(ListPreference preference, String newValue) {
+        Timber.d(newValue);
+        prefs.alertType().put(newValue);
+        updateVisibilityAccordingToAlertType(newValue);
+        preference.setSummary(preference.getEntries()[preference.findIndexOfValue(newValue)]);
     }
 
     private void initSummary(Preference p) {
@@ -128,13 +165,18 @@ public class PrefFragment extends PreferenceFragment {
         }
     }
 
+    private void updateVisibilityAccordingToAlertType(String value) {
+        notifRingtonePref.setEnabled(value.equals(alertTypeNotif));
+        alarmRingtonePref.setEnabled(value.equals(alertTypeAlarm));
+    }
+
     private void updatePrefSummary(Preference p) {
         if (p instanceof ListPreference) {
             ListPreference listPref = (ListPreference) p;
             p.setSummary(listPref.getEntry());
         }
         if (p instanceof EditTextPreference) {
-            setEditTextSummary(p,null);
+            setEditTextSummary(p, null);
         }
     }
 

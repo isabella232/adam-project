@@ -26,12 +26,28 @@
     <string name="pref_category_mail">Mails</string>
     <string name="pref_time_before_alert">Nombre de minutes pour l\'alerte</string>
     <string name="pref_recipients">Destinataires du mail</string>
-    <string name="pref_notif" >Notifications</string>
+    <string name="pref_notif" >Sonnerie de notification</string>
     <string name="pref_notif_summary">selection du son de notification</string>
     <string name="pref_glycaemia" >Saisie glycémie</string>
     <string name="pref_min_glycaemia" >Minimum autorisé</string>
     <string name="pref_max_glycaemia" >Maximum autorisé</string>
     <string name="pref_risk_glycaemia" >Seuil glycémie risquée</string>
+    <string name="pref_alarm_sound">Sonnerie d\'alarme</string>
+    <string name="pref_alarm_summary">selection du son d\'alarme</string>
+    <string-array name="pref_alert_type_entries">
+        <item>Alarme</item>
+        <item>Notification</item>
+        <item>Aucune</item>
+    </string-array>
+
+    <string name="pref_alert_type_value_none" translatable="false">NONE</string>
+    <string name="pref_alert_type_value_alarm" translatable="false">ALARM</string>
+    <string name="pref_alert_type_value_notif" translatable="false">NOTIF</string>
+    <string-array name="pref_alert_type_values">
+        <item>@string/pref_alert_type_value_alarm</item>
+        <item>@string/pref_alert_type_value_notif</item>
+        <item>@string/pref_alert_type_value_none</item>
+    </string-array>
 
     <string name="action_add_diet">Importer un régime</string>
     <string name="action_settings">paramètres</string>
@@ -68,4 +84,9 @@
 
     <string name="notif_title">Bientôt l\'heure du repas!</string>
     <string name="notif_content">Prochain repas à %1$s</string>
+
+    <string name="alert_slide_hint">glissez pour arrêter</string>
+    <string name="alert_next_meal_at">Prochain repas à </string>
+    <string name="pref_alert_type">Type d\'alerte</string>
+
 </resources>

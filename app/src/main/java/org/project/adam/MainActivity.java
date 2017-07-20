@@ -13,11 +13,14 @@ import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.sharedpreferences.Pref;
+import org.project.adam.alert.AlertActivity_;
 import org.project.adam.persistence.Diet;
 import org.project.adam.ui.dashboard.DashboardFragment_;
 import org.project.adam.ui.data.DataFragment_;
 import org.project.adam.ui.diet.DietListFragment_;
 import org.project.adam.ui.preferences.PrefActivity_;
+
+import static org.project.adam.alert.AlertActivity.ACTION_STOP_ALARM;
 
 @SuppressLint("Registered")
 @EActivity(R.layout.activity_main)
@@ -47,6 +50,9 @@ public class MainActivity extends BaseActivity {
                 }
             });
         showWelcomeSection();
+
+        //sometimes the alarm cancellation can fail and there is no way to stop the alarm sound. Just to be sure
+        sendBroadcast(AlertActivity_.intent(this).action(ACTION_STOP_ALARM).get());
     }
 
     @UiThread(propagation = UiThread.Propagation.REUSE)
