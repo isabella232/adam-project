@@ -36,7 +36,7 @@ public abstract class AppDatabase extends RoomDatabase {
 
     private static final String DATABASE_NAME = "database";
 
-    private static AppDatabase INSTANCE;
+    private static AppData base INSTANCE;
 
     public static AppDatabase getDatabase(Context context) {
         if (INSTANCE == null) {

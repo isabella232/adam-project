@@ -1,0 +1,4 @@
+This software is distributed under the license mentioned in the LICENSE.TXT file.
+
+However, documentation and image files are distributed under a creative commons license (CC BY-SA 4.0):
+http://creativecommons.org/licenses/by-sa/4.0
