@@ -1,9 +1,8 @@
 This project uses the following open source libraries.
 
 DWRulerView - https://github.com/dwfox/DWRulerView
-License not known
-[FIXME !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!]
-=> Issue: https://github.com/dwfox/DWRulerView/issues/2
+Copyright (c) 2017 DWFOX
+Licensed under the MIT License
 
 Android support libraries - https://source.android.com/
 appcompat-v7, constraint-layout, design, cardview-v7, recyclerview-v7
