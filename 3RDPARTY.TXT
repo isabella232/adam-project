@@ -14,8 +14,6 @@ Licensed under the Apache License, Version 2.0
 Android architecture components - https://developer.android.com/topic/libraries/architecture/index.html
 Room & Lifecycle
 Licensed under the Apache License, Version 2.0
-[FIXME !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!]
-=> Trouver le code
 
 Timber - https://github.com/JakeWharton/timber
 Copyright 2013 Jake Wharton
@@ -28,6 +26,3 @@ MPAndroidChart - https://github.com/PhilJay/MPAndroidChart
 Copyright 2016 Philipp Jahoda
 Licensed under the Apache License, Version 2.0
 
-Crashlytics
-[FIXME !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!]
-Mention?
