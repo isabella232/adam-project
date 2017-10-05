@@ -1,1 +1,15 @@
-// FIXME
+Odile Cornil
+Nathalie Ribard
+Sylvie Vidal
+Sabrina Virgil
+Pierre-Yves Allainmat
+Jean-Christophe Boulay
+Bastien David
+Benjamin Einaudi
+Ludovic Lelion
+Christophe Maldivi
+Franck Pellissier
+Arnaud Ruffin
+Manuel Sanchez
+
+// TODO: add missing people who also helped a lot during the hackaton!!!
