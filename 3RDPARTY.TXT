@@ -26,3 +26,7 @@ MPAndroidChart - https://github.com/PhilJay/MPAndroidChart
 Copyright 2016 Philipp Jahoda
 Licensed under the Apache License, Version 2.0
 
+Leak Canary - https://github.com/square/leakcanary
+Copyright 2015 Square, Inc.
+Licensed under the Apache License, Version 2.0
+
