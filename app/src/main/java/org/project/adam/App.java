@@ -5,6 +5,7 @@ import android.app.Application;
 
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.core.CrashlyticsCore;
+import com.squareup.leakcanary.LeakCanary;
 
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.Bean;
@@ -39,4 +40,16 @@ public class App extends Application {
     public void setUpAlarms() {
         alertScheduler.schedule();
     }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return;
+        }
+        LeakCanary.install(this);
+    }
 }
+
