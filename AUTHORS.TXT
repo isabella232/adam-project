@@ -1,15 +1,18 @@
-Odile Cornil
-Nathalie Ribard
-Sylvie Vidal
-Sabrina Virgil
-Pierre-Yves Allainmat
-Jean-Christophe Boulay
-Bastien David
-Benjamin Einaudi
-Ludovic Lelion
-Christophe Maldivi
-Franck Pellissier
-Arnaud Ruffin
-Manuel Sanchez
-
-// TODO: add missing people who also helped a lot during the hackaton!!!
+ALLAINMAT Pierre-Yves
+BOULAY Jean-Christophe
+BOUZON Elodie
+BRUGNACCHI Bruno
+CORNIL Odile
+DAVID Bastien
+EINAUDI Benjamin
+GOUAGOUT Philippe
+GUILLARD PREVERT Pierrick
+LELION Ludovic
+MALDIVI Christophe
+MENGOLI Jean
+PELLISSIER Franck
+RIBARD Nathalie
+RUFFIN Arnaud
+SANCHEZ Manuel
+VIGIL Sabrina
+ZAIDA Khalid 
