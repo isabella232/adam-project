@@ -1,4 +1,4 @@
-#Adam Project
+# Adam Project
 
 Adam project is an android application designed to help people who need to follow strict health regimes, and measure their glycaemia.
 
